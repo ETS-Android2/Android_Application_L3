@@ -1,0 +1,29 @@
+# exclusion des dossiers contenant les élements générés
+**/out/
+**/target/
+**/build/
+**/bin/
+
+# pour la javadoc (selon le nom du dossier pouvant la contenir)
+**/javadoc/
+**/apidocs/
+**/testapidocs/
+
+# pour les logs
+**/logs
+**.log
+**/log4j*.xml
+
+# pour intellij
+**/*.iml
+**/.gradle
+**/local.properties
+**/.idea/
+
+#pour Eclipse
+**/.project
+**/.classpath
+**/.settings/
+
+# pour les mac...
+**/.DS_Store
