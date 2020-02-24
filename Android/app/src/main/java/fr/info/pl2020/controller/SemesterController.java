@@ -7,7 +7,9 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -29,9 +31,16 @@ public class SemesterController {
                     Map<String, List<String>> categoryBySemesterMap = new TreeMap<>();
                     for (int i = 0; i < response.length(); i++) {
                         try {
-                            String semester = "Semestre " + response.getJSONObject(i).getString("id");
-                            List<String> categoryList = Stream.of("Mathématique", "Anglais", "Informatique", "S.V.T.", "Biologie", "Médecine", "Chimie", "Physique").sorted(String::compareTo).collect(Collectors.toList()); //TODO !!!
-                            categoryBySemesterMap.put(semester, categoryList);
+                            JSONObject semester = response.optJSONObject(i);
+                            String semesterId = "Semestre " + semester.getString("id");
+                            JSONArray listCategories = semester.getJSONArray("listCat");
+                            List<String> categoriesNames=new ArrayList<>();
+                            for (int j = 0; j < listCategories.length(); j++) {
+                                JSONObject category = listCategories.getJSONObject(j);
+                                String categorieName = category.optString("name");
+                                categoriesNames.add(categorieName);
+                            }
+                            categoryBySemesterMap.put(semesterId, categoriesNames);
                         } catch (JSONException e) {
                             e.printStackTrace(); //TODO
                         }

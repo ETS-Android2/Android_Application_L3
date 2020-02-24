@@ -6,7 +6,7 @@ import fr.info.pl2020.manager.HttpClientManager;
 
 public class SemesterService {
 
-    private final String urn = "/semester";
+    private final String urn = "/semesterAll";
 
     public void getAll(AsyncHttpResponseHandler responseHandler) {
         HttpClientManager.get(urn, null, responseHandler);
