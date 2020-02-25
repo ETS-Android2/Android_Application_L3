@@ -6,7 +6,7 @@
 
 
 * On peut voir la liste des semestre afficher l'une en dessous de l'autre. 
-* En cliquant sur un semestre il deployera la listes des catégories d'UE de ce semestre. 
+* En cliquant sur un semestre il déploiera la liste des catégories d'UE de ce semestre. 
 
 -----------------------------------------------
 
