@@ -1,7 +1,9 @@
 package fr.info.pl2020.controller;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -13,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpStatus;
@@ -31,24 +31,31 @@ public class SemesterController {
                     Map<String, List<String>> categoryBySemesterMap = new TreeMap<>();
                     for (int i = 0; i < response.length(); i++) {
                         try {
-                            JSONObject semester = response.optJSONObject(i);
+                            JSONObject semester = response.getJSONObject(i);
                             String semesterId = "Semestre " + semester.getString("id");
                             JSONArray listCategories = semester.getJSONArray("listCat");
-                            List<String> categoriesNames=new ArrayList<>();
+                            List<String> categoriesNames = new ArrayList<>();
                             for (int j = 0; j < listCategories.length(); j++) {
                                 JSONObject category = listCategories.getJSONObject(j);
-                                String categorieName = category.optString("name");
-                                categoriesNames.add(categorieName);
+                                String categoryName = category.getString("name");
+                                categoriesNames.add(categoryName);
                             }
                             categoryBySemesterMap.put(semesterId, categoriesNames);
                         } catch (JSONException e) {
-                            e.printStackTrace(); //TODO
+                            Toast.makeText(context, "Une erreur est survenue", Toast.LENGTH_SHORT).show();
+                            return;
                         }
                     }
 
                     SemesterAdapter semesterAdapter = new SemesterAdapter(context, categoryBySemesterMap);
                     expandableListView.setAdapter(semesterAdapter);
                 }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.e("SEMESTER", "Echec de la récupération de la liste des semestres (Code: " + statusCode + ")", throwable);
+                Toast.makeText(context, "Une erreur est survenue", Toast.LENGTH_SHORT).show();
             }
         });
     }
