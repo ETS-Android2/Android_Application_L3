@@ -75,6 +75,7 @@ les catégories des UE.
 
 - [X] En faisant defiler le menu latéral l'utilisateur pourra cliquer sur:
 * "Afficher le parcours" : pour afficher l'ensemble des choix.
+* "Modifier le parcours" : pour Modifier l'ensemble des choix.
 * "Se déconnecter" : pour fermer sa session.
 - [X] Adaptation du projet avec la 2ème modification du sujet.
 
@@ -85,6 +86,7 @@ les catégories des UE.
 
 ### [Itération 8](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/8)
 
+- [X] Rendre le bouton "Afficher le parcours" fonctionnel.
 - [X] L'utilisateur ne peut pas ajouter à son parcours plus que quatre UE (Notification d'erreur).
 - [X] L'utilisateur ne peut pas sélectionner une matière qui a atteint le nombre max d'étudiant.
 
@@ -95,6 +97,7 @@ les catégories des UE.
 
 ### [Itération 9](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/9)
 
+- [X] Rendre le bouton "Modifier le parcours" fonctionnel.
 - [X] Gérer la dépendance entre les UE et ECUE.
 - [X] Gérer la dépendance des UE et ECUE entre les semestres.
 

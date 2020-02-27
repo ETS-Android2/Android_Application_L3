@@ -47,9 +47,24 @@
 
 ### [Itération 6](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/6) et [Itération 7](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/7)
 
-<img src="https://user-images.githubusercontent.com/42892662/75101909-65f9de00-55e4-11ea-86c0-2511d19744f9.jpg" alt="Example of uploading image to GitHub's " width="400px">
+<img src="https://user-images.githubusercontent.com/42892662/75458319-ecfcdc80-597d-11ea-813d-48e621405b75.png" alt="Example of uploading image to GitHub's " width="400px">
 
 * L'utilisateur pourra effectuer une recherche d'UE en cliquant sur une loupe positionnée en haut à droite de l'écran.
 * En faisant defiler le menu latéral l'utilisateur pourra cliquer sur:
 * "Afficher le parcours" : pour afficher l'ensemble des choix.
 * "Se déconnecter" : pour fermer sa session.
+
+
+
+### [Itération 8](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/8)
+
+<img src="https://user-images.githubusercontent.com/42892662/75458488-2afa0080-597e-11ea-8b97-0db4611f8e75.png" alt="Example of uploading image to GitHub's " width="400px">
+
+* Rendre le bouton  "Afficher le parcours" fonctionnel.
+
+
+### [Itération 9](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/9)
+
+<img src="https://user-images.githubusercontent.com/42892662/75458576-541a9100-597e-11ea-83d1-6808c93ad977.png" alt="Example of uploading image to GitHub's " width="400px">
+
+* Rendre le bouton "Modifier le parcours" fonctionnel.
