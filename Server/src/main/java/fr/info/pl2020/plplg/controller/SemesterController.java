@@ -37,7 +37,6 @@ public class SemesterController {
             s.setListCat(listCat);
         }
         return new ResponseEntity<>(listSemester, HttpStatus.OK);
-
     }
 
 
