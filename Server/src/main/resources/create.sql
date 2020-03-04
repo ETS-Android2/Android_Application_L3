@@ -12,7 +12,12 @@ CREATE TABLE ue (
     name VARCHAR(50) NOT NULL,
     description VARCHAR(250),
     category INT,
-    FOREIGN KEY (category) references category(id)
+    semester INT,
+        FOREIGN KEY (category)
+            references category(id),
+    FOREIGN KEY (semester)
+        references semester(id)
+
 );
 
 CREATE TABLE semester_ue (

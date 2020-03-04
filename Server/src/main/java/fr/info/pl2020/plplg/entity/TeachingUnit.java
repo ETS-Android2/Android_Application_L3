@@ -19,14 +19,22 @@ public class TeachingUnit {
     private String description;
 
     @ManyToOne
+    @JoinColumn(name="semester", nullable = false, referencedColumnName = "id")
     private Semester semester;
 
     @ManyToOne
+    @JoinColumn(name="category", nullable = false, referencedColumnName = "id")
     private Category category;
 
     public TeachingUnit() {
     }
+    public TeachingUnit(String name,String code,Semester semester,Category category ) {
+        this.name=name;
+        this.code=code;
+        this.semester=semester;
+        this.category=category;
 
+    }
     public int getId() {
         return id;
     }

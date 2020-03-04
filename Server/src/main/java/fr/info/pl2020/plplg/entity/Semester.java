@@ -9,6 +9,7 @@ public class Semester {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
+
     @Transient
     private List<Category> listCat;
 
