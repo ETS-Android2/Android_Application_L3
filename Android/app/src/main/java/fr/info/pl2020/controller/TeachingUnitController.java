@@ -18,43 +18,43 @@ import java.util.TreeMap;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpStatus;
-import fr.info.pl2020.adapter.SemesterAdapter;
-import fr.info.pl2020.service.SemesterService;
+import fr.info.pl2020.adapter.TeachingUnitAdapter;
+import fr.info.pl2020.service.TeachingUnitService;
 
-public class SemesterController {
+public class TeachingUnitController {
 
-    public void displaySemester(Context context, ExpandableListView expandableListView) {
-        new SemesterService().getAll(new JsonHttpResponseHandler() {
+    public void displayTeachingUnits(Context context, ExpandableListView expandableListView) {
+        new TeachingUnitService().getAll(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 if (statusCode == HttpStatus.SC_OK) {
-                    Map<String, List<String>> categoryBySemesterMap = new TreeMap<>();
+                    Map<String, List<String>> teachingUnitByCategoryMap = new TreeMap<>();
                     for (int i = 0; i < response.length(); i++) {
                         try {
-                            JSONObject semester = response.getJSONObject(i);
-                            String semesterId = "Semestre " + semester.getString("id");
-                            JSONArray listCategories = semester.getJSONArray("listCat");
+                            JSONObject category = response.getJSONObject(i);
+                            String categoryId = "Category " + category.getString("id");
+                            JSONArray listCategories = category.getJSONArray("listCat");
                             List<String> categoriesNames = new ArrayList<>();
                             for (int j = 0; j < listCategories.length(); j++) {
-                                JSONObject category = listCategories.getJSONObject(j);
-                                String categoryName = category.getString("name");
-                                categoriesNames.add(categoryName);
+                                JSONObject teachingUnit = listCategories.getJSONObject(j);
+                                String teachingUnitName = teachingUnit.getString("name");
+                                categoriesNames.add(teachingUnitName);
                             }
-                            categoryBySemesterMap.put(semesterId, categoriesNames);
+                            teachingUnitByCategoryMap.put(categoryId, categoriesNames);
                         } catch (JSONException e) {
                             Toast.makeText(context, "Une erreur est survenue", Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
 
-                    SemesterAdapter semesterAdapter = new SemesterAdapter(context, categoryBySemesterMap);
-                    expandableListView.setAdapter(semesterAdapter);
+                    TeachingUnitAdapter categoryAdapter = new TeachingUnitAdapter(context, teachingUnitByCategoryMap);
+                    expandableListView.setAdapter(categoryAdapter);
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("SEMESTER", "Echec de la récupération de la liste des semestres (Code: " + statusCode + ")", throwable);
+                Log.e("CATEGORY", "Echec de la récupération de la liste des categories (Code: " + statusCode + ")", throwable);
                 Toast.makeText(context, "Une erreur est survenue", Toast.LENGTH_SHORT).show();
             }
         });

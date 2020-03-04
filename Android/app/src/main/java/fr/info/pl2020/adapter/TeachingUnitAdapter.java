@@ -15,37 +15,37 @@ import java.util.Objects;
 
 import fr.info.pl2020.R;
 
-public class SemesterAdapter extends BaseExpandableListAdapter {
+public class TeachingUnitAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private List<String> semesterList;
-    private Map<String, List<String>> categoryMap;
+    private List<String> categoryList;
+    private Map<String, List<String>> teachingUnitMap;
 
-    public SemesterAdapter(Context context, Map<String, List<String>> categoryMap) {
+    public TeachingUnitAdapter(Context context, Map<String, List<String>> teachingUnitMap) {
         this.context = context;
-        this.semesterList = new ArrayList<>(categoryMap.keySet());
-        this.categoryMap = categoryMap;
+        this.categoryList = new ArrayList<>(teachingUnitMap.keySet());
+        this.teachingUnitMap = teachingUnitMap;
     }
 
 
     @Override
     public int getGroupCount() {
-        return this.semesterList.size();
+        return this.categoryList.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return Objects.requireNonNull(this.categoryMap.get(this.semesterList.get(groupPosition))).size();
+        return Objects.requireNonNull(this.teachingUnitMap.get(this.categoryList.get(groupPosition))).size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this.semesterList.get(groupPosition);
+        return this.categoryList.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return Objects.requireNonNull(this.categoryMap.get(this.semesterList.get(groupPosition))).get(childPosition);
+        return Objects.requireNonNull(this.teachingUnitMap.get(this.categoryList.get(groupPosition))).get(childPosition);
     }
 
     @Override
@@ -67,13 +67,13 @@ public class SemesterAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_semester, null);
+            convertView = layoutInflater.inflate(R.layout.list_category, null);
         }
 
-        String semesterNb = (String) getGroup(groupPosition);
-        TextView semesterTextView = convertView.findViewById(R.id.listTitle);
-        semesterTextView.setTypeface(null, Typeface.BOLD);
-        semesterTextView.setText(semesterNb);
+        String categoryNb = (String) getGroup(groupPosition);
+        TextView categoryTextView = convertView.findViewById(R.id.listTitle);
+        categoryTextView.setTypeface(null, Typeface.BOLD);
+        categoryTextView.setText(categoryNb);
 
         return convertView;
     }
@@ -83,12 +83,12 @@ public class SemesterAdapter extends BaseExpandableListAdapter {
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_category, null);
+            convertView = layoutInflater.inflate(R.layout.list_teaching_unit, null);
         }
 
-        String categoryName = (String) getChild(groupPosition, childPosition);
-        TextView categoryTextView = convertView.findViewById(R.id.expandedListItem);
-        categoryTextView.setText(categoryName);
+        String TeachingUnitName = (String) getChild(groupPosition, childPosition);
+        TextView TeachingUnitTextView = convertView.findViewById(R.id.expandedListItem);
+        TeachingUnitTextView.setText(TeachingUnitName);
 
         return convertView;
     }
