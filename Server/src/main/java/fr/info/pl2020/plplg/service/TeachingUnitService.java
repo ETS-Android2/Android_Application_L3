@@ -22,8 +22,8 @@ public class TeachingUnitService {
         return this.teachingUnitRepository.findById(id).orElse(null);
     }
 
-    public TeachingUnit addTeachingUnit(String name,String code,Semester semestre,Category category ){
-        TeachingUnit t = new TeachingUnit(name, code,  semestre,category );
+    public TeachingUnit addTeachingUnit(String name,String code,Semester semester,Category category ){
+        TeachingUnit t = new TeachingUnit(name, code,  semester,category );
         return this.teachingUnitRepository.save(t);
     }
 

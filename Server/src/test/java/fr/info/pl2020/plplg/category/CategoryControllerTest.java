@@ -5,6 +5,7 @@ import fr.info.pl2020.plplg.controller.CategoryController;
 import fr.info.pl2020.plplg.entity.Category;
 import fr.info.pl2020.plplg.repository.CategoryRepository;
 import fr.info.pl2020.plplg.service.CategoryService;
+import fr.info.pl2020.plplg.service.TeachingUnitService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class CategoryControllerTest {
 
     @MockBean
     CategoryService service;
+
+    @MockBean
+    TeachingUnitService TeachingUnitService;
 
     @MockBean
     CategoryRepository repository;

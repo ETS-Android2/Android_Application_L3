@@ -17,6 +17,7 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+    @Autowired
     private TeachingUnitService teachingUnitService;
     @GetMapping("/category")
     public List<Category> getAllCategory() {

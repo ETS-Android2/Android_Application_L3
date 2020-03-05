@@ -37,8 +37,8 @@ public class TeachingUnitController {
     @PostMapping("/teachingUnit")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public ResponseEntity<TeachingUnit> createTeachingUnit(@RequestBody String name,@RequestBody String code,@RequestBody Semester semestre, @RequestBody Category category ) {
-        return new ResponseEntity<>(this.teachingUnitService.addTeachingUnit(name,code,semestre,category), HttpStatus.CREATED);
+    public ResponseEntity<TeachingUnit> createTeachingUnit(@RequestBody String name,@RequestBody String code,@RequestBody Semester semester, @RequestBody Category category ) {
+        return new ResponseEntity<>(this.teachingUnitService.addTeachingUnit(name,code,semester,category), HttpStatus.CREATED);
     }
 
 }
