@@ -75,7 +75,6 @@ public class CategoryControllerTest {
         Category c = new Category();
         c.setId(1);
         c.setName("Math");
-
         when(service.addCategory(anyString())).thenReturn(c);
         this.mockMvc.perform(post("/category")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -96,17 +95,16 @@ public class CategoryControllerTest {
 
     @Test
     void deleteOne() throws Exception {
-        this.mockMvc.perform(put("/category/1")
+        this.mockMvc.perform(delete("/category/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isMethodNotAllowed());
     }
 
     @Test
     void deleteAll() throws Exception {
-        this.mockMvc.perform(put("/category")
+        this.mockMvc.perform(delete("/category")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isMethodNotAllowed());
     }
 
 }
-

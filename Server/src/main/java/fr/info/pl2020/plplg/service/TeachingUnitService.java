@@ -11,6 +11,7 @@ import java.util.List;
 
 @Service
 public class TeachingUnitService {
+
     @Autowired
     private TeachingUnitRepository teachingUnitRepository;
 
@@ -22,8 +23,13 @@ public class TeachingUnitService {
         return this.teachingUnitRepository.findById(id).orElse(null);
     }
 
-    public TeachingUnit addTeachingUnit(String name,String code,Semester semester,Category category ){
-        TeachingUnit t = new TeachingUnit(name, code,  semester,category );
+    public List<TeachingUnit> getBySemesterId(int semesterId) {
+        return this.teachingUnitRepository.findAllBySemester(semesterId);
+    }
+
+    public TeachingUnit addTeachingUnit(String name, String code, String description, Semester semester, Category category) {
+        String desc = description == null ? "Indisponible" : description;
+        TeachingUnit t = new TeachingUnit(name, code, desc, semester, category);
         return this.teachingUnitRepository.save(t);
     }
 

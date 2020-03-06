@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -54,6 +53,5 @@ public class TeachingUnitServiceTest {
         assertEquals(1, teachingUnits.get(0).getId());
         assertEquals(2, teachingUnits.get(1).getId());
     }
-
 
 }

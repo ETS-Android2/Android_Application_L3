@@ -1,7 +1,6 @@
 package fr.info.pl2020.plplg.semester;
 
 import fr.info.pl2020.plplg.controller.SemesterController;
-import fr.info.pl2020.plplg.entity.Category;
 import fr.info.pl2020.plplg.entity.Semester;
 import fr.info.pl2020.plplg.repository.SemesterRepository;
 import fr.info.pl2020.plplg.service.CategoryService;
@@ -86,50 +85,15 @@ public class SemesterControllerTest {
 
     @Test
     void deleteOne() throws Exception {
-        this.mockMvc.perform(put("/semester/1")
+        this.mockMvc.perform(delete("/semester/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isMethodNotAllowed());
     }
 
     @Test
     void deleteAll() throws Exception {
-        this.mockMvc.perform(put("/semester")
+        this.mockMvc.perform(delete("/semester")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isMethodNotAllowed());
-    }
-
-    @Test
-    void getCategories() throws Exception {
-        Semester s = new Semester();
-        s.setId(1);
-        Category c = new Category("Mathématique");
-        c.setId(1);
-        when(service.getAll()).thenReturn(Stream.of(s).collect(Collectors.toList()));
-        when(categoryService.getAll()).thenReturn(Stream.of(c).collect(Collectors.toList()));
-        this.mockMvc.perform(get("/semesterAll")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-
-                .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[0].listCat[0].name", is("Mathématique")))
-                .andExpect(jsonPath("$[0].listCat[0].id", is(1)));
-
-
-    }
-    @Test
-    void getCategoriesNull() throws Exception {
-        Semester s = new Semester();
-        s.setId(1);
-        when(service.getAll()).thenReturn(Stream.of(s).collect(Collectors.toList()));
-        when(categoryService.getAll()).thenReturn(null);
-        this.mockMvc.perform(get("/semesterAll")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-
-                .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[0].listCat").doesNotExist());
-
     }
 }

@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -47,7 +46,7 @@ public class CategoryServiceTest {
         c2.setId(2);
         Category c3 = new Category("Physique");
         c3.setId(3);
-        when(this.repository.findAll()).thenReturn(Stream.of(c1, c2,c3).collect(Collectors.toList()));
+        when(this.repository.findAll()).thenReturn(Stream.of(c1, c2, c3).collect(Collectors.toList()));
 
         List<Category> categorys = this.service.getAll();
         assertNotNull(categorys);
@@ -61,7 +60,6 @@ public class CategoryServiceTest {
 
         assertEquals(3, categorys.get(2).getId());
         assertEquals("Physique", categorys.get(2).getName());
-
-
+        
     }
 }
