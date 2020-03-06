@@ -1,3 +1,5 @@
+**/*.pid
+
 # exclusion des dossiers contenant les élements générés
 **/out/
 **/target/
