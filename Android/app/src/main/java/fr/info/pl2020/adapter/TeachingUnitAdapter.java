@@ -87,8 +87,8 @@ public class TeachingUnitAdapter extends BaseExpandableListAdapter {
         }
 
         String TeachingUnitName = (String) getChild(groupPosition, childPosition);
-        TextView TeachingUnitTextView = convertView.findViewById(R.id.expandedListItem);
-        TeachingUnitTextView.setText(TeachingUnitName);
+        TextView teachingUnitTextView = convertView.findViewById(R.id.expandedListItem);
+        teachingUnitTextView.setText(TeachingUnitName);
 
         return convertView;
     }

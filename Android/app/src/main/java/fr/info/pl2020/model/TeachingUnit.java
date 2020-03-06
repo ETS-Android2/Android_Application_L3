@@ -3,7 +3,7 @@ package fr.info.pl2020.model;
 /**
  * class not used
  */
-//TODO Utiliser cette classe lors de la récupération des semestres depuis le serveur
+//TODO Utiliser cette classe lors de la récupération des UE depuis le serveur
 public class TeachingUnit {
     private final int id;
 

@@ -9,12 +9,12 @@
         android:id="@+id/expandedListItem"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#C3C3C3"
+        android:background="@color/list_teaching_unit_text_view_background"
         android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text=""
-        android:textColor="#00574B"
+        android:textColor="@color/list_teaching_unit_text_view_font"
         android:textSize="18sp"
         tools:ignore="RtlSymmetry" />
 </LinearLayout>
