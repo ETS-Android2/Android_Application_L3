@@ -18,7 +18,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -118,7 +117,7 @@ public class TeachingUnitControllerTest {
 
     @Test
     void putOne() throws Exception {
-        this.mockMvc.perform(put("/teachingUnit")
+        this.mockMvc.perform(put("/teachingUnit/1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isMethodNotAllowed());
     }
