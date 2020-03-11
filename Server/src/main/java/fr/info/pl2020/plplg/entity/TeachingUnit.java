@@ -15,7 +15,7 @@ public class TeachingUnit {
     @Column
     private String code;
 
-    @Column
+    @Column (length = 1024)
     private String description;
 
     @ManyToOne
