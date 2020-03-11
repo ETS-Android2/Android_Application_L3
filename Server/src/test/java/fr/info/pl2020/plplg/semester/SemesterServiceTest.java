@@ -1,6 +1,7 @@
 package fr.info.pl2020.plplg.semester;
 
 import fr.info.pl2020.plplg.entity.Semester;
+import fr.info.pl2020.plplg.entity.Student;
 import fr.info.pl2020.plplg.repository.SemesterRepository;
 import fr.info.pl2020.plplg.service.SemesterService;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -52,4 +54,18 @@ public class SemesterServiceTest {
         assertEquals(1, semesters.get(0).getId());
         assertEquals(2, semesters.get(1).getId());
     }
+
+    @Test
+    public void addSemesterTest() {
+        Semester s = new Semester();
+        s.setId(1);
+        when(this.repository.save(any())).thenReturn(s);
+        Semester semester = this.service.addSemester();
+        assertNotNull(semester);
+        assertEquals(1, semester.getId());
+        assertNull(this.service.getById(2));
+
+    }
+
+
 }

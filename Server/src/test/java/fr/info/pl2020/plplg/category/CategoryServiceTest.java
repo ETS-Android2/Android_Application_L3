@@ -13,11 +13,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class CategoryServiceTest {
+
     @Mock
     CategoryRepository repository;
 
@@ -60,6 +62,19 @@ public class CategoryServiceTest {
 
         assertEquals(3, categorys.get(2).getId());
         assertEquals("Physique", categorys.get(2).getName());
-        
     }
+
+    @Test
+    public void addCategoryTest() {
+        Category c = new Category("Mathématique");
+        c.setId(1);
+        when(this.repository.save(any())).thenReturn(c);
+        Category category = this.service.addCategory("Mathématique");
+        assertNotNull(category);
+        assertEquals(1, category.getId());
+        assertEquals("Mathématique", category.getName());
+        assertNull(this.service.getById(2));
+
+    }
+
 }

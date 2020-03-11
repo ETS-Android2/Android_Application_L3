@@ -1,5 +1,7 @@
 package fr.info.pl2020.plplg.teachingUnit;
 
+import fr.info.pl2020.plplg.entity.Category;
+import fr.info.pl2020.plplg.entity.Semester;
 import fr.info.pl2020.plplg.entity.TeachingUnit;
 import fr.info.pl2020.plplg.repository.TeachingUnitRepository;
 import fr.info.pl2020.plplg.service.TeachingUnitService;
@@ -7,12 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -52,6 +54,32 @@ public class TeachingUnitServiceTest {
         assertEquals(2, teachingUnits.size());
         assertEquals(1, teachingUnits.get(0).getId());
         assertEquals(2, teachingUnits.get(1).getId());
+    }
+
+    @Test
+    public void addTeachingUnitTest() {
+        TeachingUnit tu = new TeachingUnit();
+        Semester s = new Semester();
+        Category c = new Category();
+        s.setId(1);
+        c.setId(1);
+        tu.setId(1);
+        tu.setName("a");
+        tu.setCode("123");
+        tu.setDescription("null");
+        tu.setCategory(c);
+        tu.setSemester(s);
+        when(this.repository.save(any())).thenReturn(tu);
+        TeachingUnit teachingUnit = this.service.addTeachingUnit("a","123","null", s,c);
+        assertNotNull(teachingUnit);
+        assertEquals(1, teachingUnit.getId());
+        assertEquals("a", teachingUnit.getName());
+        assertEquals("123",teachingUnit.getCode());
+        assertEquals("null", teachingUnit.getDescription());
+        assertEquals(s, teachingUnit.getSemester());
+        assertEquals(c, teachingUnit.getCategory());
+        assertNull(this.service.getById(2));
+
     }
 
 }
