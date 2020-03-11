@@ -1,6 +1,8 @@
 INSERT INTO Semester VALUES (1), (2), (3), (4);
 INSERT INTO Category VALUES (1,'Chimie') , (2,'Electronique'),(3,'Géographie'),(4,'Informatique'),(5,'Mathématiques'),(6,'MIASHS'),(7,'Physique'),(8,'Sciences de la Terre'),(9,'Sciences de la Vie');
 INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUES
+
+--Chimie--
 (1,'Structure Microscopique de la Matiere','S1C1','Indisponible',1,1),
 (2,'Chimie des Solutions','S3C2','Indisponible',3,1),
 (3,'Chimie organique Fonctionnelle I','S3C3','Indisponible',3,1),
@@ -12,6 +14,7 @@ INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUE
 (9,'Chimie Organique Fonctionnelle II','S4C9','Indisponible',4,1),
 (10,'Bloc de Chimie Expérimentale','S4C10','Indisponible',4,1),
 
+--Electronique--
 (11,'Electronique numerique - Bases','S1C11','Indisponible',1,2),
 (12,'Automatique : une introduction','S3C12','Indisponible',3,2),
 (13,'Système embarqué I','S3C13','Indisponible',3,2),
@@ -23,6 +26,7 @@ INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUE
 (19,'Architecture des processeurs ','S4C19','Indisponible',4,2),
 (20,'Systèmes embarqués II','S4C20','Indisponible',4,2),
 
+--Géographie--
 (21,'Decouverte I','S1C21','Indisponible',1,3),
 (22,'Decouverte II','S1C22','Indisponible',1,3),
 (23,'Disciplinaire I','S1C23','Indisponible',1,3),
@@ -38,6 +42,7 @@ INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUE
 (33,'Disciplinaire VIII','S4C33','Indisponible',4,3),
 (34,'Approfondissement hors géographie II','S4C34','Indisponible',4,3),
 
+--Informatique--
 (35,'Bases de l''informatique','S4C35','Indisponible',1,4),
 (36,'Introduction à l''informatique par le web','S4C36','Indisponible',1,4),
 (37,'Structures de données et programmation C ','S4C37','Indisponible',3,4),
@@ -51,57 +56,61 @@ INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUE
 (45,'Introduction aux systèmes intelligents','S4C45','Indisponible',4,4),
 (46,'Technologies du web','S4C46','Indisponible',4,4),
 
+--Mathématique--
 (47,'Fondements I','S4C47','Indisponible',1,5),
 (48,'Méthodes : approche continue','S4C48','Indisponible',1,5),
 (49,'Complements I','S4C49','Indisponible',1,5),
-(50,'Fondements III','S4C50','Indisponible',3,5),
-(51,'Compléments d''Analyse','S4C51','Indisponible',3,5),
-(52,'Compléments d''Algèbre','S4C52','Indisponible',3,5),
-(53,'Méthodes : Mathématiques et ingénierie','S4C53','Indisponible',3,5),
-(54,'Méthodes : approche géométrique','S4C54','Indisponible',3,5),
+(50,'Fondements II','S4C55','Indisponible',2,5),
+(51,'Méthodes : approche discrète','S4C56','Indisponible',2,5),
+(52,'Complements II','S4C57','Indisponible',2,5),
+(53,'Fondements III','S4C50','Indisponible',3,5),
+(54,'Compléments d''Analyse','S4C51','Indisponible',3,5),
+(55,'Compléments d''Algèbre','SPUM32','Indisponible',3,5),
+(56,'Méthodes : Mathématiques et ingénierie','SPUM33','Indisponible',3,5),
+(57,'Méthodes : approche géométrique','SPUM34','Indisponible',3,5),
+(58,'Analyse','SPUM40','Indisponible',4,5),
+(59,'Probabilités et Introduction à la Statistiques','SPUM41','Indisponible',4,5),
+(60,'Algèbre','SPUM32','Indisponible',4,5),
+(61,'Résolution numérique des systèmes d''équations linéaires et non-linéaires','SPUM43','Indisponible',4,5),
+(62,'Méthodes : approche aléatoire','SPUM44','Indisponible',4,5),
 
-(55,'Fondements II','S4C55','Indisponible',2,5),
-(56,'Méthodes : approche discrète','S4C56','Indisponible',2,5),
-(57,'Complements II','S4C57','Indisponible',2,5),
-(58,'Analyse','S4C58','Indisponible',4,5),
-(59,'Probabilités et Introduction à la Statistiques','S4C59','Indisponible',4,5),
-(60,'Algèbre','S4C60','Indisponible',4,5),
-(61,'Résolution numérique des systèmes d''équations linéaires et non-linéaires','S4C61','Indisponible',4,5),
-(62,'Méthodes : approche aléatoire','S4C62','Indisponible',4,5),
+--MIASHS--
+(63,'Economie-Gestion','SPUA10','Indisponible',1,6),
+(64,'Economie-Gestion','SPUA20','Indisponible',2,6),
+(65,'Economie-Gestion','SPUA30','Indisponible',3,6),
+(66,'Introduction R','SPUA31','Indisponible',3,6),
+(67,'Economie-Gestion','SPUA40','Indisponible',4,6),
+(68,'Mathématiques pour la finance','SPUA41','Indisponible',4,6),
 
-(63,'Economie-Gestion','S1C63','Indisponible',1,6),
-(64,'Economie-Gestion','S3C64','Indisponible',3,6),
-(65,'Introduction R','S3C65','Indisponible',3,6),
-(66,'Economie-Gestion','S2C66','Indisponible',2,6),
-(67,'Economie-Gestion','S4C67','Indisponible',4,6),
-(68,'Mathématiques pour la finance','S4C68','Indisponible',4,6),
+--Physique--
+(69,'Mecanique I','SPUP10','Indisponible',1,7),
+(70,'Optique I','SPUP20','Indisponible',2,7),
+(71,'Mécanique II','SPUP21','Indisponible',2,7),
+(72,'Electromagnétisme I','SPUP30','Indisponible',3,7),
+(73,'Thermodynamique I','SPUP31','Indisponible',3,7),
+(74,'Outils et Méthodes I','SPUP32','Indisponible',3,7),
+(75,'Electromagnétisme II','SPUP40','Indisponible',4,7),
+(76,'Ondes','SPUP41','Indisponible',4,7),
+(77,'Mathématiques pour la Physique I','SPEP41','Indisponible',4,7),
+(78,'Mécanique  III','SPUP41','Indisponible',4,7),
+(79,'Outils et Méthodes II','SPUP43','Indisponible',4,7),
+(95,'Outils et Méthodes 2D','SPUP44','Indisponible',4,7),
 
-(69,'Mecanique I','S1C69','Indisponible',1,7),
-(70,'Electromagnétisme I','S3C70','Indisponible',3,7),
-(71,'Thermodynamique I','S3C71','Indisponible',3,7),
-(72,'Outils et Méthodes I','S3C72','Indisponible',3,7),
-(73,'Optique I','S2C72','Indisponible',2,7),
-(74,'Mécanique II','S2C74','Indisponible',2,7),
-(75,'Electromagnétisme II','S4C75','Indisponible',4,7),
-(76,'Ondes','S4C76','Indisponible',4,7),
-(77,'Mathématiques pour la Physique I','S4C77','Indisponible',4,7),
-(78,'Mécanique  III','S4C78','Indisponible',4,7),
-(79,'Outils et Méthodes II','S4C79','Indisponible',4,7),
-(95,'Outils et Méthodes 2D','S4C95','Indisponible',4,7),
+--Sciences de la vie--
+(80,'Découverte des sciences de la terre','SPUT10','Indisponible',1,8),
+(81,'Structure et dynamique de la terre','SPUT20','Indisponible',2,8),
+(82,'Atmosphère, Océan, Climats ','SPUT22','Indisponible',2,8),
+(83,'Atmosphère, Océan, Climats','SPUT30','Indisponible',3,8),
+(84,'Le temps en Géosciences','SPUT31','Indisponible',3,8),
+(85,'Physique de la Terre','SPUT32','Indisponible',3,8),
+(86,'Matériaux terrestres','SPUT33','Indisponible',3,8),
+(87,'Géologie Structurale et Tectonique','SPUT40','Indisponible',4,8),
+(88,'Formation et Evolution des Bassins Sédimentaires','SPUT41','Indisponible',4,8),
+(89,'Géomécanique','SPUT42','Indisponible',4,8),
+(90,'Du paysage à la carte','SPUT43','Indisponible',4,8),
 
-(80,'Decouverte des sciences de la terre','S1C80','Indisponible',1,8),
-(81,'Atmosphère, Océan, Climats','S3C81','Indisponible',3,8),
-(82,'Le temps en Géosciences','S3C82','Indisponible',3,8),
-(83,'Physique de la Terre','S3C83','Indisponible',3,8),
-(84,'Materiaux terrestres','S3C84','Indisponible',3,8),
-(85,'Structure et dynamique de la terre','S2C85','Indisponible',2,8),
-(86,'Atmosphère, Océan, Climats ','S2C86','Indisponible',2,8),
-(87,'Géologie Structurale et Tectonique','S4C87','Indisponible',4,8),
-(88,'Formation et Evolution des Bassins Sédimentaires','S4C88','Indisponible',4,8),
-(89,'Géomécanique','S4C89','Indisponible',4,8),
-(90,'Du paysage à la carte','S4C90','Indisponible',4,8),
-
-(91,'Org. Mecanismes Moleculaires Cellules Eucaryotes','S1C91','Indisponible',1,9),
-(92,'Genetique. Evolution. Origine Vie et Biodiversite','S1C92','Indisponible',1,9),
-(93,'Physiologie. Neurologie. Enzymologie.','S2C93','Indisponible',2,9),
-(94,'Diversite du Vivant','S2C94','Indisponible',2,9);
+--Sciences de la Terre--
+(91,'Org. Mecanismes Moléculaires Cellules Eucaryotes','SPUV100','Indisponible',1,9),
+(92,'Génétique. Evolution. Origine Vie et Biodiversite','SPUV101','Indisponible',1,9),
+(93,'Physiologie. Neurologie. Enzymologie.','SPUV200','Indisponible',2,9),
+(94,'Diversite du Vivant','SPUV201','Indisponible',2,9);
