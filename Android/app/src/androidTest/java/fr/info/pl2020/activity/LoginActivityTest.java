@@ -26,16 +26,28 @@ public class LoginActivityTest {
     @Rule
     public ActivityTestRule<LoginActivity> mActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
+    /**
+     * Permet de tester si l'image "logo" à la vue d'acceille est presente.
+     *
+     */
     @Test
     public void logoExists() {
         onView(withId(R.id.logo)).check(matches(isDisplayed()));
     }
 
+    /**
+     * Permet de tester si le bouton "login" existe
+     *
+     */
     @Test
     public void loginButtonExists() {
         onView(withId(R.id.loginButton)).check(matches(isDisplayed()));
     }
 
+    /**
+     * permet de tester si le bouton "login" nous renvoie à
+     * une autre activity qui contient la liste des semestres
+     */
     @Test
     public void loginButtonExecute() {
         Intents.init();
