@@ -15,7 +15,7 @@ public class TeachingUnit {
     @Column
     private String code;
 
-    @Column (length = 1024)
+    @Column(length = 1024)
     private String description;
 
     @ManyToOne
@@ -26,6 +26,9 @@ public class TeachingUnit {
     @JoinColumn(name = "category", nullable = false, referencedColumnName = "id")
     private Category category;
 
+    @Transient
+    private boolean selectedByStudent;
+
     public TeachingUnit() {
     }
 
@@ -35,7 +38,6 @@ public class TeachingUnit {
         this.description = description;
         this.semester = semester;
         this.category = category;
-
     }
 
     public int getId() {
@@ -84,5 +86,13 @@ public class TeachingUnit {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public boolean isSelectedByStudent() {
+        return selectedByStudent;
+    }
+
+    public void setSelectedByStudent(boolean selectedByStudent) {
+        this.selectedByStudent = selectedByStudent;
     }
 }

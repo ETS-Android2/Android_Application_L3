@@ -13,4 +13,6 @@ public interface TeachingUnitRepository extends JpaRepository<TeachingUnit, Inte
 
     @Query("FROM TeachingUnit as ue WHERE ue.semester.id = ?1")
     List<TeachingUnit> findAllBySemester(Integer semesterId);
+
+    List<TeachingUnit> findAllByIdIn(List<Integer> ids);
 }

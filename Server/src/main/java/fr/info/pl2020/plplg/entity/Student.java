@@ -1,11 +1,13 @@
 package fr.info.pl2020.plplg.entity;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 public class Student {
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +25,15 @@ public class Student {
     @Column
     private String password;
 
+    @ApiModelProperty(hidden = true)
+    @ManyToMany
+    @JoinTable(
+            name = "career",
+            joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "teaching_unit_id", referencedColumnName = "id", nullable = false)}
+    )
+    private List<TeachingUnit> career;
+
     public Student() {
     }
 
@@ -31,7 +42,7 @@ public class Student {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-
+        this.career = Collections.emptyList();
     }
 
     public String getFirstName() {
@@ -74,4 +85,11 @@ public class Student {
         this.id = id;
     }
 
+    public List<TeachingUnit> getCareer() {
+        return career;
+    }
+
+    public void setCareer(List<TeachingUnit> career) {
+        this.career = career;
+    }
 }

@@ -9,9 +9,11 @@ import fr.info.pl2020.plplg.repository.SemesterRepository;
 import fr.info.pl2020.plplg.repository.TeachingUnitRepository;
 import fr.info.pl2020.plplg.service.CategoryService;
 import fr.info.pl2020.plplg.service.SemesterService;
+import fr.info.pl2020.plplg.service.StudentService;
 import fr.info.pl2020.plplg.service.TeachingUnitService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -35,6 +37,9 @@ public class TeachingUnitControllerTest {
 
     @MockBean
     SemesterService semesterService;
+
+    @MockBean
+    StudentService studentService;
 
     @MockBean
     CategoryService categoryService;

@@ -9,7 +9,7 @@ public class PlplgApplication {
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(PlplgApplication.class);
-        app.addListeners(new ApplicationPidFileWriter("./application.pid"));
+        //app.addListeners(new ApplicationPidFileWriter("./application.pid"));
         app.run(args);
     }
 }
