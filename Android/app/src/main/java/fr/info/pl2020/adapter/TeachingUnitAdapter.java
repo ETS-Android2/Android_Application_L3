@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,19 +15,19 @@ import java.util.Map;
 import java.util.Objects;
 
 import fr.info.pl2020.R;
+import fr.info.pl2020.model.TeachingUnit;
 
 public class TeachingUnitAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> categoryList;
-    private Map<String, List<String>> teachingUnitMap;
+    private Map<String, List<TeachingUnit>> teachingUnitMap;
 
-    public TeachingUnitAdapter(Context context, Map<String, List<String>> teachingUnitMap) {
+    public TeachingUnitAdapter(Context context, Map<String, List<TeachingUnit>> teachingUnitMap) {
         this.context = context;
         this.categoryList = new ArrayList<>(teachingUnitMap.keySet());
         this.teachingUnitMap = teachingUnitMap;
     }
-
 
     @Override
     public int getGroupCount() {
@@ -80,15 +81,24 @@ public class TeachingUnitAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-
-        if (convertView == null) {
+        boolean firstTime = convertView == null;
+        if (firstTime) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_teaching_unit, null);
         }
 
-        String TeachingUnitName = (String) getChild(groupPosition, childPosition);
+        TeachingUnit teachingUnit = (TeachingUnit) getChild(groupPosition, childPosition);
         TextView teachingUnitTextView = convertView.findViewById(R.id.expandedListItem);
-        teachingUnitTextView.setText(TeachingUnitName);
+        CheckBox teachingUnitCheckbox = convertView.findViewById(R.id.teachinUnitCheckbox);
+        teachingUnitTextView.setText(teachingUnit.getName());
+        teachingUnitCheckbox.setTag(teachingUnit);
+        if (teachingUnit.isSelectedByStudent()) {/*
+            if (firstTime) {
+                Log.i("TEST", "click : " + teachingUnit.getName());
+                teachingUnitCheckbox.performClick();
+            }*/
+
+        }
 
         return convertView;
     }

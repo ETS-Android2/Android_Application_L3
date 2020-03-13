@@ -4,6 +4,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import cz.msebera.android.httpclient.HttpEntity;
 import fr.info.pl2020.BuildConfig;
 
 public class HttpClientManager {
@@ -13,5 +14,9 @@ public class HttpClientManager {
 
     public static void get(String urn, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.get(BASE_URL + urn, params, responseHandler);
+    }
+
+    public static void put(String urn, HttpEntity entity, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        client.put(null, BASE_URL + urn, entity, "application/json", responseHandler);
     }
 }

@@ -9,7 +9,7 @@ public class TeachingUnitService {
     private final String urn = "/teachingUnit";
 
     public void getAllBySemester(int semesterId, AsyncHttpResponseHandler responseHandler) {
-        String currentUrn = this.urn + "?semester=" + semesterId;
+        String currentUrn = this.urn + "?showUserSelection=true&semester=" + semesterId;
         HttpClientManager.get(currentUrn, null, responseHandler);
     }
 }

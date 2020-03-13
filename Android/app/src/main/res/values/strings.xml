@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Parcours Univ</string>
-    <string name="send">SEND</string>
-    <string name="enter_message">Enter message</string>
-    <string name="login">Login</string>
+    <string name="login">Se connecter</string>
+    <string name="validate">Enregistrer le parcours</string>
 </resources>

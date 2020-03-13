@@ -9,4 +9,6 @@
     <color name="list_teaching_unit_text_view_font">#00574B</color>
     <color name="list_semester_text_view_background">#C3C3C3</color>
     <color name="list_semester_text_view_font">#00574B</color>
+    <color name="validate_career_button">#C3C3C3</color>
+    <color name="validate_career_button_background">#009688</color>
 </resources>
