@@ -20,10 +20,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.SemestersListActivity" />
-        <activity android:name=".activity.TeachingUnitListActivity">
+        <activity android:name=".activity.TeachingUnitListActivity"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="fr.info.pl2020.activity.SemestersListActivity" />
+        </activity>
+        <activity android:name=".activity.TeachingUnitDetailsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fr.info.pl2020.activity.TeachingUnitListActivity" />
         </activity>
     </application>
 

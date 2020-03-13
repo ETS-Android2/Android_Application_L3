@@ -12,4 +12,8 @@ public class TeachingUnitService {
         String currentUrn = this.urn + "?showUserSelection=true&semester=" + semesterId;
         HttpClientManager.get(currentUrn, null, responseHandler);
     }
+
+    public void getOne(int teachingUnitId, AsyncHttpResponseHandler responseHandler) {
+        HttpClientManager.get(this.urn + "/" + teachingUnitId, null, responseHandler);
+    }
 }

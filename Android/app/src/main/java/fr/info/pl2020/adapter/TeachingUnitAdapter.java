@@ -1,7 +1,9 @@
 package fr.info.pl2020.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import fr.info.pl2020.R;
+import fr.info.pl2020.activity.TeachingUnitDetailsActivity;
 import fr.info.pl2020.model.TeachingUnit;
 
 public class TeachingUnitAdapter extends BaseExpandableListAdapter {
@@ -89,6 +92,14 @@ public class TeachingUnitAdapter extends BaseExpandableListAdapter {
 
         TeachingUnit teachingUnit = (TeachingUnit) getChild(groupPosition, childPosition);
         TextView teachingUnitTextView = convertView.findViewById(R.id.expandedListItem);
+        teachingUnitTextView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, TeachingUnitDetailsActivity.class);
+            Bundle b = new Bundle();
+            b.putInt("teachingUnitId", teachingUnit.getId());
+            intent.putExtras(b);
+            context.startActivity(intent);
+        });
+
         CheckBox teachingUnitCheckbox = convertView.findViewById(R.id.teachinUnitCheckbox);
         teachingUnitTextView.setText(teachingUnit.getName());
         teachingUnitCheckbox.setTag(teachingUnit);
@@ -99,6 +110,7 @@ public class TeachingUnitAdapter extends BaseExpandableListAdapter {
             }*/
 
         }
+
 
         return convertView;
     }

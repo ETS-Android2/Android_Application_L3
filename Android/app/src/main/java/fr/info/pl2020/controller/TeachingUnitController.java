@@ -3,6 +3,7 @@ package fr.info.pl2020.controller;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -55,12 +56,39 @@ public class TeachingUnitController {
 
                     TeachingUnitAdapter categoryAdapter = new TeachingUnitAdapter(context, teachingUnitByCategoryMap);
                     expandableListView.setAdapter(categoryAdapter);
+                } else {
+                    // TODO
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("CATEGORY", "Echec de la récupération de la liste des categories (Code: " + statusCode + ")", throwable);
+                Log.e("TEACHING_UNIT", "Echec de la récupération de la liste des UE (Code: " + statusCode + ")", throwable);
+                Toast.makeText(context, "La connexion avec le serveur a échoué", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void displayTeachingUnitDetails(Context context, TextView nameTextView, TextView codeTextView, TextView descriptionTextView, int teachingUnitId) {
+        new TeachingUnitService().getOne(teachingUnitId, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                if (statusCode == HttpStatus.SC_OK) {
+                    try {
+                        nameTextView.setText(response.getString("name"));
+                        codeTextView.setText(response.getString("code"));
+                        descriptionTextView.setText(response.getString("description"));
+                    } catch (JSONException e) {
+                        Log.e("TEACHING_UNIT", "Echec de la récupération des informations de l'UE '" + teachingUnitId + "' depuis le JSON", e);
+                    }
+                } else {
+                    Log.e("TEACHING_UNIT", "Echec de la récupération des informations de l'UE '\" + teachingUnitId + \"' (Code: \" + statusCode + \")");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.e("TEACHING_UNIT", "Echec de la récupération des informations de l'UE '" + teachingUnitId + "' (Code: " + statusCode + ")", throwable);
                 Toast.makeText(context, "La connexion avec le serveur a échoué", Toast.LENGTH_SHORT).show();
             }
         });
