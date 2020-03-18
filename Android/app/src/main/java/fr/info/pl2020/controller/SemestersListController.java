@@ -44,19 +44,20 @@ public class SemestersListController {
                    SemesterAdapter categoryAdapter = new SemesterAdapter(context, semestersList);
                    listView.setAdapter(categoryAdapter);
                }
+               else if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
+                   Intent intent = new Intent(context, LoginActivity.class);
+                   context.startActivity(intent);
+               }
+               else {
+                   Log.e("SEMESTER", "Echec de la récupération de la liste des semestres (Code: " + statusCode + ")");
+                   Toast.makeText(context, "La connexion avec le serveur a échoué", Toast.LENGTH_SHORT).show();
+               }
            }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                    if (statusCode == 401) {
-                    Intent intent = new Intent(context, LoginActivity.class);
-                    context.startActivity(intent);
-                }
-                    else {
                     Log.e("SEMESTER", "Echec de la récupération de la liste des semestres (Code: " + statusCode + ")", throwable);
                     Toast.makeText(context, "La connexion avec le serveur a échoué", Toast.LENGTH_SHORT).show();
-                }
-
             }
         }
         );
