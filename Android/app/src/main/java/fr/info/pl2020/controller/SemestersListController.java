@@ -1,6 +1,7 @@
 package fr.info.pl2020.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpStatus;
+import fr.info.pl2020.activity.LoginActivity;
 import fr.info.pl2020.adapter.SemesterAdapter;
 import fr.info.pl2020.model.Semester;
 import fr.info.pl2020.service.SemesterService;
@@ -46,9 +48,17 @@ public class SemestersListController {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("SEMESTER", "Echec de la récupération de la liste des semestres (Code: " + statusCode + ")", throwable);
-                Toast.makeText(context, "La connexion avec le serveur a échoué", Toast.LENGTH_SHORT).show();
+                    if (statusCode == 401) {
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    context.startActivity(intent);
+                }
+                    else {
+                    Log.e("SEMESTER", "Echec de la récupération de la liste des semestres (Code: " + statusCode + ")", throwable);
+                    Toast.makeText(context, "La connexion avec le serveur a échoué", Toast.LENGTH_SHORT).show();
+                }
+
             }
-        });
+        }
+        );
     }
 }

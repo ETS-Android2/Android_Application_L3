@@ -1,6 +1,7 @@
 package fr.info.pl2020.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import java.util.TreeMap;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpStatus;
+import fr.info.pl2020.activity.LoginActivity;
 import fr.info.pl2020.adapter.TeachingUnitAdapter;
 import fr.info.pl2020.model.TeachingUnit;
 import fr.info.pl2020.service.TeachingUnitService;
@@ -63,8 +65,14 @@ public class TeachingUnitController {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("TEACHING_UNIT", "Echec de la récupération de la liste des UE (Code: " + statusCode + ")", throwable);
-                Toast.makeText(context, "La connexion avec le serveur a échoué", Toast.LENGTH_SHORT).show();
+                if (statusCode == 401) {
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    context.startActivity(intent);
+                }
+                else {
+                    Log.e("TEACHING_UNIT", "Echec de la récupération de la liste des UE (Code: " + statusCode + ")", throwable);
+                    Toast.makeText(context, "La connexion avec le serveur a échoué", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -88,8 +96,14 @@ public class TeachingUnitController {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("TEACHING_UNIT", "Echec de la récupération des informations de l'UE '" + teachingUnitId + "' (Code: " + statusCode + ")", throwable);
-                Toast.makeText(context, "La connexion avec le serveur a échoué", Toast.LENGTH_SHORT).show();
+                if (statusCode == 401) {
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    context.startActivity(intent);
+                }
+                else {
+                    Log.e("TEACHING_UNIT", "Echec de la récupération de la liste des UE (Code: " + statusCode + ")", throwable);
+                    Toast.makeText(context, "La connexion avec le serveur a échoué", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
