@@ -36,21 +36,33 @@
         android:paddingEnd="25dp"
         android:paddingBottom="5dp">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="#FFD5D5D5"
+            android:padding="5dp"
+            android:text="Identifiant et/ou Mot de passe incorrect"
+            android:textAlignment="center"
+            android:textColor="#FF0000"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
+
         <EditText
             android:id="@+id/emailInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textEmailAddress"
-            android:visibility="invisible" />
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/passwordInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPassword"
-            android:visibility="invisible" />
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/loginButton"
