@@ -1,8 +1,10 @@
-package fr.info.pl2020;
+package fr.info.pl2020.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import fr.info.pl2020.R;
 
 public class ProfilActivity extends AppCompatActivity {
 

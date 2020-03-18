@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.SemestersListActivity" />
+        <activity android:name=".activity.ProfilActivity" />
         <activity android:name=".activity.TeachingUnitListActivity"
             android:launchMode="singleTop">
             <meta-data
@@ -30,6 +31,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="fr.info.pl2020.activity.TeachingUnitListActivity" />
+
         </activity>
     </application>
 
