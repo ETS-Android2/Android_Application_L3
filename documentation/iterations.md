@@ -54,7 +54,6 @@ les catégories des UE.
 - [X] Permettre à l'utilisateur de s'authentifier:
 * Lors de l'exécution de l'application, il sera dirigé vers l'activité d'authentification. 
 * Il pourra alors tapper son identifiant et son mot de passe pour pouvoir passer aux activités suivantes.
-- [X] Commencer l'adaptation du projet avec la première modification du sujet.
 
 #### Date prévue : 
 *vendredi 20 mars 2020*
@@ -65,6 +64,7 @@ les catégories des UE.
 - [X] finir l'adaptation du projet avec la première modification du sujet.
 - [X] L'utilisateur pourra effectuer une recherche d'UE en cliquant sur une loupe positionnée en haut à droite de l'écran.
 - [X] Il pourra faire afficher un menu latéral en appuyant sur un "hamburger button" en haut à gauche de l'écran. (Ce menu est de type navigation Drawer activity)
+- [X] Commencer l'adaptation du projet avec la première modification du sujet.
 
 #### Date prévue : 
 *vendredi 27 mars 2020*
