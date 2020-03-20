@@ -1,6 +1,9 @@
 package fr.info.pl2020.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -37,6 +40,14 @@ public class TeachingUnitDetailsActivity extends AppCompatActivity {
         this.nameTextView = findViewById(R.id.teaching_unit_title);
         this.codeTextView = findViewById(R.id.teaching_unit_code);
         this.descriptionTextView = findViewById(R.id.teaching_unit_description);
+
+        final Button button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(TeachingUnitDetailsActivity.this, ProfilActivity.class));
+                finish();
+            }
+        });
     }
 
     @Override

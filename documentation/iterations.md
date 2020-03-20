@@ -29,7 +29,6 @@ les catégories des UE.
 - [X] En cliquant sur ce bouton il passe à une activité qui contient la liste des semestres.
 - [X] En cliquant sur un semestre il passe à la liste des catégories.
 - [X] En cliquant sur une catégorie, il verra les UE de cette catégorie par exemple: *Semestre 1 -> Mathématique -> Algèbre.*
-- [X] En face de chaque UE il y a une "checkbox". 
 
 #### Date prévue : 
 *vendredi 06 mars 2020*
@@ -39,10 +38,10 @@ les catégories des UE.
 ### [Itération 4](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/4)
 
 - [X] En bas de l'écran il y a un bouton "Valider Son parcours" qui va nous permettre d'enregistrer le "Parcours choisi":
-* L'utilisateur peut enregistrer son parcours après avoir coché des UE.
-- [X] Commencer à ajouter des description de chaque "UE": 
+- [X] Ajouter des description de chaque "UE": 
 * Lorsque l'utilisateur clique sur l'UE, il accédera à sa description. 
-- [X] Adaptation du projet avec la première modification du sujet.
+- [X] En face de chaque UE il y a une "checkbox". 
+
 
 #### Date prévue : 
 *vendredi 13 mars 2020*
@@ -50,11 +49,12 @@ les catégories des UE.
 -----------------------------------------------
 
 ### [Itération 5](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/5)
-
-- [X] Finir l'ajout des descriptions de chaque "UE".
+- [X] Permettre à l'utilisateur d'enregistrer son parcours après avoir coché des UE.
+* Rendre le bouton "Valider Son parcours" fonctionnel. 
 - [X] Permettre à l'utilisateur de s'authentifier:
 * Lors de l'exécution de l'application, il sera dirigé vers l'activité d'authentification. 
 * Il pourra alors tapper son identifiant et son mot de passe pour pouvoir passer aux activités suivantes.
+- [X] Commencer l'adaptation du projet avec la première modification du sujet.
 
 #### Date prévue : 
 *vendredi 20 mars 2020*
@@ -62,7 +62,7 @@ les catégories des UE.
 -----------------------------------------------
 
 ### [Itération 6](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/6)
-
+- [X] finir l'adaptation du projet avec la première modification du sujet.
 - [X] L'utilisateur pourra effectuer une recherche d'UE en cliquant sur une loupe positionnée en haut à droite de l'écran.
 - [X] Il pourra faire afficher un menu latéral en appuyant sur un "hamburger button" en haut à gauche de l'écran. (Ce menu est de type navigation Drawer activity)
 

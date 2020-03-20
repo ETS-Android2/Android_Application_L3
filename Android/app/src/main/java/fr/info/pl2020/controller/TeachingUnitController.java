@@ -1,6 +1,7 @@
 package fr.info.pl2020.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import java.util.TreeMap;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpStatus;
+import fr.info.pl2020.activity.LoginActivity;
 import fr.info.pl2020.adapter.TeachingUnitAdapter;
 import fr.info.pl2020.model.TeachingUnit;
 import fr.info.pl2020.service.TeachingUnitService;
@@ -56,14 +58,20 @@ public class TeachingUnitController {
 
                     TeachingUnitAdapter categoryAdapter = new TeachingUnitAdapter(context, teachingUnitByCategoryMap);
                     expandableListView.setAdapter(categoryAdapter);
-                } else {
-                    // TODO
+                }
+                else if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    context.startActivity(intent);
+                }
+                else {
+                    Log.e("SEMESTER", "Echec de la récupération de la liste des semestres (Code: " + statusCode + ")");
+                    Toast.makeText(context, "La connexion avec le serveur a échoué", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("TEACHING_UNIT", "Echec de la récupération de la liste des UE (Code: " + statusCode + ")", throwable);
+                Log.e("SEMESTER", "Echec de la récupération de la liste des semestres (Code: " + statusCode + ")", throwable);
                 Toast.makeText(context, "La connexion avec le serveur a échoué", Toast.LENGTH_SHORT).show();
             }
         });
@@ -81,14 +89,20 @@ public class TeachingUnitController {
                     } catch (JSONException e) {
                         Log.e("TEACHING_UNIT", "Echec de la récupération des informations de l'UE '" + teachingUnitId + "' depuis le JSON", e);
                     }
-                } else {
-                    Log.e("TEACHING_UNIT", "Echec de la récupération des informations de l'UE '\" + teachingUnitId + \"' (Code: \" + statusCode + \")");
+                }
+                else if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    context.startActivity(intent);
+                }
+                else {
+                    Log.e("SEMESTER", "Echec de la récupération de la liste des semestres (Code: " + statusCode + ")");
+                    Toast.makeText(context, "La connexion avec le serveur a échoué", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("TEACHING_UNIT", "Echec de la récupération des informations de l'UE '" + teachingUnitId + "' (Code: " + statusCode + ")", throwable);
+                Log.e("SEMESTER", "Echec de la récupération de la liste des semestres (Code: " + statusCode + ")", throwable);
                 Toast.makeText(context, "La connexion avec le serveur a échoué", Toast.LENGTH_SHORT).show();
             }
         });

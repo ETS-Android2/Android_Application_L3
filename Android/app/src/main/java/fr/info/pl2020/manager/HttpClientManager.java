@@ -19,4 +19,8 @@ public class HttpClientManager {
     public static void put(String urn, HttpEntity entity, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.put(null, BASE_URL + urn, entity, "application/json", responseHandler);
     }
+
+    public static void post(String urn, HttpEntity entity, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        client.put(null, BASE_URL + urn, entity, "application/json", responseHandler);
+    }
 }
