@@ -10,4 +10,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     @Override
     Optional<Student> findById(Integer integer);
 
+    Optional<Student> findByEmail(String email);
+
 }

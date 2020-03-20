@@ -1,7 +1,5 @@
 package fr.info.pl2020.plplg.category;
 
-
-import fr.info.pl2020.plplg.controller.CategoryController;
 import fr.info.pl2020.plplg.entity.Category;
 import fr.info.pl2020.plplg.repository.CategoryRepository;
 import fr.info.pl2020.plplg.service.CategoryService;
@@ -9,9 +7,11 @@ import fr.info.pl2020.plplg.service.TeachingUnitService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -26,7 +26,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(CategoryController.class)
+@SpringBootTest()
+@AutoConfigureMockMvc()
+@WithMockUser
 public class CategoryControllerTest {
 
     @Autowired
@@ -48,12 +50,12 @@ public class CategoryControllerTest {
         c.setName("math");
         when(service.getById(eq(1))).thenReturn(c);
         this.mockMvc.perform(get("/category/1")
+                .header("Authorization", "token")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("math")));
-        ;
     }
 
     @Test
@@ -67,7 +69,6 @@ public class CategoryControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].name", is("math")));
-        ;
     }
 
     @Test
@@ -78,12 +79,11 @@ public class CategoryControllerTest {
         when(service.addCategory(anyString())).thenReturn(c);
         this.mockMvc.perform(post("/category")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{}"))
+                .content("{\"name\": \"Math\"}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("Math")));
-        ;
     }
 
     @Test

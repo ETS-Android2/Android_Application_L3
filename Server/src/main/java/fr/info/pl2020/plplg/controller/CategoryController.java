@@ -1,5 +1,6 @@
 package fr.info.pl2020.plplg.controller;
 
+import fr.info.pl2020.plplg.dto.CategoryRequest;
 import fr.info.pl2020.plplg.entity.Category;
 import fr.info.pl2020.plplg.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class CategoryController {
     @PostMapping(value = "/category", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public ResponseEntity<Category> createCategory(@RequestBody String name) {
-        return new ResponseEntity<>(this.categoryService.addCategory(name), HttpStatus.CREATED);
+    public ResponseEntity<Category> createCategory(@RequestBody CategoryRequest category) {
+        return new ResponseEntity<>(this.categoryService.addCategory(category.getName()), HttpStatus.CREATED);
     }
 }

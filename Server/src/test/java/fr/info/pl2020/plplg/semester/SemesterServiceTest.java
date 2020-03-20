@@ -1,12 +1,12 @@
 package fr.info.pl2020.plplg.semester;
 
 import fr.info.pl2020.plplg.entity.Semester;
-import fr.info.pl2020.plplg.entity.Student;
 import fr.info.pl2020.plplg.repository.SemesterRepository;
 import fr.info.pl2020.plplg.service.SemesterService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -19,6 +19,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@AutoConfigureMockMvc()
 public class SemesterServiceTest {
 
     @Mock
@@ -66,6 +67,5 @@ public class SemesterServiceTest {
         assertNull(this.service.getById(2));
 
     }
-
 
 }

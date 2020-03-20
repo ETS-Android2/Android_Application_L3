@@ -6,13 +6,17 @@ import fr.info.pl2020.plplg.service.StudentService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@AutoConfigureMockMvc()
 public class StudentServiceTest {
 
     @Mock
@@ -20,6 +24,9 @@ public class StudentServiceTest {
 
     @InjectMocks
     StudentService service;
+
+    @Mock
+    PasswordEncoder passwordEncoder;
 
     @Test
     public void getByIdTest() {
@@ -49,7 +56,7 @@ public class StudentServiceTest {
         s.setEmail("nom@unice.fr");
         s.setPassword("1234");
         when(this.repository.save(any())).thenReturn(s);
-        Student student = this.service.addStudent("toto","nomDeFamille","nom@unice.fr", "1234");
+        Student student = this.service.addStudent("toto", "nomDeFamille", "nom@unice.fr", "12345");
         assertNotNull(student);
         assertEquals(1, student.getId());
         assertEquals("toto", student.getFirstName());

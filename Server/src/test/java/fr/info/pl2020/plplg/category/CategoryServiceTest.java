@@ -6,6 +6,7 @@ import fr.info.pl2020.plplg.service.CategoryService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@AutoConfigureMockMvc()
 public class CategoryServiceTest {
 
     @Mock

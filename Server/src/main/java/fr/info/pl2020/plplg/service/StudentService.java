@@ -7,12 +7,16 @@ import fr.info.pl2020.plplg.repository.StudentRepository;
 import fr.info.pl2020.plplg.repository.TeachingUnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class StudentService {
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     private StudentRepository studentRepository;
@@ -24,8 +28,13 @@ public class StudentService {
         return this.studentRepository.findById(id).orElse(null);
     }
 
+    public Student getByEmail(String email) {
+        return this.studentRepository.findByEmail(email).orElse(null);
+    }
+
     public Student addStudent(String firstName, String lastName, String email, String password) {
-        Student s = new Student(firstName, lastName, email, password);
+        String encodedPassword = passwordEncoder.encode(password);
+        Student s = new Student(firstName, lastName, email, encodedPassword);
         return this.studentRepository.save(s);
     }
 
@@ -37,7 +46,7 @@ public class StudentService {
                 new ClientRequestException("addTeachingUnitInCareer(" + studentId + ", " + teachingUnitId + ") - Erreur : Aucun étudiant trouvé avec cet identifiant.", "L'étudiant demandé n'existe pas", HttpStatus.NOT_FOUND));
 
         // Si l'étudiant possède déjà cet UE dans son parcours
-        if(s.getCareer().stream().map(TeachingUnit::getId).anyMatch(((Integer) tu.getId())::equals)) {
+        if (s.getCareer().stream().map(TeachingUnit::getId).anyMatch(((Integer) tu.getId())::equals)) {
             throw new ClientRequestException("UE déjà présente dans le parcours de l'étudiant", HttpStatus.CONFLICT);
         }
 

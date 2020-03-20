@@ -1,6 +1,5 @@
 package fr.info.pl2020.plplg.teachingUnit;
 
-import fr.info.pl2020.plplg.controller.TeachingUnitController;
 import fr.info.pl2020.plplg.entity.Category;
 import fr.info.pl2020.plplg.entity.Semester;
 import fr.info.pl2020.plplg.entity.TeachingUnit;
@@ -13,13 +12,15 @@ import fr.info.pl2020.plplg.service.StudentService;
 import fr.info.pl2020.plplg.service.TeachingUnitService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -27,7 +28,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(TeachingUnitController.class)
+@SpringBootTest()
+@AutoConfigureMockMvc()
+@WithMockUser
 public class TeachingUnitControllerTest {
     @Autowired
     private MockMvc mockMvc;

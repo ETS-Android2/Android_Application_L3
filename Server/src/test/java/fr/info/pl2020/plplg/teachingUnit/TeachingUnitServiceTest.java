@@ -8,7 +8,9 @@ import fr.info.pl2020.plplg.service.TeachingUnitService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -19,6 +21,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@AutoConfigureMockMvc()
 public class TeachingUnitServiceTest {
 
     @Mock
@@ -70,11 +73,11 @@ public class TeachingUnitServiceTest {
         tu.setCategory(c);
         tu.setSemester(s);
         when(this.repository.save(any())).thenReturn(tu);
-        TeachingUnit teachingUnit = this.service.addTeachingUnit("a","123","null", s,c);
+        TeachingUnit teachingUnit = this.service.addTeachingUnit("a", "123", "null", s, c);
         assertNotNull(teachingUnit);
         assertEquals(1, teachingUnit.getId());
         assertEquals("a", teachingUnit.getName());
-        assertEquals("123",teachingUnit.getCode());
+        assertEquals("123", teachingUnit.getCode());
         assertEquals("null", teachingUnit.getDescription());
         assertEquals(s, teachingUnit.getSemester());
         assertEquals(c, teachingUnit.getCategory());

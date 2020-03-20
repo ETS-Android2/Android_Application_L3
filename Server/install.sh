@@ -3,7 +3,7 @@
 # Installation Maven
 echo -n "Maven Install  : In progress..."
 
-if mvn -q clean install
+if mvn clean install
 then
     echo -e "\rMaven Install  : OK            "
     read -rsp $'Press any key to continue...\n' -n1

@@ -115,4 +115,4 @@ INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUE
 (93,'Physiologie. Neurologie. Enzymologie.','SPUV200','Etude fonctionnement des parties du corps, c''est-à -dire sur la façon dont celles-ci jouent leur rôle et permettent le maintien de la vie.',2,9),
 (94,'Diversité du Vivant','SPUV201','Propriétés du vivant. Historique de la classification. Présentation des principes de la phylogénie et l’arbre du vivant. Les caractères apomorphiques de certains clades, comme ceux des Eumycètes, sont plus précisément énoncés.',2,9);
 
-INSERT INTO Student VALUES (1, 'Toto', 'Tata', 'toto@gmail.com', '1234')
+INSERT INTO Student (id, firstname, lastname, email, password) VALUES (1, 'Toto', 'Tata', 'toto@gmail.com', '$2a$10$fex0RS2Nshik5jiIyWXWC.6MmI6eZb9QW9NLr7gBPNyZTQqWhJIPm')
