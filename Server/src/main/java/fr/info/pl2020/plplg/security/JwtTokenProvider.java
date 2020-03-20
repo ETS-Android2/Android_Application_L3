@@ -1,15 +1,15 @@
 package fr.info.pl2020.plplg.security;
 
-import fr.info.pl2020.plplg.security.StudentDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtTokenProvider {
@@ -17,8 +17,7 @@ public class JwtTokenProvider {
     @Value("${jwt.expirationInMs}")
     private long jwtExpirationInMs;
 
-    @Value("${jwt.secret}")
-    private String secret;
+    private static String secret = new SecureRandom().ints(16, '!', '{').mapToObj(i -> String.valueOf((char) i)).collect(Collectors.joining());
 
     public String generateToken(Authentication authentication) {
         StudentDetails studentDetails = (StudentDetails) authentication.getPrincipal();
