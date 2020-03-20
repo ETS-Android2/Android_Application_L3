@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -84,11 +85,8 @@ public class TeachingUnitAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        boolean firstTime = convertView == null;
-        if (firstTime) {
-            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_teaching_unit, null);
-        }
+        LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = layoutInflater.inflate(R.layout.list_teaching_unit, null);
 
         TeachingUnit teachingUnit = (TeachingUnit) getChild(groupPosition, childPosition);
         TextView teachingUnitTextView = convertView.findViewById(R.id.expandedListItem);
@@ -103,14 +101,9 @@ public class TeachingUnitAdapter extends BaseExpandableListAdapter {
         CheckBox teachingUnitCheckbox = convertView.findViewById(R.id.teachinUnitCheckbox);
         teachingUnitTextView.setText(teachingUnit.getName());
         teachingUnitCheckbox.setTag(teachingUnit);
-        if (teachingUnit.isSelectedByStudent()) {/*
-            if (firstTime) {
-                Log.i("TEST", "click : " + teachingUnit.getName());
-                teachingUnitCheckbox.performClick();
-            }*/
-
+        if (teachingUnit.isSelectedByStudent()) {
+            teachingUnitCheckbox.performClick();
         }
-
 
         return convertView;
     }
