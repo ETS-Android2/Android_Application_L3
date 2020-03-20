@@ -9,6 +9,6 @@ public class SemesterService {
     private final String urn = "/semester";
 
     public void getAll(AsyncHttpResponseHandler responseHandler) {
-        HttpClientManager.get(urn, null, responseHandler);
+        HttpClientManager.get(urn, true, responseHandler);
     }
 }

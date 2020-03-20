@@ -4,4 +4,9 @@
     <string name="validate">Enregistrer le parcours</string>
     <string name="responsible_teacher">Responsable</string>
     <string name="intervening_teacher">Intervenants</string>
+    <string name="server_connection_error">Echec de la connexion avec le serveur.</string>
+    <string name="bad_credentials">Email ou mot de passe incorrect</string>
+    <string name="unexpected_http_status">Une erreur est survenue</string>
+    <string name="standard_exception">Une erreur est survenue</string>
+    <string name="double_click_for_exit">Cliquez une deuxième fois pour quitter l\'application</string>
 </resources>

@@ -2,7 +2,6 @@ package fr.info.pl2020.controller;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,8 +13,10 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpStatus;
-import fr.info.pl2020.activity.LoginActivity;
+import fr.info.pl2020.R;
 import fr.info.pl2020.service.CareerService;
+
+import static fr.info.pl2020.manager.AuthenticationManager.callLoginActivity;
 
 public class CareerController {
 
@@ -31,15 +32,6 @@ public class CareerController {
                     alertDialog.setMessage("Le parcours a bien été enregistré.");
                 }
 
-                if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
-                    Intent intent = new Intent(context, LoginActivity.class);
-                    context.startActivity(intent);
-                }
-                else {
-                    Log.e("SEMESTER", "Echec de la récupération de la liste des semestres (Code: " + statusCode + ")");
-                    Toast.makeText(context, "La connexion avec le serveur a échoué", Toast.LENGTH_SHORT).show();
-                }
-
                 alertDialog.setNeutralButton("OK", (dialog, which) -> {
                 });
                 alertDialog.show();
@@ -47,8 +39,12 @@ public class CareerController {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("CAREER", "Echec", throwable);
-                Toast.makeText(context, "echec", Toast.LENGTH_SHORT);
+                if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
+                    callLoginActivity(context);
+                } else {
+                    Log.e("CAREER", "Echec de l'enregistrement d'un parcours", throwable);
+                    Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

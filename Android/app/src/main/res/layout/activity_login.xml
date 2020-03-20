@@ -37,13 +37,12 @@
         android:paddingBottom="5dp">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/loginErrorTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:background="#FFD5D5D5"
             android:padding="5dp"
-            android:text="Identifiant et/ou Mot de passe incorrect"
+            android:text=""
             android:textAlignment="center"
             android:textColor="#FF0000"
             android:textStyle="italic"

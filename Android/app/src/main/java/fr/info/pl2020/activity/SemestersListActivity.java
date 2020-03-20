@@ -36,7 +36,7 @@ public class SemestersListActivity extends AppCompatActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Cliquez une deuxième fois pour quitter l'application", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.double_click_for_exit, Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }

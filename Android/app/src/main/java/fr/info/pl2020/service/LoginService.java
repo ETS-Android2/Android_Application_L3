@@ -4,10 +4,7 @@ import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
 
 import cz.msebera.android.httpclient.entity.StringEntity;
 import fr.info.pl2020.manager.HttpClientManager;
@@ -21,7 +18,7 @@ public class LoginService {
             message.put("email", email);
             message.put("password", password);
             StringEntity entity = new StringEntity(message.toString());
-            HttpClientManager.post(urn, entity, null, responseHandler);
+            HttpClientManager.post(urn, entity, false, responseHandler);
 
         } catch (Exception e) {
             Log.e("LOGIN_SERVICE", "Echec de la construction du message", e);

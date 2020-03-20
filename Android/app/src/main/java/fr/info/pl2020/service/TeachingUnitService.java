@@ -10,10 +10,10 @@ public class TeachingUnitService {
 
     public void getAllBySemester(int semesterId, AsyncHttpResponseHandler responseHandler) {
         String currentUrn = this.urn + "?showUserSelection=true&semester=" + semesterId;
-        HttpClientManager.get(currentUrn, null, responseHandler);
+        HttpClientManager.get(currentUrn, true, responseHandler);
     }
 
     public void getOne(int teachingUnitId, AsyncHttpResponseHandler responseHandler) {
-        HttpClientManager.get(this.urn + "/" + teachingUnitId, null, responseHandler);
+        HttpClientManager.get(this.urn + "/" + teachingUnitId, true, responseHandler);
     }
 }

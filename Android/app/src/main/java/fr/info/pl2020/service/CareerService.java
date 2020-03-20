@@ -11,7 +11,6 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.entity.StringEntity;
 import fr.info.pl2020.manager.HttpClientManager;
-import fr.info.pl2020.model.TeachingUnit;
 
 public class CareerService {
 
@@ -25,7 +24,7 @@ public class CareerService {
 
         try {
             StringEntity entity = new StringEntity(jsonArray.toString());
-            HttpClientManager.put(urn, entity, null, responseHandler);
+            HttpClientManager.put(urn, entity, true, responseHandler);
         } catch (UnsupportedEncodingException e) {
             Log.e("CAREER_SERVICE", "Echec de la conversion de la liste des UE en StringEntity", e);
         }
