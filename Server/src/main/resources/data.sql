@@ -47,7 +47,7 @@ INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUE
 (36,'Introduction à l''informatique par le web','SPUF11','Cours de découverte de la science informatique à travers de thématiques concrètes issues du web',1,4),
 (37,'Systeme I: Unix et programmation shell','SPUF20','L''objectif de ce cours est d''acquérir une certaine autonomie sous un environnement GNU/Linux et en programmation de scripts shell',2,4),
 (38,'Programmation imperative','SPUF21','Ce cours est une introduction à la programmation impérative dans le langage Python',2,4),
-(39,'Structures de données et programmation C ','SPUF30','Ce cours a pour objectif d''introduire les structures de données les plus classiques en s''appuyant sur le langage de programmation bas niveau C.',3,4),
+(39,'Structures de données et programmation C','SPUF30','Ce cours a pour objectif d''introduire les structures de données les plus classiques en s''appuyant sur le langage de programmation bas niveau C.',3,4),
 (40,'Bases de données','SPUF31','L''objectif de ce cours est d''apprendre à créer et manipuler des bases de données relationnelles et de comprendre les problèmes qui y sont liés. ',3,4),
 (41,'Outils formels de l''informatique','SPUF32','Initiation à l''étude des fondements théoriques de l''informatique.',3,4),
 (42,'Algorithmique I','SPUF40','Le but du cours est d''introduire l’étudiant à l’algorithmique, en mettant l''accent sur les stratégies de conception d''un algorithme efficace. ',4,4),
@@ -83,7 +83,7 @@ INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUE
 (68,'Mathématiques pour la Finance','SPUA41','Formation centrée sur les mathématiques appliquées, en particulier l’optimisation, l''analyse, les probabilités, la statistique et les méthodes numériques. Elle comprend également de nombreux enseignements d’économie, de finance, et d’informatique, ainsi que des enseignements d’ouverture, dans des proportions dépendant des choix de parcours et d’options.',4,6),
 
 --Physique--
-(69,'Mecanique I','SPUP10','La Licence de Mécanique propose une formation orientée principalement vers la modélisation, la simulation numérique et l’expérimentation en mécanique. Elle met l’accent sur les acquis fondamentaux en mécanique, mathématiques, informatique, physique, nécessaires pour assurer la pluridisciplinarité qui caractérise la mécanique, science du mouvement.',1,7),
+(69,'Mécanique I','SPUP10','La Licence de Mécanique propose une formation orientée principalement vers la modélisation, la simulation numérique et l’expérimentation en mécanique. Elle met l’accent sur les acquis fondamentaux en mécanique, mathématiques, informatique, physique, nécessaires pour assurer la pluridisciplinarité qui caractérise la mécanique, science du mouvement.',1,7),
 (70,'Optique I','SPUP20','L''idée de cette UE est de permettre aux étudiants d''aborder des systèmes optiques complexes utilisant des concepts tels que la polarisation de la lumière, la diffraction ou l''optique guidée. L’objectif de cette UE est donc d’une part de consolider les acquis de L2 et d’autre part de compléter la formation des étudiants par des notions nouvelles.',2,7),
 (71,'Mécanique II','SPUP21','La Licence de Mécanique propose une formation orientée principalement vers la modélisation, la simulation numérique et l’expérimentation en mécanique. Elle met l’accent sur les acquis fondamentaux en mécanique, mathématiques, informatique, physique, nécessaires pour assurer la pluridisciplinarité qui caractérise la mécanique, science du mouvement.',2,7),
 (72,'Electromagnétisme I','SPUP30','Cette UE a pour but d''introduire les bases de l''électromagnétisme, du calculs de champs statiques à la propagation des ondes électromagnétiques. Elle doit permettre aux étudiants de se familiariser avec la notion de champs (et leurs outils mathématiques) et aussi avec les notions touchant la propagation des ondes.',3,7),
@@ -117,4 +117,5 @@ INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUE
 
 INSERT INTO Student (id, firstname, lastname, email, password) VALUES (1, 'Toto', 'Tata', 'toto@gmail.com', '$2a$10$fex0RS2Nshik5jiIyWXWC.6MmI6eZb9QW9NLr7gBPNyZTQqWhJIPm');
 
-INSERT INTO Prerequisite values (1, 2), (2, 3);
+INSERT INTO Prerequisite values (6, 8), (5, 9),(15,20),(21,22),(23,30),(30,26),(22,24),(24,25),(26,27),(29,34),(28,31),(31,32),(32,33),(37,44),(37,44),(47,50),(49,52),(50,53),
+(69,71),(72,75),(74,79),(71,78);
