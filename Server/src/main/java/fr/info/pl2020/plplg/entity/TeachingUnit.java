@@ -1,6 +1,9 @@
 package fr.info.pl2020.plplg.entity;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class TeachingUnit {
@@ -25,6 +28,15 @@ public class TeachingUnit {
     @ManyToOne
     @JoinColumn(name = "category", nullable = false, referencedColumnName = "id")
     private Category category;
+
+    @ApiModelProperty(hidden = true)
+    @ManyToMany
+    @JoinTable(
+            name = "prerequisite",
+            joinColumns = {@JoinColumn(name = "parent_id", referencedColumnName = "id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "child_id", referencedColumnName = "id", nullable = false)}
+    )
+    private List<TeachingUnit> prerequisite;
 
     @Transient
     private boolean selectedByStudent;
@@ -94,5 +106,13 @@ public class TeachingUnit {
 
     public void setSelectedByStudent(boolean selectedByStudent) {
         this.selectedByStudent = selectedByStudent;
+    }
+
+    public List<TeachingUnit> getPrerequisite() {
+        return prerequisite;
+    }
+
+    public void setPrerequisite(List<TeachingUnit> prerequisite) {
+        this.prerequisite = prerequisite;
     }
 }
