@@ -23,9 +23,13 @@ public class TeachingUnitController {
     private StudentService studentService;
 
     @GetMapping(value = "/teachingUnit", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TeachingUnit>> getAllTeachingUnit(@RequestParam(value = "semester", defaultValue = "0") int semester, @RequestParam(value = "showUserSelection", defaultValue = "false") boolean showUserSelection) {
+    public ResponseEntity<List<TeachingUnit>> getAllTeachingUnit(@RequestParam(value = "semester", defaultValue = "0") int semester, @RequestParam(value = "showUserSelection", defaultValue = "false") boolean showUserSelection, @RequestParam(value = "name", defaultValue = "") String name) {
         if (semester == 0) {
-            return new ResponseEntity<>(this.teachingUnitService.getAll(), HttpStatus.OK);
+            if (name == "") {
+                return new ResponseEntity<>(this.teachingUnitService.getAll(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(this.teachingUnitService.getByName(name), HttpStatus.OK);
+            }
         } else {
             try {
                 List<TeachingUnit> teachingUnitList = this.teachingUnitService.getBySemesterId(semester);
@@ -47,9 +51,7 @@ public class TeachingUnitController {
     }
 
     @GetMapping(value = "/teachingUnit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public TeachingUnit getTeachingUnit(@PathVariable int id) {
-        return this.teachingUnitService.getById(id);
-    }
+    public TeachingUnit getTeachingUnit(@PathVariable int id) { return this.teachingUnitService.getById(id); }
 
     @PostMapping(value = "/teachingUnit", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)

@@ -5,6 +5,7 @@ import fr.info.pl2020.plplg.entity.Semester;
 import fr.info.pl2020.plplg.entity.TeachingUnit;
 import fr.info.pl2020.plplg.repository.TeachingUnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,4 +34,7 @@ public class TeachingUnitService {
         return this.teachingUnitRepository.save(t);
     }
 
+    public List<TeachingUnit> getByName(String name) {
+        return this.teachingUnitRepository.findByNameContainingIgnoreCase(name);
+    }
 }
