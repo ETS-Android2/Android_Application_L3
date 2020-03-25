@@ -61,7 +61,7 @@ les catégories des UE.
 -----------------------------------------------
 
 ### [Itération 6](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/6)
-- [X] finir l'adaptation du projet avec la première modification du sujet.
+- [X] Adaptation du projet avec la première modification du sujet.
 - [X] L'utilisateur pourra effectuer une recherche d'UE en cliquant sur une loupe positionnée en haut à droite de l'écran.
 - [X] Il pourra faire afficher un menu latéral en appuyant sur un "hamburger button" en haut à gauche de l'écran. (Ce menu est de type navigation Drawer activity)
 - [X] Commencer l'adaptation du projet avec la première modification du sujet.
