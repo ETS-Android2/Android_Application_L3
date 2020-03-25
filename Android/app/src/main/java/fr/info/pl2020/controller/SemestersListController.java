@@ -36,7 +36,8 @@ public class SemestersListController {
                             Semester semester = new Semester(jsonSemester.getInt("id"));
                             semestersList.add(semester);
                         } catch (JSONException e) {
-                            Toast.makeText(context, "Une erreur est survenue", Toast.LENGTH_SHORT).show();
+                            Log.e("SEMESTER_SERVICE", "Erreur lors de la récupération des informations d'un semestre", e);
+                            Toast.makeText(context, R.string.standard_exception, Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }

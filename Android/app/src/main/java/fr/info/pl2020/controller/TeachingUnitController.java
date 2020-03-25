@@ -44,10 +44,11 @@ public class TeachingUnitController {
                             if (jsonTeachingUnit.optBoolean("selectedByStudent")) {
                                 teachingUnit.setSelectedByStudent(true);
                             }
-                            String categoryName = jsonTeachingUnit.getJSONObject("category").getString("name");
+                            String categoryName = jsonTeachingUnit.getString("category");
                             teachingUnitByCategoryMap.putIfAbsent(categoryName, new ArrayList<>());
                             teachingUnitByCategoryMap.get(categoryName).add(teachingUnit);
                         } catch (JSONException e) {
+                            Log.e("TEACHING_UNIT", "Erreur lors de la récupération des informations d'une UE", e);
                             Toast.makeText(context, R.string.standard_exception, Toast.LENGTH_SHORT).show();
                             return;
                         }

@@ -41,6 +41,14 @@ public class CareerController {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
                     callLoginActivity(context);
+                } else if (statusCode == HttpStatus.SC_UNPROCESSABLE_ENTITY) {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                    Log.d("TEST", errorResponse.toString());
+                    alertDialog.setTitle("Erreur");
+                    alertDialog.setMessage(errorResponse.optString("error"));
+                    alertDialog.setNeutralButton("OK", (dialog, which) -> {
+                    });
+                    alertDialog.show();
                 } else {
                     Log.e("CAREER", "Echec de l'enregistrement d'un parcours", throwable);
                     Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();
