@@ -1,7 +1,5 @@
 package fr.info.pl2020.plplg.entity;
 
-import io.swagger.annotations.ApiModelProperty;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -29,7 +27,6 @@ public class TeachingUnit {
     @JoinColumn(name = "category", nullable = false, referencedColumnName = "id")
     private Category category;
 
-    @ApiModelProperty(hidden = true)
     @ManyToMany
     @JoinTable(
             name = "prerequisite",

@@ -3,13 +3,18 @@ package fr.info.pl2020.plplg.teachingUnit;
 import fr.info.pl2020.plplg.entity.Category;
 import fr.info.pl2020.plplg.entity.Semester;
 import fr.info.pl2020.plplg.entity.TeachingUnit;
+import fr.info.pl2020.plplg.exception.ClientRequestException;
+import fr.info.pl2020.plplg.repository.CategoryRepository;
+import fr.info.pl2020.plplg.repository.SemesterRepository;
 import fr.info.pl2020.plplg.repository.TeachingUnitRepository;
 import fr.info.pl2020.plplg.service.TeachingUnitService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,7 +65,7 @@ public class TeachingUnitServiceTest {
     }
 
     @Test
-    public void addTeachingUnitTest() {
+    public void addTeachingUnitTest() throws ClientRequestException {
         TeachingUnit tu = new TeachingUnit();
         Semester s = new Semester();
         Category c = new Category();
@@ -73,7 +78,7 @@ public class TeachingUnitServiceTest {
         tu.setCategory(c);
         tu.setSemester(s);
         when(this.repository.save(any())).thenReturn(tu);
-        TeachingUnit teachingUnit = this.service.addTeachingUnit("a", "123", "null", s, c);
+        TeachingUnit teachingUnit = this.service.addTeachingUnit("a", "123", "null", 1, 1);
         assertNotNull(teachingUnit);
         assertEquals(1, teachingUnit.getId());
         assertEquals("a", teachingUnit.getName());
