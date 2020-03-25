@@ -22,7 +22,7 @@ public class SemesterService {
     }
 
     public Semester addSemester() {
-        Semester h = new Semester();
+        Semester h = new Semester(); //TODO
         return this.semesterRepository.save(h);
     }
 }

@@ -48,6 +48,18 @@ public class StudentServiceTest {
     }
 
     @Test
+    public void getByMailTest(){
+        Student s =new Student();
+        s.setEmail("toto@unice.fr");
+        when(this.repository.findByEmail("toto@unice.fr")).thenReturn(java.util.Optional.of(s));
+        Student student = this.service.getByEmail("toto@unice.fr");
+        assertNotNull(student);
+        assertEquals("toto@unice.fr", student.getEmail());
+        assertNull(this.service.getById(2));
+
+    }
+
+    @Test
     public void addStudentTest() {
         Student s = new Student();
         s.setId(1);

@@ -1,4 +1,4 @@
-INSERT INTO Semester VALUES (1), (2), (3), (4);
+INSERT INTO Semester (id, year, name) VALUES (1, 1, 'Semestre 1'), (2, 1, 'Semestre 2'), (3, 2, 'Semestre 3'), (4, 2, 'Semestre 4');
 INSERT INTO Category VALUES (1,'Chimie') , (2,'Electronique'),(3,'Géographie'),(4,'Informatique'),(5,'Mathématiques'),(6,'MIASHS'),(7,'Physique'),(8,'Sciences de la Terre'),(9,'Sciences de la Vie');
 INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUES
 

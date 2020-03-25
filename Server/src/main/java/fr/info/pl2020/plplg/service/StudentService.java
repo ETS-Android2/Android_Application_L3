@@ -10,7 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static java.util.Collections.singletonList;
 
 @Service
 public class StudentService {
@@ -60,8 +65,35 @@ public class StudentService {
         // Si l'étudiant n'existe pas
         Student s = this.studentRepository.findById(studentId).orElseThrow(() ->
                 new ClientRequestException("updateCareer(" + studentId + ", ...) - Erreur : Aucun étudiant trouvé avec cet identifiant.", "L'étudiant demandé n'existe pas", HttpStatus.NOT_FOUND));
+        List<TeachingUnit> currentTeachingUnits = s.getCareer();
+        checkPrerequisiteTeachingUnits(currentTeachingUnits, teachingUnits);
 
-        s.setCareer(teachingUnits);
+        currentTeachingUnits.addAll(teachingUnits);
+        s.setCareer(currentTeachingUnits);
         this.studentRepository.save(s);
+    }
+
+    public void checkPrerequisiteTeachingUnits(List<TeachingUnit> currentTeachingUnits, List<TeachingUnit> teachingUnits) throws ClientRequestException {
+        Map<Integer, List<Integer>> categoryByYear = new HashMap<>();
+
+        for (TeachingUnit tu : currentTeachingUnits) {
+            int year = tu.getSemester().getYear();
+            if (categoryByYear.containsKey(year)) {
+                categoryByYear.get(year).add(tu.getCategory().getId());
+            } else {
+                List<Integer> categories = new ArrayList<>();
+                categories.add(tu.getCategory().getId());
+                categoryByYear.put(year, categories);
+            }
+        }
+
+        for (TeachingUnit tu : teachingUnits) {
+            int year = tu.getSemester().getYear();
+            System.out.println("Year :" + year + ", contains year : " + categoryByYear.containsKey(year - 1));
+            if (year != 1 && (!categoryByYear.containsKey(year - 1) ||(categoryByYear.containsKey(year - 1) && !categoryByYear.get(year - 1).contains(tu.getCategory().getId())))) {
+                throw new ClientRequestException("Vous devez avoir validé une UE de la catégorie " + tu.getCategory().getName() + " à la " + (tu.getSemester().getYear() - 1) + ((tu.getSemester().getYear() - 1) == 1 ? "ère" : "ème") + " année.",
+                        HttpStatus.UNPROCESSABLE_ENTITY);
+            }
+        }
     }
 }

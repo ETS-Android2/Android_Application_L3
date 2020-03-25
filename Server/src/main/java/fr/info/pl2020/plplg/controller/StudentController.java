@@ -1,5 +1,6 @@
 package fr.info.pl2020.plplg.controller;
 
+import fr.info.pl2020.plplg.dto.ErrorResponse;
 import fr.info.pl2020.plplg.entity.Student;
 import fr.info.pl2020.plplg.entity.TeachingUnit;
 import fr.info.pl2020.plplg.exception.ClientRequestException;
