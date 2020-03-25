@@ -1,34 +1,38 @@
 package fr.info.pl2020.activity;
 
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
+import java.net.InetAddress;
+
+import fr.info.pl2020.BuildConfig;
 import fr.info.pl2020.R;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
-@RunWith(AndroidJUnit4.class)
+@RunWith(AndroidJUnit4ClassRunner.class)
 @Ignore
 public class SemesterActivityTest {
     /**
@@ -37,6 +41,27 @@ public class SemesterActivityTest {
 
     @Rule
     public ActivityTestRule<SemestersListActivity> mActivityTestRule = new ActivityTestRule<>(SemestersListActivity.class);
+
+    private MockWebServer server;
+
+    @Before
+    public void setup() throws IOException {
+        this.server = new MockWebServer();
+        this.server.start(InetAddress.getByName(BuildConfig.SERVER_HOSTNAME), BuildConfig.SERVER_PORT);
+    }
+
+    @After
+    public void tearDown() throws IOException {
+        this.server.close();
+    }
+
+    @Test
+    public void displaySemesterList_OK() {
+        MockResponse response = new MockResponse()
+                .addHeader("Content-Type", "application/json")
+                .setResponseCode(200)
+                .setBody("{\"token\":\"leToken\"}");
+    }
 
 
     /**
@@ -47,67 +72,6 @@ public class SemesterActivityTest {
         onView(withId(R.id.ListView)).check(matches(isDisplayed()));
     }
 
-    /**
-     * Permet de tester si on a bien lesemestre  1.
-     */
-    @Test
-    public void semester_1ActivityTest() {
-
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.semester), withText("Semestre n°1"),
-                        positionFilsMatcher(
-                                positionFilsMatcher(
-                                        withId(R.id.ListView),
-                                        0),
-                                0),
-                        isDisplayed()));
-        textView.check(matches(isDisplayed()));
-    }
-
-    /**
-     * Permet de tester si on a bien lesemestre 2.
-     */
-    @Test
-    public void semester_2ActivityTest() {
-
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.semester), withText("Semestre n°2"),
-                        positionFilsMatcher(
-                                positionFilsMatcher(
-                                        withId(R.id.ListView),
-                                        1),
-                                0),
-                        isDisplayed()));
-        textView.check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void semester_3ActivityTest() {
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.semester), withText("Semestre n°3"),
-                        positionFilsMatcher(
-                                positionFilsMatcher(
-                                        withId(R.id.ListView),
-                                        2),
-                                0),
-                        isDisplayed()));
-        textView2.check(
-
-                matches(isDisplayed()));
-    }
-
-    @Test
-    public void semester_4ActivityTest() {
-        ViewInteraction textView4 = onView(
-                allOf(withId(R.id.semester), withText("Semestre n°4"),
-                        positionFilsMatcher(
-                                positionFilsMatcher(
-                                        withId(R.id.ListView),
-                                        3),
-                                0),
-                        isDisplayed()));
-        textView4.check(matches(isDisplayed()));
-    }
 
     /**
      * Creation d'un Matcher qui prend en parametre la view parent et la position du fils qu'on souhaite avoir.

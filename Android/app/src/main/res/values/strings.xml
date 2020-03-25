@@ -9,4 +9,8 @@
     <string name="unexpected_http_status">Une erreur est survenue</string>
     <string name="standard_exception">Une erreur est survenue</string>
     <string name="double_click_for_exit">Cliquez une deuxième fois pour quitter l\'application</string>
+    <string name="login_error_missing_email">Email non renseigné.</string>
+    <string name="login_error_missing_password">Mot de passe non renseigné.</string>
+    <string name="email">Email</string>
+    <string name="password">Mot de passe</string>
 </resources>

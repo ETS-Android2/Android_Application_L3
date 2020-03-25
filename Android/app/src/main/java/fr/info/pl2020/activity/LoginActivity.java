@@ -16,6 +16,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean doubleBackToExitPressedOnce = false;
     private boolean hasParent = false;
+    private LoginController loginController;
+
+    private TextView errorTextView;
+    private EditText emailInput;
+    private EditText passwordInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +30,10 @@ public class LoginActivity extends AppCompatActivity {
         if (b != null) {
             hasParent = b.getBoolean("hasAParent");
         }
+        this.loginController = new LoginController();
+        this.errorTextView = findViewById(R.id.loginErrorTextView);
+        this.emailInput = findViewById(R.id.emailInput);
+        this.passwordInput = findViewById(R.id.passwordInput);
     }
 
     @Override
@@ -35,12 +44,19 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View view) {
         hideErrorMessage();
-        EditText emailInput = findViewById(R.id.emailInput);
-        String email = emailInput.getText().toString();
+        String email = this.emailInput.getText().toString();
+        String password = this.passwordInput.getText().toString();
 
-        EditText passwordInput = findViewById(R.id.passwordInput);
-        String password = passwordInput.getText().toString();
-        new LoginController().authenticate(this, email, password, !hasParent);
+        if (email.trim().isEmpty()) {
+            this.displayErrorMessage(R.string.login_error_missing_email);
+            this.emailInput.requestFocus();
+            return;
+        } else if (password.trim().isEmpty()) {
+            this.displayErrorMessage(R.string.login_error_missing_password);
+            this.passwordInput.requestFocus();
+            return;
+        }
+        this.loginController.authenticate(this, email, password, !hasParent);
     }
 
     @Override
@@ -54,6 +70,11 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.double_click_for_exit, Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+    }
+
+    private void displayErrorMessage(int resId) {
+        this.errorTextView.setText(resId);
+        this.errorTextView.setVisibility(View.VISIBLE);
     }
 
     private void hideErrorMessage() {
