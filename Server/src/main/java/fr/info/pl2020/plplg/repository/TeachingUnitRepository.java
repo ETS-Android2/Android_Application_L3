@@ -15,4 +15,6 @@ public interface TeachingUnitRepository extends JpaRepository<TeachingUnit, Inte
     List<TeachingUnit> findAllBySemester(Integer semesterId);
 
     List<TeachingUnit> findAllByIdIn(List<Integer> ids);
+
+    List<TeachingUnit> findByNameContainingIgnoreCase(String name);
 }
