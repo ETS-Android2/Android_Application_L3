@@ -3,7 +3,6 @@ package fr.info.pl2020.plplg.teachingUnit;
 import fr.info.pl2020.plplg.entity.Category;
 import fr.info.pl2020.plplg.entity.Semester;
 import fr.info.pl2020.plplg.entity.TeachingUnit;
-import fr.info.pl2020.plplg.exception.ClientRequestException;
 import fr.info.pl2020.plplg.repository.CategoryRepository;
 import fr.info.pl2020.plplg.repository.SemesterRepository;
 import fr.info.pl2020.plplg.repository.TeachingUnitRepository;
@@ -86,11 +85,11 @@ public class TeachingUnitControllerTest {
         c.setId(1);
         TeachingUnit ue = new TeachingUnit("Name", "Code", "Description", s, c);
         ue.setId(1);
-        when(service.addTeachingUnit(anyString(), anyString(), anyString(), any(), any())).thenReturn(ue);
+        when(service.addTeachingUnit(anyString(), anyString(), anyString(), anyInt(), anyInt())).thenReturn(ue);
         this.mockMvc.perform(post("/teachingUnit")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content("{\"code\": \"Code\", \"description\": \"Description\", \"name\": \"Name\", \"semester\": {\"id\": 1}, \"category\": {\"id\": 1}}")
+                .content("{\"code\": \"Code\", \"description\": \"Description\", \"name\": \"Name\", \"semesterId\": 1, \"categoryId\": 1}")
                 .characterEncoding("utf-8"))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -98,8 +97,8 @@ public class TeachingUnitControllerTest {
                 .andExpect(jsonPath("$.name", is("Name")))
                 .andExpect(jsonPath("$.code", is("Code")))
                 .andExpect(jsonPath("$.description", is("Description")))
-                .andExpect(jsonPath("$.semester.id", is(s.getId())))
-                .andExpect(jsonPath("$.category.id", is(c.getId())));
+                .andExpect(jsonPath("$.semester", is(s.getId())))
+                .andExpect(jsonPath("$.category", is(c.getName())));
 
     }
 
@@ -118,7 +117,7 @@ public class TeachingUnitControllerTest {
         this.mockMvc.perform(post("/teachingUnit")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content("{\"code\": \"Code\", \"description\": \"Description\", \"semester\": {\"id\": 1}, \"category\": {\"id\": 1}}")
+                .content("{\"code\": \"Code\", \"description\": \"Description\", \"semester\": 1, \"category\": 1}")
                 .characterEncoding("utf-8"))
                 .andExpect(status().isBadRequest());
     }

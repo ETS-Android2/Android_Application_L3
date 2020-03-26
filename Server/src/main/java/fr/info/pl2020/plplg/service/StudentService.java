@@ -7,6 +7,7 @@ import fr.info.pl2020.plplg.repository.StudentRepository;
 import fr.info.pl2020.plplg.repository.TeachingUnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,40 +38,42 @@ public class StudentService {
         return this.studentRepository.findByEmail(email).orElse(null);
     }
 
+    public Student getByLoggedUser(User user) {
+        Student student = getByEmail(user.getUsername());
+        if (student == null) {
+            throw new IllegalArgumentException("L'utilisateur authentifié n'est pas dans la base de données");
+        }
+
+        return student;
+    }
+
     public Student addStudent(String firstName, String lastName, String email, String password) {
         String encodedPassword = passwordEncoder.encode(password);
         Student s = new Student(firstName, lastName, email, encodedPassword);
         return this.studentRepository.save(s);
     }
 
-    public void addTeachingUnitInCareer(int studentId, int teachingUnitId) throws ClientRequestException {
+    public void addTeachingUnitInCareer(Student student, int teachingUnitId) throws ClientRequestException {
         TeachingUnit tu = this.teachingUnitRepository.findById(teachingUnitId).orElseThrow(() -> new ClientRequestException("L'UE demandé n'existe pas.", HttpStatus.NOT_FOUND));
 
-        // Si l'étudiant n'existe pas
-        Student s = this.studentRepository.findById(studentId).orElseThrow(() ->
-                new ClientRequestException("addTeachingUnitInCareer(" + studentId + ", " + teachingUnitId + ") - Erreur : Aucun étudiant trouvé avec cet identifiant.", "L'étudiant demandé n'existe pas", HttpStatus.NOT_FOUND));
-
         // Si l'étudiant possède déjà cet UE dans son parcours
-        if (s.getCareer().stream().map(TeachingUnit::getId).anyMatch(((Integer) tu.getId())::equals)) {
+        if (student.getCareer().stream().map(TeachingUnit::getId).anyMatch(((Integer) tu.getId())::equals)) {
             throw new ClientRequestException("UE déjà présente dans le parcours de l'étudiant", HttpStatus.CONFLICT);
         }
 
-        s.getCareer().add(tu);
-        this.studentRepository.save(s);
+        student.getCareer().add(tu);
+        this.studentRepository.save(student);
     }
 
-    public void updateCareer(int studentId, List<Integer> teachingUnitIdList) throws ClientRequestException {
+    public void updateCareer(Student student, List<Integer> teachingUnitIdList) throws ClientRequestException {
         List<TeachingUnit> teachingUnits = this.teachingUnitRepository.findAllByIdIn(teachingUnitIdList);
 
-        // Si l'étudiant n'existe pas
-        Student s = this.studentRepository.findById(studentId).orElseThrow(() ->
-                new ClientRequestException("updateCareer(" + studentId + ", ...) - Erreur : Aucun étudiant trouvé avec cet identifiant.", "L'étudiant demandé n'existe pas", HttpStatus.NOT_FOUND));
-        List<TeachingUnit> currentTeachingUnits = s.getCareer();
+        List<TeachingUnit> currentTeachingUnits = student.getCareer();
         checkPrerequisiteTeachingUnits(currentTeachingUnits, teachingUnits);
 
         currentTeachingUnits.addAll(teachingUnits);
-        s.setCareer(currentTeachingUnits);
-        this.studentRepository.save(s);
+        student.setCareer(currentTeachingUnits);
+        this.studentRepository.save(student);
     }
 
     public void checkPrerequisiteTeachingUnits(List<TeachingUnit> currentTeachingUnits, List<TeachingUnit> teachingUnits) throws ClientRequestException {
@@ -90,7 +93,7 @@ public class StudentService {
         for (TeachingUnit tu : teachingUnits) {
             int year = tu.getSemester().getYear();
             System.out.println("Year :" + year + ", contains year : " + categoryByYear.containsKey(year - 1));
-            if (year != 1 && (!categoryByYear.containsKey(year - 1) ||(categoryByYear.containsKey(year - 1) && !categoryByYear.get(year - 1).contains(tu.getCategory().getId())))) {
+            if (year != 1 && (!categoryByYear.containsKey(year - 1) || (categoryByYear.containsKey(year - 1) && !categoryByYear.get(year - 1).contains(tu.getCategory().getId())))) {
                 throw new ClientRequestException("Vous devez avoir validé une UE de la catégorie " + tu.getCategory().getName() + " à la " + (tu.getSemester().getYear() - 1) + ((tu.getSemester().getYear() - 1) == 1 ? "ère" : "ème") + " année.",
                         HttpStatus.UNPROCESSABLE_ENTITY);
             }

@@ -2,15 +2,18 @@ package fr.info.pl2020.plplg.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class LoginRequest {
 
+    @NotNull
     @NotBlank
     @Size(max = 49)
     @Email
     private String email;
 
+    @NotNull
     @NotBlank
     @Size(min = 5, max = 49)
     private String password;

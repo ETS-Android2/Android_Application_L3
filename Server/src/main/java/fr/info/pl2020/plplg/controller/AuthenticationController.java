@@ -34,6 +34,11 @@ public class AuthenticationController {
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> login(@RequestBody LoginRequest credentials) {
+        try {
+            checkCredentials(credentials);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -42,12 +47,15 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest userInfos) {
+    public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest userInfos) {
         if (this.studentService.getByEmail(userInfos.getEmail()) != null) {
             return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Cet email est déjà enregistré."), HttpStatus.BAD_REQUEST);
         }
 
         Student student = this.studentService.addStudent(userInfos.getFirstname(), userInfos.getLastname(), userInfos.getEmail(), userInfos.getPassword());
         return new ResponseEntity<>(new StandardResponse("Nouvel étudiant ajouté avec succès."), HttpStatus.CREATED);
+    }
+
+    private void checkCredentials(@Valid LoginRequest credentials) throws RuntimeException{
     }
 }

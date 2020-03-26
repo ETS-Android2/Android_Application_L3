@@ -3,6 +3,7 @@ package fr.info.pl2020.plplg.security;
 import fr.info.pl2020.plplg.entity.Student;
 import fr.info.pl2020.plplg.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,5 +28,10 @@ public class StudentDetailsService implements UserDetailsService {
     public UserDetails loadUserById(int id) throws UsernameNotFoundException {
         Student student = studentRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id : '" + id + "'"));
         return StudentDetails.create(student);
+    }
+
+    public StudentDetails getFromUser(User user) {
+        Student student = studentRepository.findByEmail(user.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found with email : '" + user.getUsername() + "'"));
+        return new StudentDetails(student.getId(), student.getEmail(), "****");
     }
 }

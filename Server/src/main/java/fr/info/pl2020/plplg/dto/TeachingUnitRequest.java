@@ -1,11 +1,18 @@
 package fr.info.pl2020.plplg.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 public class TeachingUnitRequest {
 
+    @NotNull
+    @NotBlank
     private String name;
+
+    @NotNull
+    @NotBlank
     private String code;
 
     @Size(max = 1024)

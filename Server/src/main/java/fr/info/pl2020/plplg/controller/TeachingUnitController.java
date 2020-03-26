@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -67,7 +68,7 @@ public class TeachingUnitController {
     @PostMapping(value = "/teachingUnit", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public ResponseEntity<?> createTeachingUnit(@RequestBody @NotNull TeachingUnitRequest teachingUnit) {
+    public ResponseEntity<?> createTeachingUnit(@RequestBody @NotNull @Valid TeachingUnitRequest teachingUnit) {
         try {
             TeachingUnit tu = this.teachingUnitService.addTeachingUnit(teachingUnit.getName(), teachingUnit.getCode(), teachingUnit.getDescription(), teachingUnit.getSemesterId(), teachingUnit.getCategoryId());
             return new ResponseEntity<>(new TeachingUnitResponse(tu), HttpStatus.CREATED);
