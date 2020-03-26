@@ -3,6 +3,7 @@ package fr.info.pl2020.plplg.teachingUnit;
 import fr.info.pl2020.plplg.entity.Category;
 import fr.info.pl2020.plplg.entity.Semester;
 import fr.info.pl2020.plplg.entity.TeachingUnit;
+import fr.info.pl2020.plplg.exception.ClientRequestException;
 import fr.info.pl2020.plplg.repository.CategoryRepository;
 import fr.info.pl2020.plplg.repository.SemesterRepository;
 import fr.info.pl2020.plplg.repository.TeachingUnitRepository;
@@ -72,9 +73,8 @@ public class TeachingUnitControllerTest {
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("Analyse")))
                 .andExpect(jsonPath("$.code", is("code")))
-                .andExpect(jsonPath("$.description", is("description")))
-                .andExpect(jsonPath("$.semester.id", is(s.getId())))
-                .andExpect(jsonPath("$.category.id", is(c.getId())));
+                .andExpect(jsonPath("$.description", is("description")));
+
 
     }
 

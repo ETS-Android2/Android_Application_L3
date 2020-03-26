@@ -32,6 +32,11 @@ public class TeachingUnitServiceTest {
     @Mock
     TeachingUnitRepository repository;
 
+    @Mock
+    SemesterRepository semesterRepository;
+    @Mock
+    CategoryRepository categoryRepository;
+
     @InjectMocks
     TeachingUnitService service;
 
@@ -78,6 +83,8 @@ public class TeachingUnitServiceTest {
         tu.setCategory(c);
         tu.setSemester(s);
         when(this.repository.save(any())).thenReturn(tu);
+        when(this.semesterRepository.findById(any())).thenReturn(java.util.Optional.of(s));
+        when(this.categoryRepository.findById(any())).thenReturn(java.util.Optional.of(c));
         TeachingUnit teachingUnit = this.service.addTeachingUnit("a", "123", "null", 1, 1);
         assertNotNull(teachingUnit);
         assertEquals(1, teachingUnit.getId());
