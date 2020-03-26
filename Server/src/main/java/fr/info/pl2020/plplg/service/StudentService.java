@@ -72,6 +72,7 @@ public class StudentService {
         checkPrerequisiteTeachingUnits(currentTeachingUnits, teachingUnits);
 
         currentTeachingUnits.addAll(teachingUnits);
+        maxiTeachingUnit(currentTeachingUnits);
         student.setCareer(currentTeachingUnits);
         this.studentRepository.save(student);
     }
@@ -99,4 +100,25 @@ public class StudentService {
             }
         }
     }
+
+    public void maxiTeachingUnit(List<TeachingUnit> TeachingUnits) throws ClientRequestException {
+        Map<Integer, Integer> TeachingUnitsBySemester = new HashMap<>();
+        for (TeachingUnit tu : TeachingUnits) {
+            int semesterId = tu.getSemester().getId();
+            if (TeachingUnitsBySemester.containsKey(semesterId)) {
+                TeachingUnitsBySemester.replace(semesterId, TeachingUnitsBySemester.get(semesterId) + 1);
+            } else {
+                TeachingUnitsBySemester.put(semesterId, 1);
+            }
+        }
+        for (Integer nbUe : TeachingUnitsBySemester.values()) {
+            if (nbUe > 4) {
+                throw new ClientRequestException("Vous ne pouvez pas sélectionner plus que quatre UE par semestre.",
+                        HttpStatus.UNPROCESSABLE_ENTITY);
+            }
+        }
+
+
+    }
+
 }
