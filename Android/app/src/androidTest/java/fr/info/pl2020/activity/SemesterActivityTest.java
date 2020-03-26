@@ -36,6 +36,8 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
 @LargeTest
@@ -94,6 +96,7 @@ public class SemesterActivityTest {
                 .setBody(defaultResponse);
 
         this.server.enqueue(response);
+        Intents.init();
 
         RecordedRequest request = this.server.takeRequest();
         assertEquals("GET /semester HTTP/1.1", request.getRequestLine());
@@ -103,11 +106,10 @@ public class SemesterActivityTest {
         onView(withId(R.id.semesterListView)).check(matches(isDisplayed()));
         onView(withId(R.id.semesterListView)).check(matches(withListSize(5)));
 
-
-        Intents.init();
-        onData(withSemesterId(1)).perform(click());
+        onData(is(instanceOf(Semester.class))).inAdapterView(withId(R.id.semesterListView)).atPosition(0).perform(click());
 
         intended(hasComponent(TeachingUnitListActivity.class.getName()));
+        Intents.release();
     }
 
     @Test
@@ -118,21 +120,23 @@ public class SemesterActivityTest {
                 .setBody("{\"status\":401,\"error\":\"Unauthorized\"}");
 
         this.server.enqueue(response);
-
         Intents.init();
+
         RecordedRequest request = this.server.takeRequest();
         assertEquals("GET /semester HTTP/1.1", request.getRequestLine());
         assertEquals("application/json", request.getHeader("Content-Type"));
         assertEquals("Bearer", request.getHeader("Authorization"));
 
         intended(hasComponent(LoginActivity.class.getName()));
+        Intents.release();
     }
 
     public static Matcher<View> withListSize(final int size) {
         return new TypeSafeMatcher<View>() {
             @Override
             public boolean matchesSafely(final View view) {
-                return ((ListView) view).getCount() == size;
+                int currentCount = ((ListView) view).getCount();
+                return currentCount == size;
             }
 
             @Override
