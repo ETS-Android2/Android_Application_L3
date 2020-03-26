@@ -2,6 +2,7 @@ package fr.info.pl2020.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,11 +16,19 @@ public class SemestersListActivity extends AppCompatActivity {
     private ListView semesterList;
     private boolean doubleBackToExitPressedOnce = false;
 
+    //for drawer
+    private ListView mDrawerList;
+    private ArrayAdapter<String> mAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_semesters_list);
         this.semesterList = findViewById(R.id.ListView);
+
+        mDrawerList = (ListView)findViewById(R.id.navList);
+        addDrawerItems();
     }
 
     @Override
@@ -40,4 +49,10 @@ public class SemestersListActivity extends AppCompatActivity {
 
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
+    private void addDrawerItems() {
+        String[] parcoursNavArray = { "Afficher le parcours", "Editer le parcours", "Se déconnecter" };
+        mAdapter = new ArrayAdapter<String>(SemestersListActivity.this, android.R.layout.simple_list_item_1, parcoursNavArray);
+        mDrawerList.setAdapter(mAdapter);
+    }
+
 }
