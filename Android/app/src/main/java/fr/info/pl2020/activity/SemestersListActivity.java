@@ -19,7 +19,7 @@ public class SemestersListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_semesters_list);
-        this.semesterList = findViewById(R.id.ListView);
+        this.semesterList = findViewById(R.id.semesterListView);
     }
 
     @Override

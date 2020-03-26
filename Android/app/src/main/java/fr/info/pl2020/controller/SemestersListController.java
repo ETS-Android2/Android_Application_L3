@@ -18,10 +18,9 @@ import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpStatus;
 import fr.info.pl2020.R;
 import fr.info.pl2020.adapter.SemesterAdapter;
+import fr.info.pl2020.manager.AuthenticationManager;
 import fr.info.pl2020.model.Semester;
 import fr.info.pl2020.service.SemesterService;
-
-import static fr.info.pl2020.manager.AuthenticationManager.callLoginActivity;
 
 public class SemestersListController {
     public void displaySemesterList(Context context, ListView listView) {
@@ -54,7 +53,7 @@ public class SemestersListController {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
-                    callLoginActivity(context);
+                    new AuthenticationManager().callLoginActivity(context);
                 } else {
                     Log.e("SEMESTER", "Echec de la récupération de la liste des semestres (Code: " + statusCode + ")", throwable);
                     Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();

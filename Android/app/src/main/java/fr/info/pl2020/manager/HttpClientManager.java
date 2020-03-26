@@ -26,7 +26,7 @@ public class HttpClientManager {
     private static AsyncHttpClient createClient(boolean needAuthentication) {
         AsyncHttpClient client = new AsyncHttpClient();
         if (needAuthentication) {
-            client.addHeader(HttpHeaders.AUTHORIZATION, AuthenticationManager.getToken());
+            client.addHeader(HttpHeaders.AUTHORIZATION, new AuthenticationManager().getToken());
         }
 
         client.addHeader(HttpHeaders.CONTENT_TYPE, "application/json");

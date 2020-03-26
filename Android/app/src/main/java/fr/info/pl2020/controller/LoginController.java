@@ -27,7 +27,7 @@ public class LoginController {
                 if (statusCode == HttpStatus.SC_OK) {
                     try {
                         String token = response.getString("token");
-                        AuthenticationManager.setToken(token);
+                        new AuthenticationManager().setToken(token);
                         if (startNextActivity) {
                             context.startActivity(new Intent(context, SemestersListActivity.class));
                         }

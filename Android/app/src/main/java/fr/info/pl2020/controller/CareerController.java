@@ -14,9 +14,8 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpStatus;
 import fr.info.pl2020.R;
+import fr.info.pl2020.manager.AuthenticationManager;
 import fr.info.pl2020.service.CareerService;
-
-import static fr.info.pl2020.manager.AuthenticationManager.callLoginActivity;
 
 public class CareerController {
 
@@ -40,7 +39,7 @@ public class CareerController {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
-                    callLoginActivity(context);
+                    new AuthenticationManager().callLoginActivity(context);
                 } else if (statusCode == HttpStatus.SC_UNPROCESSABLE_ENTITY) {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
                     Log.d("TEST", errorResponse.toString());

@@ -6,7 +6,7 @@
     tools:context=".activity.SemestersListActivity">
 
     <ListView
-        android:id="@+id/ListView"
+        android:id="@+id/semesterListView"
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>
 
