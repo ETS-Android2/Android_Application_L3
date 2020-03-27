@@ -103,6 +103,9 @@ public class SemesterActivityTest {
         assertEquals("application/json", request.getHeader("Content-Type"));
         assertEquals("Bearer", request.getHeader("Authorization"));
 
+        // Le test est plus rapide que la construction de la ListView
+        Thread.sleep(500);
+
         onView(withId(R.id.semesterListView)).check(matches(isDisplayed()));
         onView(withId(R.id.semesterListView)).check(matches(withListSize(5)));
 

@@ -4,6 +4,7 @@ import fr.info.pl2020.plplg.dto.CareerRequest;
 import fr.info.pl2020.plplg.entity.Student;
 import fr.info.pl2020.plplg.entity.TeachingUnit;
 import fr.info.pl2020.plplg.exception.ClientRequestException;
+import fr.info.pl2020.plplg.security.StudentDetails;
 import fr.info.pl2020.plplg.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -58,7 +59,13 @@ public class StudentController {
     }
 
     private Student getLoggedStudent() {
-        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return this.studentService.getByLoggedUser(principal);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof User) {
+            return this.studentService.getByLoggedUser(((User) principal));
+        } else if (principal instanceof StudentDetails){
+            return this.studentService.getById(((StudentDetails) principal).getId());
+        } else {
+            throw new RuntimeException("Echec de détéction du type de User lors de l'authification");
+        }
     }
 }

@@ -16,8 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Collections.singletonList;
-
 @Service
 public class StudentService {
 
@@ -29,6 +27,8 @@ public class StudentService {
 
     @Autowired
     private TeachingUnitRepository teachingUnitRepository;
+
+    private static final int MAX_TU_BY_SEMESTER = 4;
 
     public Student getById(int id) {
         return this.studentRepository.findById(id).orElse(null);
@@ -93,7 +93,6 @@ public class StudentService {
 
         for (TeachingUnit tu : teachingUnits) {
             int year = tu.getSemester().getYear();
-            System.out.println("Year :" + year + ", contains year : " + categoryByYear.containsKey(year - 1));
             if (year != 1 && (!categoryByYear.containsKey(year - 1) || (categoryByYear.containsKey(year - 1) && !categoryByYear.get(year - 1).contains(tu.getCategory().getId())))) {
                 throw new ClientRequestException("Vous devez avoir validé une UE de la catégorie " + tu.getCategory().getName() + " à la " + (tu.getSemester().getYear() - 1) + ((tu.getSemester().getYear() - 1) == 1 ? "ère" : "ème") + " année.",
                         HttpStatus.UNPROCESSABLE_ENTITY);
@@ -111,14 +110,13 @@ public class StudentService {
                 TeachingUnitsBySemester.put(semesterId, 1);
             }
         }
+
         for (Integer nbUe : TeachingUnitsBySemester.values()) {
-            if (nbUe > 4) {
+            if (nbUe > MAX_TU_BY_SEMESTER) {
                 throw new ClientRequestException("Vous ne pouvez pas sélectionner plus que quatre UE par semestre.",
                         HttpStatus.UNPROCESSABLE_ENTITY);
             }
         }
-
-
     }
 
 }

@@ -40,7 +40,7 @@ public class TeachingUnitController {
             try {
                 List<TeachingUnit> teachingUnitList = this.teachingUnitService.getBySemesterId(semester);
                 if (showUserSelection) {
-                    StudentDetails studentDetails = (StudentDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                    StudentDetails studentDetails = (StudentDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //TODO !!
                     List<Integer> teachingUnitsOfStudent = this.studentService.getById(studentDetails.getId()).getCareer().stream().map(TeachingUnit::getId).collect(Collectors.toList());
                     teachingUnitList.forEach(teachingUnit -> {
                         if (teachingUnitsOfStudent.contains(teachingUnit.getId())) {
