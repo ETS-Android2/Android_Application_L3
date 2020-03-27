@@ -62,7 +62,7 @@ les catégories des UE.
 
 ### [Itération 6](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/6)
 - [X] Adaptation du projet avec la première modification du sujet.
-- [X] L'utilisateur pourra effectuer une recherche d'UE en cliquant sur une loupe positionnée en haut à droite de l'écran.
+- [X] L'utilisateur ne peut pas ajouter à son parcours plus que quatre UE par semestre (Notification d'erreur).
 - [X] Il pourra faire afficher un menu latéral en appuyant sur un "hamburger button" en haut à gauche de l'écran. (Ce menu est de type navigation Drawer activity)
 - [X] Commencer l'adaptation du projet avec la première modification du sujet.
 
@@ -77,6 +77,7 @@ les catégories des UE.
 * "Afficher le parcours" : pour afficher l'ensemble des choix.
 * "Modifier le parcours" : pour Modifier l'ensemble des choix.
 * "Se déconnecter" : pour fermer sa session.
+- [X] L'utilisateur pourra effectuer une recherche d'UE en cliquant sur une loupe positionnée en haut à droite de l'écran.
 - [X] Adaptation du projet avec la 2ème modification du sujet.
 
 #### Date prévue : 
@@ -87,7 +88,6 @@ les catégories des UE.
 ### [Itération 8](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/8)
 
 - [X] Rendre le bouton "Afficher le parcours" fonctionnel.
-- [X] L'utilisateur ne peut pas ajouter à son parcours plus que quatre UE (Notification d'erreur).
 - [X] L'utilisateur ne peut pas sélectionner une matière qui a atteint le nombre max d'étudiant.
 
 #### Date prévue : 
