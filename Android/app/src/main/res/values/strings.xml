@@ -15,4 +15,6 @@
     <string name="password">Mot de passe</string>
     <string name="title_teachingunit_detail">TeachingUnit_Detail</string>
     <string name="title_teachingunit_list">TeachingUnits</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>
