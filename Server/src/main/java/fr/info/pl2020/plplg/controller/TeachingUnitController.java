@@ -28,7 +28,7 @@ public class TeachingUnitController {
     @Autowired
     private StudentService studentService;
 
-    @GetMapping(value = "/teachingUnit", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/teachingUnit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<TeachingUnitResponse>> getAllTeachingUnit(@RequestParam(value = "semester", defaultValue = "0") int semester, @RequestParam(value = "showUserSelection", defaultValue = "false") boolean showUserSelection, @RequestParam(value = "name", defaultValue = "") String name) {
         if (semester == 0) {
             if (name.isEmpty()) {
@@ -56,7 +56,7 @@ public class TeachingUnitController {
         }
     }
 
-    @GetMapping(value = "/teachingUnit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/teachingUnit/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<TeachingUnitResponse> getTeachingUnit(@PathVariable int id) {
         TeachingUnit teachingUnit = this.teachingUnitService.getById(id);
         if (teachingUnit == null) {

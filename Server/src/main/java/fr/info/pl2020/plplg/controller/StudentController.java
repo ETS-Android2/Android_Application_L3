@@ -25,19 +25,19 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    @GetMapping(value = "/student", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/student", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Student> getStudent() {
         return new ResponseEntity<>(getLoggedStudent(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/student/career", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/student/career", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public ResponseEntity<List<TeachingUnit>> getStudentCareer() {
         List<TeachingUnit> career = getLoggedStudent().getCareer();
         return new ResponseEntity<>(career, career.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);  //TODO tester les 2 cas
     }
 
-    @PostMapping(value = "/student/career", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/student/career", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public ResponseEntity<?> addTeachingUnitInStudentCareer(@RequestBody @NotNull @Valid CareerRequest body) {
         try {
@@ -48,7 +48,7 @@ public class StudentController {
         }
     }
 
-    @PutMapping(value = "/student/career", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/student/career", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> updateStudentCareer(@RequestBody @NotNull @NotEmpty List<Integer> teachingUnitIdList) {
         try {
             this.studentService.updateCareer(getLoggedStudent(), teachingUnitIdList);
