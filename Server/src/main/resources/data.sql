@@ -1,4 +1,4 @@
-INSERT INTO Semester (id, year, name) VALUES (1, 1, 'Semestre 1'), (2, 1, 'Semestre 2'), (3, 2, 'Semestre 3'), (4, 2, 'Semestre 4');
+INSERT INTO Semester (id, year, name) VALUES (1, 1, 'Semestre 1'), (2, 1, 'Semestre 2'), (3, 2, 'Semestre 3'), (4, 2, 'Semestre 4') , (5,3,'Semestre 5'), (6,3,'Semestre 6');
 INSERT INTO Category VALUES (1,'Chimie') , (2,'Electronique'),(3,'Géographie'),(4,'Informatique'),(5,'Mathématiques'),(6,'MIASHS'),(7,'Physique'),(8,'Sciences de la Terre'),(9,'Sciences de la Vie');
 INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUES
 
@@ -25,6 +25,22 @@ INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUE
 (18,'Electronique Analogique Avancée','SPUE41','Ce cours a pour bout d''approfondir les connaissances déjà acquises en Electronique Analogique',4,2),
 (19,'Architecture des Processeurs','SPUE42','L''objet de ce cours est de présenter les principes fondamentaux d''architecture des ordinateurs et des systèmes d''exploitation : Après quelques bases de logique propositionnelle, nous étudierons la composition matérielle d''un ordinateur et la façon dont celui-ci fonctionne. Nous partirons des fondamentaux : portes, logique anarchique, puis évoluerons via la logique en tranches et circuits séquentiels jusqu''à la construction d''une carte mère et à l''exécution des programmes.',4,2),
 (20,'Systèmes Embarqués II','SPUE43','Ce cours a pour bout d''approfondir les connaissances déjà acquises en Système Embarqué',4,2),
+
+(117,'Mise à niveau','SL/EO5',' ',5,2),
+(118,'VHDL', 'SL/EO51','Etudiants issus du portail SF parcours Electronique',5,2),
+(119,'Méthodologie', 'SL/EO52','Etudiants diplomés de l''IUT ou d''une autre formation Bac +2',5,2),
+(120,'Outils mathématiques, algorithmique & langage C', 'SL/E51',' ',5,2),
+(121,'Electronique de puissance & systèmes triphasés', 'SL/E52',' ',5,2),
+(122,'CAO & composants', 'SL/E53',' ',5,2),
+(123,'Signaux systèmes à temps continu', 'SL/E54',' ',5,2),
+
+(124,'Electronique analogique & TP', 'SL/E61',' ',6,2),
+(125,'Signaux systèmes à temps discrets & phénomènes aléatoires', 'SL/E54',' ',6,2),
+(126,'Ondes', 'SL/E54',' ',6,2),
+(127,'Systèmes à microprocesseurs & GRAFCET', 'SL/E54',' ',6,2),
+(128,'Projet & Réalisation', 'SL/E54',' ',6,2),
+
+
 
 --Geographie--
 (21,'Decouverte I','SPUGDE10','Cette UE aborde l''histoire des statistiques, en présente les sources, puis elle souligne l''enjeu de la production, et de la critique de données pour le géographe. ',1,3),
@@ -55,6 +71,17 @@ INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUE
 (44,'Systèmes II: mécanismes internes des systèmes d''exploitation','SPUF42','Ce cours présente les principaux concepts d''un système d''exploitation permettant d''orchestrer l''exécution de plusieurs processus en parallèle. Ces concepts sont mis en oeuvre en Python pour la réalisation d''un mini-projet de type ''mini-shell''. ',4,4),
 (45,'Introduction aux systèmes intelligents','SPUF43','Ce cours introductif comporte deux parties, la première dédiée à l’intelligence collective et la seconde à l’intelligence individuelle.',4,4),
 (46,'Technologies du web','SPUF44','Ce cours présente le fonctionnement du web, ainsi que la production de pages web statiques et la programmation de pages web dynamiques, tant du côté client que serveur.',4,4),
+(96, 'Programmation fonctionnelle','InfoS51','Ce cours est une introduction à la programmation fonctionnelle typée. Le langage support pour le cours est OCaml.',5,4),
+(97,'Programmation et conception orientée objet','InfoS52',' ',5,4),
+(98,'Cryptographie et calcul symbolique','InfoS53',' ',5,4),
+(99,'Automates et languages','InfoS54',' ',5,4),
+(100,'Architecture machine','InfoS55',' ',5,4),
+(101,'Travail encadré d''étude, de recherche et de développementé','InfoS61',' ',6,4),
+(102,'Paradigmes et interprétation','InfoS62',' ',6,4),
+(103,'Méthodes de simulation informatique','InfoS63',' ',6,4),
+(104,'Grands concepts de l''Informatique','InfoS64',' ', 6,4),
+(105,'Compilation','InfoS65',' ',6,4),
+(106,'Algorithmique II','InfoS66',' ',6,4),
 
 --Mathematiques--
 (47,'Fondements I','SPUM11','Généralités sur les fonctions d’une variable réelle à valeurs réelles; Limites et continuité des fonctions d’une variable réelle à valeurs réelles, Dérivabilité, opérations sur les dérivées, extrema, Fonctions injectives, surjectives, bijectives, bijection réciproque, Résolution de systèmes d’équations linéaires (n, p), Calcul matriciel',1,5),
@@ -73,6 +100,59 @@ INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUE
 (60,'Algèbre','S4C60','Théorie des groupes: Relation d’équivalence et ensemble-quotient. Algèbre commutative: Généralités sur les anneaux commutatifs; Divisibilité dans les anneaux; Anneaux de polynômes; Eléments algébriques. Réduction des endomorphismes:  Caractérisation des endomorphismes diagonalisables',4,5),
 (61,'Résolution numérique des systèmes d''équations linéaires et non-linéaires','S4C61','Le but de cette unité d’enseignement est d’étudier théoriquement et de savoir programmer quelques méthodes de base du calcul et de la simulation numérique omniprésentes dans les applications. Ce cours aborde les algorithmes de résolution des systèmes linéaires et non linéaires ainsi que le calcul numérique des valeurs propres d’une matrice.',4,5),
 (62,'Méthodes : approche aléatoire','S4C62','Ce module sera une introduction aux Probabilités et aux Statistiques avec des exemples pour illustrer les différentes notions abordées. ',4,5),
+(134,'Calcul différentiel et Géométrie Différentielle','UEMS51','Ce cours présente:
+•  Calcul Différentiel sur un espace vectoriel normé de dimension finie.
+•  Courbes, surfaces et volumes paramétrés. Vecteurs et plans tangents.
+• Fonctions C, inversion locale, fonctions implicites. Graphes, courbes de niveau. Introduction à la géométrie différentielle : courbes et surfaces, multiplicateurs de Lagrange. Courbes et surfaces (courbure, torsion), éventuellement théorème de Gauss sur la courbure totale. ',5,5),
+(135,'Statistique et Modélisation','UEMS52','Ce module a pour objectif d’introduire les notions d’estimation et de tests avec la mise en œuvre sur les problèmes de régression linéaire.',5,5),
+(136,'Intégration et Théorie de la Mesure','UEMS53','Ce module a pour objectif de presenter:
+• Rappels sur l’intégrale de Riemann et calculs d’intégrales.
+•  Dénombrabilité.
+• Théorie de la mesure - mesures de Lebesgue et de comptage.
+• Fonctions mesurables et intégration. Théorèmes limites.
+• Intégrales multiples.
+• Intégrales à paramètres,
+•  transformée de Fourier (introduction).
+•  Éventuellement espace L',5,5),
+(137,'Équations Différentielles','UEMS54','Ce module a pour objectif de presenter:
+• Rappels sur les équations différentielles d’ordre 1.
+•  Systèmes différentiels / équations différentielles linéaires à coefficients constants / exponentielle des matrices.
+•  Portraits de phase des systèmes linéaires dans le plan.
+•  Équations différentielles non-linéaires, théorème de Cauchy-Lipschitz et solutions maximales, variables séparables. ',5,5),
+(138,'Algèbre et Géométrie','UEMS55','Ce module a pour objectif de presenter:
+•   Dualité linéaire,
+•  Réduction des endomorphismes autoadjoints ,
+• Applications ,
+•  Géométrie affine  ',5,5),
+(139,' Analyse Économétrique','UEMMS51','Ce module a pour objectif de presenter:  Ajustement par la méthode des Moindres Carrés Ordinaires (MCO) Introduction des probabilités dans le modèle  Application de la théorie des Tests au modèle linéaire.  ',5,5),
+(140,'Systèmes Dynamiques, Calcul Différentiel et Optimisation','UEMS52','Ce module a pour objectif de presenter:
+•  Calcul différentiel,
+•  Théorie des équations différentielles ordinaires,
+•  Approximation numérique des équations différentielles ordinaires.',5,5),
+
+(141,'Probabilités et ses Applications','UEMS61','Ce module a pour objectif de presenter:
+•   Espace de probabilité,
+•  définition des variables aléatoires,
+•  Notion de densité de probabilité par rapport à une mesure dominante,
+•  Espérance,
+•   variance,
+•   Notion de fonction de répartition,
+•   Simulation de variables aléatoires par inversion de la fonction de répartition,
+•  Indépendance d’événements, Calculs de loi,
+•  Convergence de variables aléatoires,
+•  Les grands théorèmes limites ,
+• Applications à l’approximation d’une intégrale par la méthode de Monte-Carlo,
+•  Introduction à la Statistique.',6,5),
+(142,'Algèbre et Algèbre Effective','UEMS62',' Groupes (Z/nZ),  Représentation des groupes abéliens finis. Lemme d’extension des caractères, Polynômes, Extensions de corps, Démonstration de la loi de réciprocité quadratique, Codes correcteurs d’erreur : distance de Hamming, distance minimale d’un code linéaire.',6,5),
+
+(143,'Introduction à l’Analyse Fonctionnelle','UEMS63', 'Topologie des espaces métriques, Espaces de Banach, Inégalités, Transformée de Fourier sur L,  Approximation uniforme.',6,5),
+
+(144,'Approximation numérique des fonctions, des intégrales et des équations différentielles ordinaires','UEMS64','Le but de cette unité d’enseignement est de consolider et d’élargir les acquis des étudiants sur les méthodes de base du calcul numérique et de la simulation numérique. Chaque concept abordé sera motivé par un exemple concret tiré de la vie courante. Cette Unité d’Enseignement sera également l’occasion de faire le point sur le lien des Mathématiques et leurs applications. ' ||
+ 'Des illustrations numériques en Python sont proposées pour mettre en œuvre les algorithmes étudiés.',6,5),
+(145,'Analyse Complexe','UEMS65', ' Séries entières et fonctions analytiques, Fonctions holomorphes, conditions de Cauchy-Riemann, théorème d’holomorphie sous le signe intégral,  Intégrales curvilignes, primitives. Formules intégrales de Cauchy et conséquences, Points singuliers, fonctions méromorphes, Calcul des résidus, Théorème de l’application conforme.',6,5),
+(146,'Analyse, Probabilités et Statistique','UEMS62D',' ',6,5),
+(147,' Probabilités','UEMS61', 'Chaque notion introduite doit être motivée par une fin applicative en économie, assurance, finance, biologie, physique...',6,5),
+(148,' Suites de Fonctions, Calcul Intégral et Séries de Fourier','UEMMS62', 'Polynômes, Rappels sur les calculs d’intégrales en dimension 1,  Intégrales multiples, Méthodes déterministes de calcul approché, Espaces L, Suites de fonctions, Intégrales à paramètres, transformée de Fourier, Séries de Fourier.',6,5),
 
 --MIASHS--
 (63,'Economie-Gestion','SPUA10','Elle vise à doter les étudiants d’une formation solide en théorie économique, en gestion et en techniques quantitatives. Elle permet l’acquisition de connaissances économiques et managériales indispensables à la compréhension du positionnement stratégique et de l’environnement de l’entreprise, à l’analyse des comportements des agents économiques, du fonctionnement des marchés, etc.',1,6),
@@ -81,6 +161,14 @@ INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUE
 (66,'Introduction R','SPUA31','Ce document est une introduction à l’utilisation du logiciel libre de traitement de données et d’analyse statistique R. Il se veut le plus accessible possible, y compris pour ceux qui ne sont pas particulièrement familiers avec l’informatique.',3,6),
 (67,'Economie-Gestion','SPUA40','Elle vise à doter les étudiants d’une formation solide en théorie économique, en gestion et en techniques quantitatives. Elle permet l’acquisition de connaissances économiques et managériales indispensables à la compréhension du positionnement stratégique et de l’environnement de l’entreprise, à l’analyse des comportements des agents économiques, du fonctionnement des marchés, etc.',4,6),
 (68,'Mathématiques pour la Finance','SPUA41','Formation centrée sur les mathématiques appliquées, en particulier l’optimisation, l''analyse, les probabilités, la statistique et les méthodes numériques. Elle comprend également de nombreux enseignements d’économie, de finance, et d’informatique, ainsi que des enseignements d’ouverture, dans des proportions dépendant des choix de parcours et d’options.',4,6),
+(149,'Marketing et Environnement de l''Entreprise','SPUAM1',' ',5,6),
+(150,' Systèmes & Réseaux ','SPUAM2',' ',5,6),
+(151,'Conception Objet et Programmation','SPUAM3',' ',5,6),
+(129,'Découverte du Métier 5','SPUAM4',' ',5,6),
+(130,'Comptabilité & Management de l’Innovation','SPUAM5',' ',6,6),
+(131,'Approfondissement Bases de Données','SPUAM6',' ',6,6),
+(132,'Analyse des besoins et application Web','SPUAM7',' ',6,6),
+(133,'Découverte du Métier 6','SPUAM8', ' ',6,6),
 
 --Physique--
 (69,'Mécanique I','SPUP10','La Licence de Mécanique propose une formation orientée principalement vers la modélisation, la simulation numérique et l’expérimentation en mécanique. Elle met l’accent sur les acquis fondamentaux en mécanique, mathématiques, informatique, physique, nécessaires pour assurer la pluridisciplinarité qui caractérise la mécanique, science du mouvement.',1,7),
@@ -95,8 +183,19 @@ INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUE
 (78,'Mécanique  III','SPUP41','La Licence de Mécanique propose une formation orientée principalement vers la modélisation, la simulation numérique et l’expérimentation en mécanique. Elle met l’accent sur les acquis fondamentaux en mécanique, mathématiques, informatique, physique, nécessaires pour assurer la pluridisciplinarité qui caractérise la mécanique, science du mouvement.',4,7),
 (79,'Outils et Méthodes II','SPUP43','tudes des outils de résolutions de problemes physiques et méthodes de recherches.',4,7),
 (95,'Outils et Méthodes 2D','SPUP44','tudes des outils de résolutions de problemes physiques et méthodes de recherches.',4,7),
+(107,'Système dynamiques','SLZP51','Découverte expérimentale puis approche théorique de la notion de modes propres de vibrations. Application à des systèmes mécaniques simples (exp. et théorie): le pendule forcé paramétriquement par percussions, forçage paramétrique percussionnel de deux oscillateurs couplés, forçage paramétrique percusionnel d''un double pendule. Représentation du mouvement dans l''espace des phases (sections de Poincaré). Analogie mécanique d''un système à deux niveaux en mécanique quantique.',5,7),
+(108,'Electromagnétisme III','SLZP52','Cette UE est constituée de : Matériaux diélectriques, Materiaux magnétiques, Equations de Maxwell dans les matériaux, Propagation d''ondes guidées.',5,7),
+(109,'Thermodynamique III','SLZP53','Notion d’entropie statistique: Distribution de probabilité, entropie. Quelques exemples  Espace des phases, état microscopique, densité d''états. Distribution statistique d''équilibre, contraintes macroscopiques, entropie de Boltzmann.',5,7),
+(110,'Méthodes numériques','SLZP54','Le but recherché est l''utilisation de l''outil informatique pour résoudre ou simuler des problèmes de Physique. ( Equations différentielles, Méthodes de Monte Carlo, Dynamique moléculaire',5,7),
+(111,'Outils mathématiques','SLZP55','Analyse: Fonctions Gamma et signaux discontinus, Convolution, Transformation de Fourier, Séries de Fourier et échantillonnage. Probabilités: Eléments de base en théorie des probabilités, Convergences et théorèmes limites, Introduction aux processus aléatoires. ',5,7),
+(112,'Méthodes expérimentales','SLZP56','L''objectif de cette UE est d''apprendre aux étudiants les techniques et les concepts à la base de la physique expérimentale. L''enseignement est basé sur des manipulations se déroulant sur plusieurs séances, ce qui permettra aux étudiants d''affronter les différents aspects du travail avec un certain recul et des pauses de réflexion. Le but est de transmettre un savoir-faire technique et méthodologique (manipulation, traitement des données, tenue d''un cahier d''expérience, etc...) que les étudiants pourront réinvestir dans des situations nécessitant l''acquisition de données ou de mesures (recherche scientifique, applications industrielles ou autre).',5,7),
+(113,'Mécanique Quantique II','UEF1','Cette UE est constituée de : Formalisme-Postulats, L''Opérateur Hamiltonien - Evolution temporelle, Les opérateurs position et quantité de mouvement. Comportement spatial, L''Oscillateur Harmonique à 1 dimension , Physique à 3 dimensions-Potentiels centraux. ',6,7),
+(114,'Mécanique des Milieux Continus','UEF2','L''objectif de cette UE est d''apprendre aux étudiants: La Mécanique du solide déformable et la Dynamique des fluides.',6,7),
+(115, 'Optique II','UEF3','L''objectif de cette UE est d''apprendre aux étudiants: Diffraction, ltrage en lumière cohérente,  Cohérence, Propagation dans la matière.',6,7),
+(116,'Projets tuteuré en laboratoire','UEF4','Le but de ces projets en laboratoire est d''offrir la possibilité aux étudiants souhaitant poursuivre leur formation au sein d''un master de recherche d''avoir un premier contact avec le travail de recherche en rejoignant une équipe d''un des laboratoires de recherche de l''Université de Nice-Sophia Antipolis.',6,7),
 
 --Sciences de la vie--
+
 (80,'Découverte des sciences de la Terre','SPUT10','Cette Unité d’Enseignement vise à donner une vision globale du système Terre en abordant à la fois les enveloppes externes (atmosphère, eau, glace) et l’intérieur de la Terre.',1,8),
 (81,'Structure et Dynamique de la Terre','SPUT20','Cette Unité d’Enseignement vise à donner une vision globale du système Terre à travers sa structure mais aussi la façon dont elle évolue',2,8),
 (82,'Atmosphère, Océan, Climats','SPUT22','L’objectif est d’introduire les notions de bases permettant d’aborder les cycles et transferts dits externes (océans, atmosphère, climat) et internes (proche sous-sol et grandes profondeurs) de la Terre.',2,8),
@@ -118,4 +217,4 @@ INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUE
 INSERT INTO Student (id, firstname, lastname, email, password) VALUES (1, 'Toto', 'Tata', 'toto@gmail.com', '$2a$10$fex0RS2Nshik5jiIyWXWC.6MmI6eZb9QW9NLr7gBPNyZTQqWhJIPm');
 
 INSERT INTO Prerequisite values (6, 8), (5, 9),(15,20),(21,22),(23,30),(30,26),(22,24),(24,25),(26,27),(29,34),(28,31),(31,32),(32,33),(37,44),(37,44),(47,50),(49,52),(50,53),
-(69,71),(72,75),(74,79),(71,78);
+(69,71),(72,75),(74,79),(71,78),(42,106),(78,108),(73,109), (129,133);
