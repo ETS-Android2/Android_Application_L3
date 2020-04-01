@@ -1,5 +1,6 @@
 package fr.info.pl2020.util;
 
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,5 +24,14 @@ public class FunctionsUtils {
     public static boolean isGoodPassword(String password) {
         //TODO ?
         return true;
+    }
+
+    public static int getIndex(Set<?> set, Object value) {
+        int result = 0;
+        for (Object entry:set) {
+            if (entry.equals(value)) return result;
+            result++;
+        }
+        return -1;
     }
 }

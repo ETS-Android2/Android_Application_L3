@@ -2,7 +2,6 @@ package fr.info.pl2020.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,10 +53,7 @@ public class SemesterAdapter extends BaseAdapter {
         semesterTextView.setText(semester.getName());
         semesterTextView.setOnClickListener(v -> {
             Intent intent = new Intent(context, TeachingUnitListActivity.class);
-            Bundle b = new Bundle();
-            b.putInt("semesterId", semester.getId());
-            b.putString("semesterName", semester.getName());
-            intent.putExtras(b);
+            intent.putExtra(TeachingUnitListActivity.ARG_SEMESTER_ID, semester.getId());
             context.startActivity(intent);
         });
 

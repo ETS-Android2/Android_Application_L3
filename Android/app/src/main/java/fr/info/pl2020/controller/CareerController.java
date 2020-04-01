@@ -42,7 +42,6 @@ public class CareerController {
                     new AuthenticationManager().callLoginActivity(context);
                 } else if (statusCode == HttpStatus.SC_UNPROCESSABLE_ENTITY) {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-                    Log.d("TEST", errorResponse.toString());
                     alertDialog.setTitle("Erreur");
                     alertDialog.setMessage(errorResponse.optString("error"));
                     alertDialog.setNeutralButton("OK", (dialog, which) -> {

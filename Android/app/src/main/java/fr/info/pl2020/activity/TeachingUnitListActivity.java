@@ -1,78 +1,109 @@
 package fr.info.pl2020.activity;
 
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NavUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import fr.info.pl2020.R;
-import fr.info.pl2020.controller.CareerController;
 import fr.info.pl2020.controller.TeachingUnitController;
-import fr.info.pl2020.model.TeachingUnit;
+import fr.info.pl2020.model.Semester;
+import fr.info.pl2020.model.TeachingUnitListContent;
 
+/**
+ * An activity representing a list of TeachingUnits. This activity
+ * has different presentations for handset and tablet-size devices. On
+ * handsets, the activity presents a list of items, which when touched,
+ * lead to a {@link TeachingUnitDetailActivity} representing
+ * item details. On tablets, the activity presents the list of items and
+ * item details side-by-side using two vertical panes.
+ */
 public class TeachingUnitListActivity extends AppCompatActivity {
 
-    private ExpandableListView expandableListView;
-    private CareerController careerController;
-    private Set<Integer> teachingUnitIds;
-    private int semesterId;
+    public static final String ARG_SEMESTER_ID = "semester_id";
+
+    private boolean isTwoPane;
+    private boolean doubleBackToExitPressedOnce = false;
+    private Semester currentSemester;
+
+    private TeachingUnitController teachingUnitController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_teaching_unit);
+        setContentView(R.layout.activity_teachingunit_list);
+
+        // Récupération des attributs du semestre
         Bundle b = getIntent().getExtras();
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(b != null ? b.getString("semesterName") : "Semestre");
-            actionBar.show();
-        }
-        this.expandableListView = findViewById(R.id.expandableListView);
-        this.careerController = new CareerController();
-        this.teachingUnitIds = new HashSet<>();
-        if (b != null) {
-            this.semesterId = b.getInt("semesterId");
+        if (b != null && b.getInt(ARG_SEMESTER_ID) != 0) {
+            this.currentSemester = new Semester(b.getInt(ARG_SEMESTER_ID));
         } else {
             finish();
         }
+
+        // TOOLBAR
+        //Toolbar toolbar = findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(this.currentSemester.getName());
+        }
+
+        // Le bouton enregistrer
+        FloatingActionButton fab = findViewById(R.id.fab_save_career);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Parcours enregistré", Snackbar.LENGTH_LONG) //TODO
+                        .setAction("Action", null).show();
+            }
+        });
+
+        if (findViewById(R.id.teachingunit_detail_container) != null) {
+            // The detail container view will be present only in the large-screen layouts (res/values-w900dp).
+            // If this view is present, then the activity should be in two-pane mode.
+            isTwoPane = true;
+        }
+        Log.d("TEST", "CURRENT SEMESTER : " + currentSemester.getId());
+        // Récupération de la liste des UE
+        this.teachingUnitController = new TeachingUnitController();
+        this.teachingUnitController.updateTeachingUnits(this, currentSemester.getId(), isTwoPane);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        new TeachingUnitController().displayTeachingUnits(this, this.expandableListView, this.semesterId);
+        this.teachingUnitController.setupExpandableListView(this, isTwoPane);
+/*
+        ExpandableListView expandableListView = findViewById(R.id.teachingunit_list);
+        setupExpandableListView(expandableListView);
+*/
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            NavUtils.navigateUpFromSameTask(this);
-            return true;
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
         }
-        return super.onOptionsItemSelected(item);
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, R.string.double_click_for_exit, Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
 
-    public void validateCareer(View view) {
-        careerController.saveCareer(this, new ArrayList<>(this.teachingUnitIds));
-    }
-
-    public void toggleCheckBox(View view) {
-        CheckBox cb = (CheckBox) view;
-        TeachingUnit tu = (TeachingUnit) cb.getTag();
-        if (cb.isChecked()) {
-            this.teachingUnitIds.add(tu.getId());
-        } else {
-            this.teachingUnitIds.remove(tu.getId());
-        }
+    @Override
+    protected void onDestroy() {
+        TeachingUnitListContent.clear();
+        TeachingUnitListContent.setLastOpenedTeachingUnit(0);
+        super.onDestroy();
     }
 }

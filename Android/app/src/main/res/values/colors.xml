@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
+    <!--color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#D81B60</color-->
+    <color name="colorAccent">#1BC3E3</color>
+    <color name="colorPrimary">#0EA5C6</color>
+    <color name="colorPrimaryDark">#008BA9</color>
     <color name="login_button">#1977C1</color>
     <color name="list_category_text_view_background">#E7DFDF</color>
     <color name="list_teaching_unit_text_view_background">#C3C3C3</color>

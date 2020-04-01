@@ -12,67 +12,59 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpStatus;
 import fr.info.pl2020.R;
+import fr.info.pl2020.activity.TeachingUnitListActivity;
 import fr.info.pl2020.adapter.TeachingUnitAdapter;
 import fr.info.pl2020.manager.AuthenticationManager;
-import fr.info.pl2020.model.TeachingUnit;
+import fr.info.pl2020.model.TeachingUnitListContent;
+import fr.info.pl2020.model.TeachingUnitListContent.TeachingUnit;
 import fr.info.pl2020.service.TeachingUnitService;
+import fr.info.pl2020.util.FunctionsUtils;
 
 public class TeachingUnitController {
 
-    public void displayTeachingUnits(Context context, ExpandableListView expandableListView, int semesterId) {
+    public void updateTeachingUnits(Context context, int semesterId, boolean isTwoPane) {
+        if (!TeachingUnitListContent.TEACHING_UNITS.isEmpty()) {
+            return;
+        }
+
         new TeachingUnitService().getAllBySemester(semesterId, new JsonHttpResponseHandler() {
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                if (statusCode == HttpStatus.SC_OK) {
-                    Map<String, List<TeachingUnit>> teachingUnitByCategoryMap = new TreeMap<>();
-                    for (int i = 0; i < response.length(); i++) {
-                        try {
-                            JSONObject jsonTeachingUnit = response.getJSONObject(i);
-                            int teachingUnitId = jsonTeachingUnit.getInt("id");
-                            String teachingUnitName = jsonTeachingUnit.getString("name");
-
-                            TeachingUnit teachingUnit = new TeachingUnit(teachingUnitId, teachingUnitName);
-                            if (jsonTeachingUnit.optBoolean("selectedByStudent")) {
-                                teachingUnit.setSelectedByStudent(true);
-                            }
-                            String categoryName = jsonTeachingUnit.getString("category");
-                            teachingUnitByCategoryMap.putIfAbsent(categoryName, new ArrayList<>());
-                            teachingUnitByCategoryMap.get(categoryName).add(teachingUnit);
-                        } catch (JSONException e) {
-                            Log.e("TEACHING_UNIT", "Erreur lors de la récupération des informations d'une UE", e);
-                            Toast.makeText(context, R.string.standard_exception, Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                    }
-
-                    for (List<TeachingUnit> list : teachingUnitByCategoryMap.values()) {
-                        list.sort((o1, o2) -> o1.getId() - o2.getId());
-                    }
-
-                    TeachingUnitAdapter categoryAdapter = new TeachingUnitAdapter(context, teachingUnitByCategoryMap);
-                    expandableListView.setAdapter(categoryAdapter);
-                } else {
+                if (statusCode != HttpStatus.SC_OK) {
                     Log.e("TEACHING_UNIT", "Statut HTTP de la réponse inattendu (Code: (Code: " + statusCode + ")");
                     Toast.makeText(context, R.string.standard_exception, Toast.LENGTH_SHORT).show();
                 }
+
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject jsonTeachingUnit = response.getJSONObject(i);
+
+                        int teachingUnitId = jsonTeachingUnit.getInt("id");
+                        String teachingUnitName = jsonTeachingUnit.getString("name");
+                        String teachingUnitCode = jsonTeachingUnit.getString("code");
+                        String teachingUnitDescription = jsonTeachingUnit.getString("description");
+                        int teachingUnitSemester = jsonTeachingUnit.getInt("semester");
+                        String teachingUnitCategory = jsonTeachingUnit.getString("category");
+
+                        TeachingUnit tu = new TeachingUnit(teachingUnitId, teachingUnitName, teachingUnitCode, teachingUnitDescription, teachingUnitSemester, teachingUnitCategory);
+                        TeachingUnitListContent.addItem(tu);
+                    } catch (JSONException e) {
+                        Log.e("TEACHING_UNIT", "Erreur lors de la récupération des informations d'une UE", e);
+                        Toast.makeText(context, R.string.standard_exception, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
+                setupExpandableListView((TeachingUnitListActivity) context, isTwoPane);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
-                    new AuthenticationManager().callLoginActivity(context);
-                } else {
-                    Log.e("TEACHING_UNIT", "Echec de la récupération de la liste des UE (Code: " + statusCode + ")", throwable);
-                    Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();
-                }
+                super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
     }
@@ -105,5 +97,18 @@ public class TeachingUnitController {
                 }
             }
         });
+    }
+
+    public void setupExpandableListView(TeachingUnitListActivity context, boolean isTwoPane) {
+        ExpandableListView expandableListView = context.findViewById(R.id.teachingunit_list);
+        expandableListView.setAdapter(new TeachingUnitAdapter(context, TeachingUnitListContent.getTeachingUnitByCategory(), isTwoPane));
+        int lastOpenedTU = TeachingUnitListContent.getLastOpenedTeachingUnit();
+        if (lastOpenedTU != 0 && TeachingUnitListContent.TEACHING_UNITS.containsKey(lastOpenedTU)) {
+            TeachingUnit tu = TeachingUnitListContent.TEACHING_UNITS.get(lastOpenedTU);
+            if (tu != null) {
+                int index = FunctionsUtils.getIndex(TeachingUnitListContent.getTeachingUnitByCategory().keySet(), tu.getCategory());
+                expandableListView.expandGroup(index);
+            }
+        }
     }
 }
