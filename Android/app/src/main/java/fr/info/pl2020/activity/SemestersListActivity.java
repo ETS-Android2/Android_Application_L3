@@ -2,11 +2,17 @@ package fr.info.pl2020.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import fr.info.pl2020.R;
 import fr.info.pl2020.controller.SemestersListController;
@@ -19,6 +25,10 @@ public class SemestersListActivity extends AppCompatActivity {
     //for drawer
     private ListView mDrawerList;
     private ArrayAdapter<String> mAdapter;
+    //hamburger
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mActionBarDrawerToggle;
+
 
 
     @Override
@@ -27,8 +37,16 @@ public class SemestersListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_semesters_list);
         this.semesterList = findViewById(R.id.semesterListView);
 
+        //for hamburger
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.drawer_open, R.string.drawer_close);
+        mActionBarDrawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // for drawer
         mDrawerList = findViewById(R.id.navList);
         addDrawerItems();
+        onClick();
     }
 
     @Override
@@ -55,4 +73,32 @@ public class SemestersListActivity extends AppCompatActivity {
         mDrawerList.setAdapter(mAdapter);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(mActionBarDrawerToggle.onOptionsItemSelected(item))
+            return true;
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private void onClick() {
+        this.mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch ((int) id) {
+                    case 0:
+                        Toast.makeText(SemestersListActivity.this, "Vous avez cliqué sur Afficher le parcours", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
+                        Toast.makeText(SemestersListActivity.this, "Vous avez cliqué sur Editer le parcours", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(SemestersListActivity.this, "Se déconnecter", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
 }

@@ -13,4 +13,7 @@
     <string name="login_error_missing_password">Mot de passe non renseigné.</string>
     <string name="email">Email</string>
     <string name="password">Mot de passe</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
 </resources>
