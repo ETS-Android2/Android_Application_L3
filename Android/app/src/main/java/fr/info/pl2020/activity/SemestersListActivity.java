@@ -45,7 +45,7 @@ public class SemestersListActivity extends AppCompatActivity {
         // for drawer
         mDrawerList = findViewById(R.id.navList);
         addDrawerItems();
-        onClick();
+        onItemClick();
     }
 
     @Override
@@ -80,16 +80,16 @@ public class SemestersListActivity extends AppCompatActivity {
     }
 
 
-    private void onClick() {
+    private void onItemClick() {
         this.mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch ((int) id) {
                     case 0:
-                        Toast.makeText(SemestersListActivity.this, "Vous avez cliqué sur Afficher le parcours", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SemestersListActivity.this, "WIP not implemented yet", Toast.LENGTH_SHORT).show();
                         break;
                     case 1:
-                        Toast.makeText(SemestersListActivity.this, "Vous avez cliqué sur Editer le parcours", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SemestersListActivity.this, "WIP not implemented yet", Toast.LENGTH_SHORT).show();
                         break;
                     case 2:
                         Toast.makeText(SemestersListActivity.this, "Se déconnecter", Toast.LENGTH_SHORT).show();
