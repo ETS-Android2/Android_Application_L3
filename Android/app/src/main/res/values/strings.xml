@@ -11,8 +11,11 @@
     <string name="double_click_for_exit">Cliquez une deuxième fois pour quitter l\'application</string>
     <string name="login_error_missing_email">Email non renseigné.</string>
     <string name="login_error_missing_password">Mot de passe non renseigné.</string>
+    <string name="last_name">Nom</string>
+    <string name="name">Prénom</string>
     <string name="email">Email</string>
     <string name="password">Mot de passe</string>
+    <string name="confirm_password">Confirmer mot de passe</string>
     <string name="title_teachingunit_detail">TeachingUnit_Detail</string>
     <string name="title_teachingunit_list">TeachingUnits</string>
     <string name="drawer_open">Open navigation drawer</string>

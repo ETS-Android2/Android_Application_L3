@@ -13,15 +13,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.LoginActivity">
+
+        <activity
+            android:name=".activity.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SemestersListActivity" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".activity.SemestersListActivity"
+            android:theme="@style/AppTheme"/>
+
+
         <activity android:name=".activity.ProfilActivity" />
-        <activity android:name=".activity.TeachingUnitListActivity"
+        <activity
+            android:name=".activity.TeachingUnitListActivity"
             android:label="@string/title_teachingunit_list"
             android:launchMode="singleTop">
             <meta-data

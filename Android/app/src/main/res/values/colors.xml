@@ -6,6 +6,7 @@
     <color name="colorAccent">#1BC3E3</color>
     <color name="colorPrimary">#0EA5C6</color>
     <color name="colorPrimaryDark">#008BA9</color>
+    <color name="pink">#9e0168</color>
     <color name="login_button">#1977C1</color>
     <color name="list_category_text_view_background">#E7DFDF</color>
     <color name="list_teaching_unit_text_view_background">#C3C3C3</color>
@@ -14,4 +15,5 @@
     <color name="list_semester_text_view_font">#00574B</color>
     <color name="validate_career_button">#C3C3C3</color>
     <color name="validate_career_button_background">#009688</color>
+
 </resources>

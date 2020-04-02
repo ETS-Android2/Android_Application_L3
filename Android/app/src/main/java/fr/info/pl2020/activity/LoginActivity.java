@@ -1,5 +1,6 @@
 package fr.info.pl2020.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -17,13 +18,14 @@ public class LoginActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce = false;
     private boolean hasParent = false;
     private LoginController loginController;
-
+    private TextView registerView;
     private TextView errorTextView;
     private EditText emailInput;
     private EditText passwordInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(0, 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Bundle b = getIntent().getExtras();
@@ -34,6 +36,10 @@ public class LoginActivity extends AppCompatActivity {
         this.errorTextView = findViewById(R.id.loginErrorTextView);
         this.emailInput = findViewById(R.id.emailInput);
         this.passwordInput = findViewById(R.id.passwordInput);
+
+        //go to register page
+        this.registerView = findViewById(R.id.register);
+        registerView.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
     }
 
     @Override
