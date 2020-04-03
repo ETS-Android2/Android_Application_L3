@@ -88,9 +88,10 @@ les catégories des UE.
 
 ### [Itération 8](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/8)
 
-- [X] Permettre à l'utilisateur de s'inscrir.
+- [X] Permettre à l'utilisateur de s'inscrire.
 - [X] Rendre le bouton "Afficher le parcours" fonctionnel.
-- [X] L'utilisateur ne peut pas sélectionner une matière qui a atteint le nombre max d'étudiant.
+- [X] Rendre la barre de recherche fonctionnelle.
+- [X] ~~L'utilisateur ne peut pas sélectionner une matière qui a atteint le nombre max d'étudiant.~~ (Abandonné)
 - [X] Adaptation du projet avec la 2ème modification du sujet.
 
 #### Date prévue : 
