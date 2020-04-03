@@ -2,8 +2,8 @@ package fr.info.pl2020.plplg.controller;
 
 import fr.info.pl2020.plplg.dto.*;
 import fr.info.pl2020.plplg.entity.Student;
-import fr.info.pl2020.plplg.service.StudentService;
 import fr.info.pl2020.plplg.security.JwtTokenProvider;
+import fr.info.pl2020.plplg.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,11 +12,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Request;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -56,6 +60,18 @@ public class AuthenticationController {
         return new ResponseEntity<>(new StandardResponse("Nouvel étudiant ajouté avec succès."), HttpStatus.CREATED);
     }
 
-    private void checkCredentials(@Valid LoginRequest credentials) throws RuntimeException{
+    @ApiIgnore
+    @GetMapping(value = "/logoutSuccess")
+    public ResponseEntity<String> logout() {
+        return new ResponseEntity<>("Vous êtes deconnecté", HttpStatus.OK);
+    }
+
+    /**
+     * Si le paramètre envoyé ne passe pas la validation @Valid alors une RuntimeException est renvoyée.
+     *
+     * @param credentials
+     * @throws RuntimeException si les credentials ne respectent pas les validations dans LoginRequest
+     */
+    private void checkCredentials(@Valid LoginRequest credentials) throws RuntimeException {
     }
 }
