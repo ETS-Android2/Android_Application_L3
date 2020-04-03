@@ -5,6 +5,9 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+import android.view.Menu;
+import android.view.MenuItem;
+
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -76,6 +79,16 @@ public class TeachingUnitListActivity extends AppCompatActivity {
         this.teachingUnitController = new TeachingUnitController();
         this.teachingUnitController.updateTeachingUnits(this, currentSemester.getId(), isTwoPane);
     }
+
+//begin loupe
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+//end loupe
 
     @Override
     protected void onResume() {

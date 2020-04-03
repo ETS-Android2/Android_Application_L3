@@ -2,6 +2,7 @@ package fr.info.pl2020.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -47,6 +48,16 @@ public class SemestersListActivity extends AppCompatActivity {
         addDrawerItems();
         onItemClick();
     }
+
+//begin loupe
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+//end loupe
 
     @Override
     protected void onResume() {

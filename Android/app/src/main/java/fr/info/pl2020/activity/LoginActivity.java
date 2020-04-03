@@ -3,6 +3,7 @@ package fr.info.pl2020.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         this.registerView = findViewById(R.id.register);
         registerView.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
     }
+
 
     @Override
     protected void onResume() {
