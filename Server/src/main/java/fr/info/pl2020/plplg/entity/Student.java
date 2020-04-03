@@ -30,6 +30,7 @@ public class Student {
     @JoinTable(
             name = "career",
             joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
+            uniqueConstraints = @UniqueConstraint(name = "pk", columnNames = {"student_id", "teaching_unit_id"}),
             inverseJoinColumns = {@JoinColumn(name = "teaching_unit_id", referencedColumnName = "id", nullable = false)}
     )
     private List<TeachingUnit> career;

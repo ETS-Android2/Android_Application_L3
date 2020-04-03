@@ -11,10 +11,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -69,8 +67,15 @@ public class StudentService {
         List<TeachingUnit> teachingUnits = this.teachingUnitRepository.findAllByIdIn(teachingUnitIdList);
 
         List<TeachingUnit> currentTeachingUnits = student.getCareer();
-        checkPrerequisiteTeachingUnits(currentTeachingUnits, teachingUnits);
+        List<Integer> currentIdList = currentTeachingUnits.stream().map(TeachingUnit::getId).collect(Collectors.toList());
 
+        for (int i = teachingUnits.size() - 1; i >= 0; i--) {
+            if (currentIdList.contains(teachingUnits.get(i).getId())) {
+                teachingUnits.remove(i);
+            }
+        }
+
+        checkPrerequisiteTeachingUnits(currentTeachingUnits, teachingUnits);
         currentTeachingUnits.addAll(teachingUnits);
         maxiTeachingUnit(currentTeachingUnits);
         student.setCareer(currentTeachingUnits);
