@@ -39,14 +39,6 @@ public class LoginActivityTest {
     public ActivityTestRule<LoginActivity> loginActivityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
     /**
-     * Permet de tester si l'image "logo" à la vue d'acceille est presente.
-     */
-    @Test
-    public void logoExists() {
-        onView(withId(R.id.logo)).check(matches(isDisplayed()));
-    }
-
-    /**
      * Permet de tester si les champs Input et le bouton "Se connecter" existent
      */
     @Test

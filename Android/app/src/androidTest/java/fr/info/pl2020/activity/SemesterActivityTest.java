@@ -17,6 +17,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -81,27 +82,35 @@ public class SemesterActivityTest {
     public void setup() throws IOException {
         this.server = new MockWebServer();
         this.server.start(InetAddress.getByName(BuildConfig.SERVER_HOSTNAME), BuildConfig.SERVER_PORT);
+        MockitoAnnotations.initMocks(this);
+        Intents.init();
     }
 
     @After
     public void tearDown() throws IOException {
         this.server.close();
+        Intents.release();
     }
 
     @Test
     public void displaySemesterList_OK() throws Exception {
+        //AuthenticationManager authenticationManager = mock(AuthenticationManager.class);
+        //when(authenticationManager.getToken()).thenReturn("Bearer leToken");
         MockResponse response = new MockResponse()
                 .addHeader("Content-Type", "application/json")
                 .setResponseCode(200)
                 .setBody(defaultResponse);
 
         this.server.enqueue(response);
-        Intents.init();
 
         RecordedRequest request = this.server.takeRequest();
         assertEquals("GET /semester HTTP/1.1", request.getRequestLine());
         assertEquals("application/json", request.getHeader("Content-Type"));
+        //*
         assertEquals("Bearer", request.getHeader("Authorization"));
+        /*/
+        assertEquals("Bearer leToken", request.getHeader("Authorization"));
+        // */
 
         // Le test est plus rapide que la construction de la ListView
         Thread.sleep(500);
@@ -112,26 +121,29 @@ public class SemesterActivityTest {
         onData(is(instanceOf(Semester.class))).inAdapterView(withId(R.id.semesterListView)).atPosition(0).perform(click());
 
         intended(hasComponent(TeachingUnitListActivity.class.getName()));
-        Intents.release();
     }
 
     @Test
     public void displaySemesterRedirectLogin() throws Exception {
+        //AuthenticationManager authenticationManager = mock(AuthenticationManager.class);
+        //when(authenticationManager.getToken()).thenReturn("Bearer leToken");
         MockResponse response = new MockResponse()
                 .addHeader("Content-Type", "application/json")
                 .setResponseCode(401)
                 .setBody("{\"status\":401,\"error\":\"Unauthorized\"}");
 
         this.server.enqueue(response);
-        Intents.init();
 
         RecordedRequest request = this.server.takeRequest();
         assertEquals("GET /semester HTTP/1.1", request.getRequestLine());
         assertEquals("application/json", request.getHeader("Content-Type"));
+        //*
         assertEquals("Bearer", request.getHeader("Authorization"));
+        /*/
+        assertEquals("Bearer leToken", request.getHeader("Authorization"));
+        // */
 
         intended(hasComponent(LoginActivity.class.getName()));
-        Intents.release();
     }
 
     public static Matcher<View> withListSize(final int size) {

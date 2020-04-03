@@ -1,6 +1,7 @@
 package fr.info.pl2020.activity;
 
 import android.os.Bundle;
+import android.view.Menu;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -66,6 +67,16 @@ public class TeachingUnitListActivity extends AppCompatActivity {
         this.teachingUnitController = new TeachingUnitController();
         this.teachingUnitController.updateTeachingUnits(this, currentSemester.getId());
     }
+
+//begin loupe
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+//end loupe
 
     @Override
     protected void onDestroy() {

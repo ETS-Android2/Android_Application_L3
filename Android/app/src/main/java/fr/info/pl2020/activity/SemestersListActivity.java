@@ -3,6 +3,7 @@ package fr.info.pl2020.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -29,7 +30,6 @@ public class SemestersListActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mActionBarDrawerToggle;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,15 +38,25 @@ public class SemestersListActivity extends AppCompatActivity {
 
         //for hamburger
         mDrawerLayout = findViewById(R.id.drawer_layout);
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.drawer_open, R.string.drawer_close);
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
         mActionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // for drawer
         mDrawerList = findViewById(R.id.navList);
         addDrawerItems();
-        onClick();
+        onItemClick();
     }
+
+    //begin loupe
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+//end loupe
 
     @Override
     protected void onResume() {
@@ -66,21 +76,22 @@ public class SemestersListActivity extends AppCompatActivity {
 
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
+
     private void addDrawerItems() {
-        String[] parcoursNavArray = { "Afficher le parcours", "Editer le parcours", "Se déconnecter" };
+        String[] parcoursNavArray = {"Afficher le parcours", "Editer le parcours", "Se déconnecter"};
         mAdapter = new ArrayAdapter<String>(SemestersListActivity.this, android.R.layout.simple_list_item_1, parcoursNavArray);
         mDrawerList.setAdapter(mAdapter);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(mActionBarDrawerToggle.onOptionsItemSelected(item))
+        if (mActionBarDrawerToggle.onOptionsItemSelected(item))
             return true;
         return super.onOptionsItemSelected(item);
     }
 
 
-    private void onClick() {
+    private void onItemClick() {
         this.mDrawerList.setOnItemClickListener((parent, view, position, id) -> {
             switch ((int) id) {
                 case 0:
