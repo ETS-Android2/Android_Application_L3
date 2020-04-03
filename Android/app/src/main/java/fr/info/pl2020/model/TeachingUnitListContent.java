@@ -17,7 +17,7 @@ public class TeachingUnitListContent {
 
     public static void clear() {
         TEACHING_UNITS.clear();
-        TEACHING_UNIT_BY_CATEGORY.values().forEach(Set::clear);
+        TEACHING_UNIT_BY_CATEGORY.clear();
     }
 
     public static void addItem(TeachingUnit item) {

@@ -16,6 +16,11 @@ public class CareerService {
 
     private final String urn = "/student/career";
 
+    public void getCareer(int semester, AsyncHttpResponseHandler responseHandler) {
+        String currentUrn = urn + (semester == 0 ? "" : "?semester=" + semester);
+        HttpClientManager.get(currentUrn, true, responseHandler);
+    }
+
     public void saveCareer(List<Integer> teachingUnitIdList, AsyncHttpResponseHandler responseHandler) {
         JSONArray jsonArray = new JSONArray();
         for (Integer id : teachingUnitIdList) {

@@ -1,5 +1,6 @@
 package fr.info.pl2020.controller;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ExpandableListView;
@@ -25,8 +26,12 @@ import fr.info.pl2020.util.FunctionsUtils;
 
 public class TeachingUnitController {
 
-    public void updateTeachingUnits(Context context, int semesterId, boolean isTwoPane) {
+    private CareerController careerController = new CareerController();
+
+    public void updateTeachingUnits(Context context, int semesterId) {
         if (!TeachingUnitListContent.TEACHING_UNITS.isEmpty()) {
+            ExpandableListView expandableListView = ((Activity) context).findViewById(R.id.teachingunit_list);
+            ((TeachingUnitAdapter) expandableListView.getExpandableListAdapter()).notifyDataSetChanged();
             return;
         }
 
@@ -59,7 +64,7 @@ public class TeachingUnitController {
                     }
                 }
 
-                setupExpandableListView((TeachingUnitListActivity) context, isTwoPane);
+                careerController.getCareer(context, semesterId);
             }
 
             @Override
@@ -99,9 +104,9 @@ public class TeachingUnitController {
         });
     }
 
-    public void setupExpandableListView(TeachingUnitListActivity context, boolean isTwoPane) {
-        ExpandableListView expandableListView = context.findViewById(R.id.teachingunit_list);
-        expandableListView.setAdapter(new TeachingUnitAdapter(context, TeachingUnitListContent.getTeachingUnitByCategory(), isTwoPane));
+    public void setupExpandableListView(Context context) {
+        ExpandableListView expandableListView = ((Activity) context).findViewById(R.id.teachingunit_list);
+        expandableListView.setAdapter(new TeachingUnitAdapter(context, TeachingUnitListContent.getTeachingUnitByCategory(), TeachingUnitListActivity.isTwoPane));
         int lastOpenedTU = TeachingUnitListContent.getLastOpenedTeachingUnit();
         if (lastOpenedTU != 0 && TeachingUnitListContent.TEACHING_UNITS.containsKey(lastOpenedTU)) {
             TeachingUnit tu = TeachingUnitListContent.TEACHING_UNITS.get(lastOpenedTU);

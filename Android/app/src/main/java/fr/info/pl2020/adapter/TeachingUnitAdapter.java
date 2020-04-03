@@ -25,7 +25,7 @@ import fr.info.pl2020.model.TeachingUnitListContent;
 
 public class TeachingUnitAdapter extends BaseExpandableListAdapter {
 
-    private final TeachingUnitListActivity context;
+    private final Context context;
     private List<String> categoryList;
     private Map<String, List<TeachingUnitListContent.TeachingUnit>> teachingUnitMap;
     private final boolean isTwoPane;
@@ -39,7 +39,7 @@ public class TeachingUnitAdapter extends BaseExpandableListAdapter {
                 arguments.putInt(TeachingUnitDetailFragment.ARG_ITEM_ID, teachingUnitId);
                 TeachingUnitDetailFragment fragment = new TeachingUnitDetailFragment();
                 fragment.setArguments(arguments);
-                context.getSupportFragmentManager()
+                ((TeachingUnitListActivity) context).getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.teachingunit_detail_container, fragment)
                         .commit();
@@ -53,7 +53,7 @@ public class TeachingUnitAdapter extends BaseExpandableListAdapter {
         }
     };
 
-    public TeachingUnitAdapter(TeachingUnitListActivity context, Map<String, List<TeachingUnitListContent.TeachingUnit>> items, boolean twoPane) {
+    public TeachingUnitAdapter(Context context, Map<String, List<TeachingUnitListContent.TeachingUnit>> items, boolean twoPane) {
         this.context = context;
         this.isTwoPane = twoPane;
         this.categoryList = new ArrayList<>(items.keySet());
