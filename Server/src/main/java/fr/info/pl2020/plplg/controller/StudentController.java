@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class StudentController {
@@ -32,8 +33,11 @@ public class StudentController {
 
     @GetMapping(value = "/student/career", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ResponseEntity<List<TeachingUnit>> getStudentCareer() {
+    public ResponseEntity<List<TeachingUnit>> getStudentCareer(@RequestParam(name = "semester", defaultValue = "0") int semester) {
         List<TeachingUnit> career = getLoggedStudent().getCareer();
+        if (semester != 0) {
+            career = career.stream().filter(teachingUnit -> teachingUnit.getSemester().getId() == semester).collect(Collectors.toList());
+        }
         return new ResponseEntity<>(career, career.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);  //TODO tester les 2 cas
     }
 
@@ -62,7 +66,7 @@ public class StudentController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof User) {
             return this.studentService.getByLoggedUser(((User) principal));
-        } else if (principal instanceof StudentDetails){
+        } else if (principal instanceof StudentDetails) {
             return this.studentService.getById(((StudentDetails) principal).getId());
         } else {
             throw new RuntimeException("Echec de détéction du type de User lors de l'authification");

@@ -11,10 +11,11 @@ public interface TeachingUnitRepository extends JpaRepository<TeachingUnit, Inte
     @Override
     Optional<TeachingUnit> findById(Integer integer);
 
-    @Query("FROM TeachingUnit as ue WHERE ue.semester.id = ?1")
-    List<TeachingUnit> findAllBySemester(Integer semesterId);
+    List<TeachingUnit> findAllBySemester_Id(Integer semesterId);
 
     List<TeachingUnit> findAllByIdIn(List<Integer> ids);
 
     List<TeachingUnit> findByNameContainingIgnoreCase(String name);
+
+    List<TeachingUnit> findByNameContainingIgnoreCaseAndSemester_Id(String name, int semester_id);
 }

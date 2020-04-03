@@ -29,7 +29,8 @@ public class TeachingUnitController {
     private StudentService studentService;
 
     @GetMapping(value = "/teachingUnit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<TeachingUnitResponse>> getAllTeachingUnit(@RequestParam(value = "semester", defaultValue = "0") int semester, @RequestParam(value = "showUserSelection", defaultValue = "false") boolean showUserSelection, @RequestParam(value = "name", defaultValue = "") String name) {
+    public ResponseEntity<List<TeachingUnitResponse>> getAllTeachingUnit(@RequestParam(value = "semester", defaultValue = "0") int semester, @RequestParam(value = "name", defaultValue = "") String name) {
+        //TODO refaire ça pour gerer correctement les filtres semester + name
         if (semester == 0) {
             if (name.isEmpty()) {
                 return new ResponseEntity<>(TeachingUnitResponse.TeachingUnitListToTeachingUnitResponseList(this.teachingUnitService.getAll()), HttpStatus.OK);
@@ -39,16 +40,6 @@ public class TeachingUnitController {
         } else {
             try {
                 List<TeachingUnit> teachingUnitList = this.teachingUnitService.getBySemesterId(semester);
-                if (showUserSelection) {
-                    StudentDetails studentDetails = (StudentDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //TODO !!
-                    List<Integer> teachingUnitsOfStudent = this.studentService.getById(studentDetails.getId()).getCareer().stream().map(TeachingUnit::getId).collect(Collectors.toList());
-                    teachingUnitList.forEach(teachingUnit -> {
-                        if (teachingUnitsOfStudent.contains(teachingUnit.getId())) {
-                            teachingUnit.setSelectedByStudent(true);
-                        }
-                    });
-                }
-
                 return new ResponseEntity<>(TeachingUnitResponse.TeachingUnitListToTeachingUnitResponseList(teachingUnitList), HttpStatus.OK);
             } catch (NumberFormatException nfe) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

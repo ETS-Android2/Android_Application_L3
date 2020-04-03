@@ -36,7 +36,7 @@ public class TeachingUnitService {
     }
 
     public List<TeachingUnit> getBySemesterId(int semesterId) {
-        return this.teachingUnitRepository.findAllBySemester(semesterId);
+        return this.teachingUnitRepository.findAllBySemester_Id(semesterId);
     }
 
     public TeachingUnit addTeachingUnit(String name, String code, String description, int semesterId, int categoryId) throws ClientRequestException {
