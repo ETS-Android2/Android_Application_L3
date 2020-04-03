@@ -1,5 +1,6 @@
 package fr.info.pl2020.manager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +22,12 @@ public class AuthenticationManager {
         b.putBoolean("hasAParent", true);
         intent.putExtras(b);
         context.startActivity(intent);
+    }
+
+    public void logout(Activity context, Intent intent) {
+        setToken("");
+        context.startActivity(intent);
+        context.finish();
     }
 }
 

@@ -1,10 +1,9 @@
 package fr.info.pl2020.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -15,6 +14,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import fr.info.pl2020.R;
 import fr.info.pl2020.controller.SemestersListController;
+import fr.info.pl2020.manager.AuthenticationManager;
 
 public class SemestersListActivity extends AppCompatActivity {
 
@@ -37,7 +37,7 @@ public class SemestersListActivity extends AppCompatActivity {
         this.semesterList = findViewById(R.id.semesterListView);
 
         //for hamburger
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.drawer_open, R.string.drawer_close);
         mActionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -81,23 +81,24 @@ public class SemestersListActivity extends AppCompatActivity {
 
 
     private void onClick() {
-        this.mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch ((int) id) {
-                    case 0:
-                        Toast.makeText(SemestersListActivity.this, "Vous avez cliqué sur Afficher le parcours", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 1:
-                        Toast.makeText(SemestersListActivity.this, "Vous avez cliqué sur Editer le parcours", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 2:
-                        Toast.makeText(SemestersListActivity.this, "Se déconnecter", Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        break;
-                }
+        this.mDrawerList.setOnItemClickListener((parent, view, position, id) -> {
+            switch ((int) id) {
+                case 0:
+                    Toast.makeText(SemestersListActivity.this, "Vous avez cliqué sur Afficher le parcours", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    Toast.makeText(SemestersListActivity.this, "Vous avez cliqué sur Editer le parcours", Toast.LENGTH_SHORT).show();
+                    break;
+                case 2:
+                    logout();
+                    break;
+                default:
+                    break;
             }
         });
+    }
+
+    public void logout() {
+        new AuthenticationManager().logout(SemestersListActivity.this, new Intent(this, SemestersListActivity.class));
     }
 }
