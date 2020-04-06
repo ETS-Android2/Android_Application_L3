@@ -89,10 +89,12 @@ les catégories des UE.
 ### [Itération 8](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/8)
 
 - [X] Permettre à l'utilisateur de s'inscrire.
-- [X] Rendre le bouton "Afficher le parcours" fonctionnel.
+- [X] Rendre les boutons "Afficher le parcours" et "Modifier le parcours" dans la barre latérale fonctionnels.
 - [X] Rendre la barre de recherche fonctionnelle.
 - [X] ~~L'utilisateur ne peut pas sélectionner une matière qui a atteint le nombre max d'étudiant.~~ (Abandonné)
 - [X] Adaptation du projet avec la 2ème modification du sujet.
+- [x] Permettre l'enregistrement et la publication d'un parcours type.
+- [x] Permettre la récupération des parcours type d'autres étudiants (Serveur uniquement).
 
 #### Date prévue : 
 *vendredi 10 avril 2020* 
@@ -101,8 +103,11 @@ les catégories des UE.
 
 ### [Itération 9](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/9)
 
-- [X] Rendre le bouton "Modifier le parcours" fonctionnel.
 - [X] Gérer la dépendance des UE et ECUE entre les semestres.
+- [x] Permettre d'éditer ou de supprimer un parcours type enregistré.
+- [x] Afficher les parcours type d'autres étudiants (Android uniquement).
+- [x] Se connecter à un serveur SMTP pour pouvoir partager son parcours par mail.
+- [x] Pouvoir télécharger son parcours dans un fichier texte.
 
 #### Date prévue : 
 *vendredi 17 avril 2020*
