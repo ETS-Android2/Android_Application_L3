@@ -13,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 import fr.info.pl2020.R;
+import fr.info.pl2020.adapter.TeachingUnitAdapter;
 import fr.info.pl2020.controller.CareerController;
 import fr.info.pl2020.controller.TeachingUnitController;
 import fr.info.pl2020.model.Semester;
@@ -102,15 +103,22 @@ public class TeachingUnitListActivity extends AppCompatActivity {
         }
     }
 
-//begin loupe
+    @Override
+    public void onResume() {
+        ExpandableListView expandableListView = findViewById(R.id.teachingunit_list);
+        TeachingUnitAdapter adapter = (TeachingUnitAdapter) expandableListView.getExpandableListAdapter();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+
+        super.onResume();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.options_menu, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
-//end loupe
 
     @Override
     protected void onDestroy() {

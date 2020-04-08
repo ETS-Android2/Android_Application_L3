@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -20,7 +18,6 @@ import cz.msebera.android.httpclient.HttpStatus;
 import fr.info.pl2020.R;
 import fr.info.pl2020.activity.TeachingUnitListActivity;
 import fr.info.pl2020.adapter.TeachingUnitAdapter;
-import fr.info.pl2020.manager.AuthenticationManager;
 import fr.info.pl2020.model.TeachingUnitListContent;
 import fr.info.pl2020.model.TeachingUnitListContent.TeachingUnit;
 import fr.info.pl2020.service.TeachingUnitService;
@@ -32,18 +29,12 @@ public class TeachingUnitController {
     private CareerController careerController = new CareerController();
 
     public void updateTeachingUnits(Context context, int semesterId) {
-        if (!TeachingUnitListContent.TEACHING_UNITS.isEmpty()) {
-            ExpandableListView expandableListView = ((Activity) context).findViewById(R.id.teachingunit_list);
-            ((TeachingUnitAdapter) expandableListView.getExpandableListAdapter()).notifyDataSetChanged();
-            return;
-        }
-
         new TeachingUnitService().getAll(semesterId, null, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 if (statusCode != HttpStatus.SC_OK) {
-                    Log.e("TEACHING_UNIT", "Statut HTTP de la réponse inattendu (Code: (Code: " + statusCode + ")");
+                    Log.e("TEACHING_UNIT", "Statut HTTP de la réponse inattendu (Code: " + statusCode + ")");
                     Toast.makeText(context, R.string.standard_exception, Toast.LENGTH_SHORT).show();
                 }
 
@@ -58,36 +49,6 @@ public class TeachingUnitController {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        });
-    }
-
-    public void displayTeachingUnitDetails(Context context, TextView nameTextView, TextView codeTextView, TextView descriptionTextView, int teachingUnitId) {
-        new TeachingUnitService().getOne(teachingUnitId, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                if (statusCode == HttpStatus.SC_OK) {
-                    try {
-                        nameTextView.setText(response.getString("name"));
-                        codeTextView.setText(response.getString("code"));
-                        descriptionTextView.setText(response.getString("description"));
-                    } catch (JSONException e) {
-                        Log.e("TEACHING_UNIT", "Echec de la récupération des informations de l'UE '" + teachingUnitId + "' depuis le JSON", e);
-                    }
-                } else {
-                    Log.e("TEACHING_UNIT", "Statut HTTP de la réponse inattendu (Code: " + statusCode + ")");
-                    Toast.makeText(context, R.string.unexpected_http_status, Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
-                    new AuthenticationManager().callLoginActivity(context);
-                } else {
-                    Log.e("TEACHING_UNIT", "Echec de la récupération de la description de l'UE '" + teachingUnitId + "' (Code: " + statusCode + ")", throwable);
-                    Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
