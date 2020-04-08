@@ -53,16 +53,60 @@ public class TeachingUnitServiceTest {
         assertNull(this.service.getById(2));
     }
 
-
     @Test
     public void getAllTest() {
         TeachingUnit ue1 = new TeachingUnit();
         ue1.setId(1);
         TeachingUnit ue2 = new TeachingUnit();
         ue2.setId(2);
-        when(this.repository.findAll()).thenReturn(Stream.of(ue1, ue2).collect(Collectors.toList()));
+        when(this.repository.findByNameContainingIgnoreCase(eq(""))).thenReturn(Stream.of(ue1, ue2).collect(Collectors.toList()));
 
-        List<TeachingUnit> teachingUnits = this.service.getAll();
+        List<TeachingUnit> teachingUnits = this.service.getAll(0, "");
+        assertNotNull(teachingUnits);
+        assertEquals(2, teachingUnits.size());
+        assertEquals(1, teachingUnits.get(0).getId());
+        assertEquals(2, teachingUnits.get(1).getId());
+    }
+
+    @Test
+    public void getByContainingNameTest() {
+        TeachingUnit ue1 = new TeachingUnit();
+        ue1.setId(1);
+        TeachingUnit ue2 = new TeachingUnit();
+        ue2.setId(2);
+        when(this.repository.findByNameContainingIgnoreCase(eq("Algorithmique"))).thenReturn(Stream.of(ue1, ue2).collect(Collectors.toList()));
+
+        List<TeachingUnit> teachingUnits = this.service.getAll(0, "Algorithmique");
+        assertNotNull(teachingUnits);
+        assertEquals(2, teachingUnits.size());
+        assertEquals(1, teachingUnits.get(0).getId());
+        assertEquals(2, teachingUnits.get(1).getId());
+    }
+
+    @Test
+    public void getBySemesterIdTest() {
+        TeachingUnit ue1 = new TeachingUnit();
+        ue1.setId(1);
+        TeachingUnit ue2 = new TeachingUnit();
+        ue2.setId(2);
+        when(this.repository.findBySemester_IdAndNameContainingIgnoreCase(eq(1), eq(""))).thenReturn(Stream.of(ue1, ue2).collect(Collectors.toList()));
+
+        List<TeachingUnit> teachingUnits = this.service.getAll(1, "");
+        assertNotNull(teachingUnits);
+        assertEquals(2, teachingUnits.size());
+        assertEquals(1, teachingUnits.get(0).getId());
+        assertEquals(2, teachingUnits.get(1).getId());
+    }
+
+    @Test
+    public void getBySemesterIdAndContainingNameTest() {
+        TeachingUnit ue1 = new TeachingUnit();
+        ue1.setId(1);
+        TeachingUnit ue2 = new TeachingUnit();
+        ue2.setId(2);
+        when(this.repository.findBySemester_IdAndNameContainingIgnoreCase(eq(1), eq("Algorithmique"))).thenReturn(Stream.of(ue1, ue2).collect(Collectors.toList()));
+
+        List<TeachingUnit> teachingUnits = this.service.getAll(1, "Algorithmique");
         assertNotNull(teachingUnits);
         assertEquals(2, teachingUnits.size());
         assertEquals(1, teachingUnits.get(0).getId());

@@ -162,8 +162,9 @@ public class StudentServiceTest {
         }
 
     }
+
     @Test
-    public void  maxiTeachingUnitTest() throws ClientRequestException {
+    public void maxiTeachingUnitTest() throws ClientRequestException {
         //list Teachingunit
         Semester semester = new Semester();
         Category category = new Category();
@@ -173,18 +174,12 @@ public class StudentServiceTest {
         semester.setId(1);
         List<TeachingUnit> listTu = new ArrayList<>();
         listTu.add(new TeachingUnit("UE1", "1", "blablabla", semester, category));
-        listTu.add( new TeachingUnit("UE2","2","blablabla",semester,category));
-        listTu.add( new TeachingUnit("UE3","3","blablabla",semester,category));
-        listTu.add( new TeachingUnit("UE4","4","blablabla",semester,category));
-        listTu.add( new TeachingUnit("UE5","5","blablabla",semester,category));
-        try {
-            service.maxiTeachingUnit(listTu);
-        } catch (ClientRequestException Exp) {
-            assertNotNull(Exp.getClientMessage());
-            assert (Exp.getClientMessage().contains("{\"error\":\"" + "Vous ne pouvez pas sélectionner plus que quatre UE par semestre." + "\"}"));
-        }
+        listTu.add(new TeachingUnit("UE2", "2", "blablabla", semester, category));
+        listTu.add(new TeachingUnit("UE3", "3", "blablabla", semester, category));
+        listTu.add(new TeachingUnit("UE4", "4", "blablabla", semester, category));
+        listTu.add(new TeachingUnit("UE5", "5", "blablabla", semester, category));
+        assertThrows(ClientRequestException.class, () -> service.maxiTeachingUnit(listTu));
     }
-
 
 
 }

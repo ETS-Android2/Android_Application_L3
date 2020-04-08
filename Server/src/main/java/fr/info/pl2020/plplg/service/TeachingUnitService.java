@@ -27,16 +27,16 @@ public class TeachingUnitService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public List<TeachingUnit> getAll() {
-        return this.teachingUnitRepository.findAll();
+    public List<TeachingUnit> getAll(int semesterId, String name) {
+        if (semesterId == 0) {
+            return this.teachingUnitRepository.findByNameContainingIgnoreCase(name);
+        } else {
+            return this.teachingUnitRepository.findBySemester_IdAndNameContainingIgnoreCase(semesterId, name);
+        }
     }
 
     public TeachingUnit getById(int id) {
         return this.teachingUnitRepository.findById(id).orElse(null);
-    }
-
-    public List<TeachingUnit> getBySemesterId(int semesterId) {
-        return this.teachingUnitRepository.findAllBySemester_Id(semesterId);
     }
 
     public TeachingUnit addTeachingUnit(String name, String code, String description, int semesterId, int categoryId) throws ClientRequestException {
@@ -51,9 +51,5 @@ public class TeachingUnitService {
         String desc = isNullOrBlank(description) ? "Indisponible" : description;
         TeachingUnit t = new TeachingUnit(name, code, desc, s, c);
         return this.teachingUnitRepository.save(t);
-    }
-
-    public List<TeachingUnit> getByName(String name) {
-        return this.teachingUnitRepository.findByNameContainingIgnoreCase(name);
     }
 }
