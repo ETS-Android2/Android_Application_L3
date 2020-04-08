@@ -26,6 +26,10 @@ public class FunctionsUtils {
         return true;
     }
 
+    public static boolean isNullOrBlank(String s) {
+        return (s == null || s.trim().isEmpty());
+    }
+
     public static int getIndex(Set<?> set, Object value) {
         int result = 0;
         for (Object entry:set) {

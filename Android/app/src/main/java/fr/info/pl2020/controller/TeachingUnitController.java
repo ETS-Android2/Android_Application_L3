@@ -13,6 +13,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpStatus;
 import fr.info.pl2020.R;
@@ -23,6 +25,7 @@ import fr.info.pl2020.model.TeachingUnitListContent;
 import fr.info.pl2020.model.TeachingUnitListContent.TeachingUnit;
 import fr.info.pl2020.service.TeachingUnitService;
 import fr.info.pl2020.util.FunctionsUtils;
+import fr.info.pl2020.util.JsonModelConvert;
 
 public class TeachingUnitController {
 
@@ -35,7 +38,7 @@ public class TeachingUnitController {
             return;
         }
 
-        new TeachingUnitService().getAllBySemester(semesterId, new JsonHttpResponseHandler() {
+        new TeachingUnitService().getAll(semesterId, null, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -44,24 +47,9 @@ public class TeachingUnitController {
                     Toast.makeText(context, R.string.standard_exception, Toast.LENGTH_SHORT).show();
                 }
 
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject jsonTeachingUnit = response.getJSONObject(i);
-
-                        int teachingUnitId = jsonTeachingUnit.getInt("id");
-                        String teachingUnitName = jsonTeachingUnit.getString("name");
-                        String teachingUnitCode = jsonTeachingUnit.getString("code");
-                        String teachingUnitDescription = jsonTeachingUnit.getString("description");
-                        int teachingUnitSemester = jsonTeachingUnit.getInt("semester");
-                        String teachingUnitCategory = jsonTeachingUnit.getString("category");
-
-                        TeachingUnit tu = new TeachingUnit(teachingUnitId, teachingUnitName, teachingUnitCode, teachingUnitDescription, teachingUnitSemester, teachingUnitCategory);
-                        TeachingUnitListContent.addItem(tu);
-                    } catch (JSONException e) {
-                        Log.e("TEACHING_UNIT", "Erreur lors de la récupération des informations d'une UE", e);
-                        Toast.makeText(context, R.string.standard_exception, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+                List<TeachingUnit> teachingUnits = JsonModelConvert.jsonArrayToTeachingUnits(response);
+                for (TeachingUnit tu : teachingUnits) {
+                    TeachingUnitListContent.addItem(tu);
                 }
 
                 careerController.getCareer(context, semesterId);

@@ -18,6 +18,9 @@
             android:layout_height="match_parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include layout="@layout/search_teachingunit_list" />
+
     <ListView
         android:id="@+id/navList"
         android:layout_width="200dp"

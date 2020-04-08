@@ -19,6 +19,20 @@ public class FunctionsUtilsTest {
         assertFalse(FunctionsUtils.isEmail("toto@gmail.c"));
         assertFalse(FunctionsUtils.isEmail("toto@gmail..com"));
         assertFalse(FunctionsUtils.isEmail("toto@gmail.commercial"));
+    }
 
+    @Test
+    public void isNullOrBlank() {
+        assertTrue(FunctionsUtils.isNullOrBlank(null));
+        assertTrue(FunctionsUtils.isNullOrBlank(""));
+        assertTrue(FunctionsUtils.isNullOrBlank("    "));
+        assertTrue(FunctionsUtils.isNullOrBlank("\n"));
+        assertTrue(FunctionsUtils.isNullOrBlank("\t"));
+        assertTrue(FunctionsUtils.isNullOrBlank("\r"));
+
+        assertFalse(FunctionsUtils.isNullOrBlank("abc"));
+        assertFalse(FunctionsUtils.isNullOrBlank("123"));
+        assertFalse(FunctionsUtils.isNullOrBlank(" abc "));
+        assertFalse(FunctionsUtils.isNullOrBlank("\tabc\n"));
     }
 }

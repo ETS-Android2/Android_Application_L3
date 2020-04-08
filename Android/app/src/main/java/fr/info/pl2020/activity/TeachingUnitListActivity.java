@@ -2,17 +2,23 @@ package fr.info.pl2020.activity;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.ViewTreeObserver;
+import android.widget.ExpandableListView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 import fr.info.pl2020.R;
 import fr.info.pl2020.controller.CareerController;
 import fr.info.pl2020.controller.TeachingUnitController;
 import fr.info.pl2020.model.Semester;
 import fr.info.pl2020.model.TeachingUnitListContent;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * An activity representing a list of TeachingUnits. This activity
@@ -25,6 +31,7 @@ import fr.info.pl2020.model.TeachingUnitListContent;
 public class TeachingUnitListActivity extends AppCompatActivity {
 
     public static final String ARG_SEMESTER_ID = "semester_id";
+    public static final String ARG_FOCUS_TU_ID = "teaching_unit_id";
 
     public static boolean isTwoPane;
     private Semester currentSemester;
@@ -37,10 +44,13 @@ public class TeachingUnitListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teachingunit_list);
 
+        int focusedTeachingUnitId = 0;
+
         // Récupération des attributs du semestre
         Bundle b = getIntent().getExtras();
         if (b != null && b.getInt(ARG_SEMESTER_ID) != 0) {
             this.currentSemester = new Semester(b.getInt(ARG_SEMESTER_ID));
+            focusedTeachingUnitId = b.getInt(ARG_FOCUS_TU_ID);
         } else {
             finish();
         }
@@ -66,6 +76,30 @@ public class TeachingUnitListActivity extends AppCompatActivity {
         // Récupération de la liste des UE
         this.teachingUnitController = new TeachingUnitController();
         this.teachingUnitController.updateTeachingUnits(this, currentSemester.getId());
+
+        // Si c'est la recherche qui a créé cette page, on redirige vers l'UE demandé
+        // Très bancale comme solution, mais à défaut d'en avoir une autre on va faire comme ça.
+        if (focusedTeachingUnitId != 0) {
+            ExpandableListView expandableListView = findViewById(R.id.teachingunit_list);
+            final int finalFocusedTeachingUnitId = focusedTeachingUnitId;
+            expandableListView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    if (expandableListView.getAdapter() != null) {
+                        TeachingUnitListContent.TeachingUnit teachingUnit = TeachingUnitListContent.TEACHING_UNITS.get(finalFocusedTeachingUnitId);
+                        int groupId = new ArrayList<>(TeachingUnitListContent.getTeachingUnitByCategory().keySet()).indexOf(teachingUnit.getCategory());
+                        int childId = TeachingUnitListContent.getTeachingUnitByCategory().get(teachingUnit.getCategory()).stream().map(TeachingUnitListContent.TeachingUnit::getId).collect(toList()).indexOf(teachingUnit.getId());
+
+                        expandableListView.expandGroup(groupId, false);
+                        expandableListView.getExpandableListAdapter().getChildView(groupId, childId, true, null, null).findViewById(R.id.content).performClick();
+                        expandableListView.getViewTreeObserver().removeOnPreDrawListener(this);
+                        return true;
+                    }
+
+                    return false;
+                }
+            });
+        }
     }
 
 //begin loupe

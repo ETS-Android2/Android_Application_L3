@@ -25,4 +25,5 @@
     <string name="not_registered">Pas encore inscrit ?</string>
     <string name="register">S\'enregistrer</string>
     <string name="remember_me">Se souvenir de moi ?</string>
+    <string name="search_no_teachingunit_found">Aucune UE trouvée</string>
 </resources>

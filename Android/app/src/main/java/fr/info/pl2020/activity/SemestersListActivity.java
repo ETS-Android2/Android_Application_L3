@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -14,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import fr.info.pl2020.R;
+import fr.info.pl2020.controller.SearchController;
 import fr.info.pl2020.controller.SemestersListController;
 import fr.info.pl2020.manager.AuthenticationManager;
 
@@ -21,6 +25,9 @@ public class SemestersListActivity extends AppCompatActivity {
 
     private ListView semesterList;
     private boolean doubleBackToExitPressedOnce = false;
+
+    private SearchController searchController = new SearchController();
+    private final static int MIN_CHAR_FOR_SEARCH = 3;
 
     //for drawer
     private ListView mDrawerList;
@@ -48,15 +55,47 @@ public class SemestersListActivity extends AppCompatActivity {
         onItemClick();
     }
 
-    //begin loupe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.options_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        View searchBackground = findViewById(R.id.search_background);
+        searchBackground.setOnClickListener(v -> {
+            searchView.setQuery("", false);
+            searchView.setIconified(true);
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchController.searchTeachingUnit(SemestersListActivity.this, query, 0);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                TextView searchErrorTextView = findViewById(R.id.searchErrorTextView);
+                searchErrorTextView.setVisibility(View.GONE);
+
+                if (newText.isEmpty()) {
+                    searchBackground.setVisibility(View.GONE);
+                    return false;
+                } else if (newText.length() < MIN_CHAR_FOR_SEARCH) {
+                    searchBackground.setVisibility(View.VISIBLE);
+                    return false;
+                } else {
+                    searchBackground.setVisibility(View.VISIBLE);
+                    searchController.searchTeachingUnit(SemestersListActivity.this, newText, 0);
+                    return true;
+                }
+            }
+        });
 
         return super.onCreateOptionsMenu(menu);
     }
-//end loupe
 
     @Override
     protected void onResume() {
