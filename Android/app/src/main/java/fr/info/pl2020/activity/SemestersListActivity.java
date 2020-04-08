@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -20,6 +21,8 @@ import fr.info.pl2020.R;
 import fr.info.pl2020.controller.SearchController;
 import fr.info.pl2020.controller.SemestersListController;
 import fr.info.pl2020.manager.AuthenticationManager;
+
+import fr.info.pl2020.activity.CommunActivity;
 
 public class SemestersListActivity extends AppCompatActivity {
 
@@ -57,44 +60,7 @@ public class SemestersListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.options_menu, menu);
-
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-
-        View searchBackground = findViewById(R.id.search_background);
-        searchBackground.setOnClickListener(v -> {
-            searchView.setQuery("", false);
-            searchView.setIconified(true);
-        });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                searchController.searchTeachingUnit(SemestersListActivity.this, query, 0);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                TextView searchErrorTextView = findViewById(R.id.searchErrorTextView);
-                searchErrorTextView.setVisibility(View.GONE);
-
-                if (newText.isEmpty()) {
-                    searchBackground.setVisibility(View.GONE);
-                    return false;
-                } else if (newText.length() < MIN_CHAR_FOR_SEARCH) {
-                    searchBackground.setVisibility(View.VISIBLE);
-                    return false;
-                } else {
-                    searchBackground.setVisibility(View.VISIBLE);
-                    searchController.searchTeachingUnit(SemestersListActivity.this, newText, 0);
-                    return true;
-                }
-            }
-        });
-
-        return super.onCreateOptionsMenu(menu);
+        return new CommunActivity().onCreateOptionsMenu(menu, this);
     }
 
     @Override

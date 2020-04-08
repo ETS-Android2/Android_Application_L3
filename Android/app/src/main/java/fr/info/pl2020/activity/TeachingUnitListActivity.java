@@ -21,6 +21,8 @@ import fr.info.pl2020.model.TeachingUnitListContent;
 
 import static java.util.stream.Collectors.toList;
 
+import fr.info.pl2020.activity.CommunActivity;
+
 /**
  * An activity representing a list of TeachingUnits. This activity
  * has different presentations for handset and tablet-size devices. On
@@ -116,8 +118,7 @@ public class TeachingUnitListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.options_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        return new CommunActivity().onCreateOptionsMenu(menu, this);
     }
 
     @Override
