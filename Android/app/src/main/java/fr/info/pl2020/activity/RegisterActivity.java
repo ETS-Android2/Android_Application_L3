@@ -1,6 +1,8 @@
 package fr.info.pl2020.activity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,5 +25,15 @@ public class RegisterActivity extends AppCompatActivity {
         //go to Login page
         this.loginView = findViewById(R.id.register);
         loginView.setOnClickListener(v -> this.finish());
+        changeBackground();
+    }
+    private void changeBackground(){
+        View view = (View) findViewById(R.id.register_page);
+        int orientation = getResources().getConfiguration().orientation;
+        if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            view.setBackgroundResource (R.drawable.background_landscape);
+        } else {
+            view.setBackgroundResource (R.drawable.login);
+        }
     }
 }
