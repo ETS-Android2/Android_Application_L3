@@ -3,34 +3,22 @@ package fr.info.pl2020.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import fr.info.pl2020.R;
-import fr.info.pl2020.controller.SearchController;
 import fr.info.pl2020.controller.SemestersListController;
 import fr.info.pl2020.manager.AuthenticationManager;
 
-import fr.info.pl2020.activity.CommunActivity;
-
-public class SemestersListActivity extends AppCompatActivity {
+public class SemestersListActivity extends ToolbarIntegratedActivity {
 
     private ListView semesterList;
     private boolean doubleBackToExitPressedOnce = false;
-
-    private SearchController searchController = new SearchController();
-    private final static int MIN_CHAR_FOR_SEARCH = 3;
 
     //for drawer
     private ListView mDrawerList;
@@ -44,6 +32,7 @@ public class SemestersListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_semesters_list);
+        super.init(0, true, true);
         this.semesterList = findViewById(R.id.semesterListView);
 
         //for hamburger
@@ -56,11 +45,6 @@ public class SemestersListActivity extends AppCompatActivity {
         mDrawerList = findViewById(R.id.navList);
         addDrawerItems();
         onItemClick();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return new CommunActivity().onCreateOptionsMenu(menu, this);
     }
 
     @Override
