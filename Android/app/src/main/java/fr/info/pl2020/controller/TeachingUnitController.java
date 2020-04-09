@@ -18,6 +18,7 @@ import cz.msebera.android.httpclient.HttpStatus;
 import fr.info.pl2020.R;
 import fr.info.pl2020.activity.TeachingUnitListActivity;
 import fr.info.pl2020.adapter.TeachingUnitAdapter;
+import fr.info.pl2020.manager.AuthenticationManager;
 import fr.info.pl2020.model.TeachingUnitListContent;
 import fr.info.pl2020.model.TeachingUnitListContent.TeachingUnit;
 import fr.info.pl2020.service.TeachingUnitService;
@@ -48,7 +49,12 @@ public class TeachingUnitController {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
+                if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
+                    new AuthenticationManager().callLoginActivity(context);
+                } else {
+                    Log.e("TEACHING_UNIT", "Echec de la récupération de la liste des UE (Code: " + statusCode + ")", throwable);
+                    Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

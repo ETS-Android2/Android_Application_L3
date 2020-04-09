@@ -1,12 +1,8 @@
 package fr.info.pl2020.activity;
 
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.ViewTreeObserver;
 import android.widget.ExpandableListView;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -29,7 +25,7 @@ import static java.util.stream.Collectors.toList;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class TeachingUnitListActivity extends AppCompatActivity {
+public class TeachingUnitListActivity extends ToolbarIntegratedActivity {
 
     public static final String ARG_SEMESTER_ID = "semester_id";
     public static final String ARG_FOCUS_TU_ID = "teaching_unit_id";
@@ -44,7 +40,6 @@ public class TeachingUnitListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teachingunit_list);
-
         int focusedTeachingUnitId = 0;
 
         // Récupération des attributs du semestre
@@ -56,13 +51,9 @@ public class TeachingUnitListActivity extends AppCompatActivity {
             finish();
         }
 
-        // TOOLBAR
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(this.currentSemester.getName());
-        }
+        // Initialisation de la toolbar
+        super.init(this.currentSemester.getId(), false, true);
+        super.setTitle(this.currentSemester.getName());
 
         // Le bouton enregistrer
         FloatingActionButton fab = findViewById(R.id.fab_save_career);
@@ -112,12 +103,6 @@ public class TeachingUnitListActivity extends AppCompatActivity {
         }
 
         super.onResume();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.options_menu, menu);
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
