@@ -21,9 +21,8 @@ import fr.info.pl2020.util.FunctionsUtils;
 
 public class RegisterController {
     public void authenticate(Context context, String name, String lastname, String email, String password, String confirmPassword) {
-        if (password.equals(confirmPassword) && isNotNull(name, lastname, email, password, confirmPassword)) {
-            new RegisterService().verify(name, lastname, email, password, new JsonHttpResponseHandler() {
-                @Override
+        new RegisterService().verify(name, lastname, email, password, new JsonHttpResponseHandler() {
+            @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     if (statusCode == HttpStatus.SC_CREATED) {
                         ((Activity) context).finish();
@@ -44,38 +43,5 @@ public class RegisterController {
                     }
                 }
             });
-        } else {
-            Log.e("Password", "not matching password");
         }
-
     }
-
-
-    public boolean isNotNull(String name, String lastname, String email, String password, String confirmPassword) {
-        boolean isNotNull = false;
-        if (!FunctionsUtils.isNullOrBlank(name)) {
-            if (!FunctionsUtils.isNullOrBlank(lastname)) {
-                if (!FunctionsUtils.isNullOrBlank(email)) {
-                    if (!FunctionsUtils.isNullOrBlank(password)) {
-                        if (!FunctionsUtils.isNullOrBlank(confirmPassword)) {
-                            isNotNull = true;
-                        } else {
-                            Log.e("ConfirmPassword", "Confirm password is null");
-                        }
-                    } else {
-                        Log.e("Password", "password is null");
-                    }
-                } else {
-                    Log.e("Email", "email is null");
-                }
-            } else {
-                Log.e("LastName", "LastName is null");
-            }
-        } else {
-            Log.e("Name", "name is null");
-        }
-        return isNotNull;
-    }
-
-
-}
