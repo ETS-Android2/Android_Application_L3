@@ -94,8 +94,6 @@ public class SemesterActivityTest {
 
     @Test
     public void displaySemesterList_OK() throws Exception {
-        //AuthenticationManager authenticationManager = mock(AuthenticationManager.class);
-        //when(authenticationManager.getToken()).thenReturn("Bearer leToken");
         MockResponse response = new MockResponse()
                 .addHeader("Content-Type", "application/json")
                 .setResponseCode(200)
@@ -106,11 +104,7 @@ public class SemesterActivityTest {
         RecordedRequest request = this.server.takeRequest();
         assertEquals("GET /semester HTTP/1.1", request.getRequestLine());
         assertEquals("application/json", request.getHeader("Content-Type"));
-        //*
         assertEquals("Bearer", request.getHeader("Authorization"));
-        /*/
-        assertEquals("Bearer leToken", request.getHeader("Authorization"));
-        // */
 
         // Le test est plus rapide que la construction de la ListView
         Thread.sleep(500);
@@ -125,8 +119,6 @@ public class SemesterActivityTest {
 
     @Test
     public void displaySemesterRedirectLogin() throws Exception {
-        //AuthenticationManager authenticationManager = mock(AuthenticationManager.class);
-        //when(authenticationManager.getToken()).thenReturn("Bearer leToken");
         MockResponse response = new MockResponse()
                 .addHeader("Content-Type", "application/json")
                 .setResponseCode(401)
@@ -137,11 +129,7 @@ public class SemesterActivityTest {
         RecordedRequest request = this.server.takeRequest();
         assertEquals("GET /semester HTTP/1.1", request.getRequestLine());
         assertEquals("application/json", request.getHeader("Content-Type"));
-        //*
         assertEquals("Bearer", request.getHeader("Authorization"));
-        /*/
-        assertEquals("Bearer leToken", request.getHeader("Authorization"));
-        // */
 
         intended(hasComponent(LoginActivity.class.getName()));
     }
