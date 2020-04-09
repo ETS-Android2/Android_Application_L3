@@ -57,7 +57,7 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity {
 
         // Le bouton enregistrer
         FloatingActionButton fab = findViewById(R.id.fab_save_career);
-        fab.setOnClickListener(view -> careerController.saveCareer(TeachingUnitListActivity.this));
+        fab.setOnClickListener(view -> careerController.saveCareer(TeachingUnitListActivity.this, this.currentSemester.getId()));
 
         if (findViewById(R.id.teachingunit_detail_container) != null) {
             // The detail container view will be present only in the large-screen layouts (res/values-w900dp).

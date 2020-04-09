@@ -14,18 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="fr.info.pl2020.activity.LoginActivity" />
@@ -33,8 +34,6 @@
         <activity
             android:name=".activity.SemestersListActivity"
             android:theme="@style/AppTheme" />
-
-
         <activity android:name=".activity.ProfilActivity" />
         <activity
             android:name=".activity.TeachingUnitListActivity"
@@ -53,6 +52,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="fr.info.pl2020.activity.TeachingUnitListActivity" />
         </activity>
+        <activity
+            android:name=".activity.CareerSummaryActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fr.info.pl2020.activity.SemestersListActivity" />
+        </activity>
+
     </application>
 
 </manifest>

@@ -19,6 +19,7 @@ import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpStatus;
 import fr.info.pl2020.R;
 import fr.info.pl2020.manager.AuthenticationManager;
+import fr.info.pl2020.model.Semester;
 import fr.info.pl2020.model.TeachingUnitListContent;
 import fr.info.pl2020.service.CareerService;
 
@@ -71,9 +72,9 @@ public class CareerController {
         });
     }
 
-    public void saveCareer(Context context) {
+    public void saveCareer(Context context, int semesterId) {
         List<Integer> teachingUnitIdList = TeachingUnitListContent.TEACHING_UNITS.values().stream().filter(TeachingUnitListContent.TeachingUnit::isSelected).map(TeachingUnitListContent.TeachingUnit::getId).collect(Collectors.toList());
-        this.careerService.saveCareer(teachingUnitIdList, new JsonHttpResponseHandler() {
+        this.careerService.saveCareer(teachingUnitIdList, semesterId, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

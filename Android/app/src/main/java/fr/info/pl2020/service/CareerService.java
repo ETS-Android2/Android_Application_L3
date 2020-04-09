@@ -21,7 +21,7 @@ public class CareerService {
         HttpClientManager.get(currentUrn, true, responseHandler);
     }
 
-    public void saveCareer(List<Integer> teachingUnitIdList, AsyncHttpResponseHandler responseHandler) {
+    public void saveCareer(List<Integer> teachingUnitIdList, int semester,AsyncHttpResponseHandler responseHandler) {
         JSONArray jsonArray = new JSONArray();
         for (Integer id : teachingUnitIdList) {
             jsonArray.put(id);
@@ -29,7 +29,7 @@ public class CareerService {
 
         try {
             StringEntity entity = new StringEntity(jsonArray.toString());
-            HttpClientManager.put(urn, entity, true, responseHandler);
+            HttpClientManager.put(urn+ (semester == 0 ? "" : "?semester=" + semester), entity, true, responseHandler);
         } catch (UnsupportedEncodingException e) {
             Log.e("CAREER_SERVICE", "Echec de la conversion de la liste des UE en StringEntity", e);
         }
