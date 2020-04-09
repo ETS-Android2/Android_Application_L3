@@ -26,4 +26,20 @@
     <string name="register">S\'enregistrer</string>
     <string name="remember_me">Se souvenir de moi ?</string>
     <string name="search_no_teachingunit_found">Aucune UE trouvée</string>
+
+    <string name="register_name_missing_error">Prénom non renseigné.</string>
+    <string name="register_lastname_missing_error">Nom non renseigné.</string>
+    <string name="register_email_missing_error">Email non renseigné.</string>
+    <string name="register_password_missing_error">Mot de passe non renseigné.</string>
+    <string name="register_confirmpassword_missing_error">Confirmer le mot de passe non renseigné</string>
+
+    <string name="register_lastname_length_error">Votre nom doit contenir entre 2 et 49 caractères</string>
+    <string name="register_name_length_error">Votre prénom doit contenir entre 2 et 49 caractères</string>
+    <string name="register_email_length_error">Votre email doit contenir moins 49 caractères</string>
+    <string name="register_password_length_error">Le mot de passe doit contenir entre 5 et 49 caractères</string>
+    <string name="register_confirmpassword_length_error">Le mot de passe doit contenir entre 5 et 49 caractères</string>
+    <string name="register_matchingpassword_missing_error">Les mots de passe ne correspondent pas</string>
+    <string name="register_bad_email_error">Email incorrect</string>
+
+
 </resources>
