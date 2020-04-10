@@ -44,9 +44,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4ClassRunner.class)
 public class TeachingUnitListActivityTest {
 
-    @Rule
-    public ActivityTestRule<SemestersListActivity> mActivityTestRule = new ActivityTestRule<>(SemestersListActivity.class);
-
     private MockWebServer server;
 
     @Rule
