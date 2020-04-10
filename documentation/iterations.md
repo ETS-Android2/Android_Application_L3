@@ -93,8 +93,6 @@ les catégories des UE.
 - [X] Rendre la barre de recherche fonctionnelle.
 - [X] ~~L'utilisateur ne peut pas sélectionner une matière qui a atteint le nombre max d'étudiant.~~ (Abandonné)
 - [X] Adaptation du projet avec la 2ème modification du sujet.
-- [x] Permettre l'enregistrement et la publication d'un parcours type.
-- [x] Permettre la récupération des parcours type d'autres étudiants (Serveur uniquement).
 
 #### Date prévue : 
 *vendredi 10 avril 2020* 
@@ -103,11 +101,11 @@ les catégories des UE.
 
 ### [Itération 9](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/9)
 
-- [X] Gérer la dépendance des UE et ECUE entre les semestres.
-- [x] Permettre d'éditer ou de supprimer un parcours type enregistré.
-- [x] Afficher les parcours type d'autres étudiants (Android uniquement).
-- [x] Se connecter à un serveur SMTP pour pouvoir partager son parcours par mail.
+- [X] ~~Gérer la dépendance des UE et ECUE entre les semestres.~~ (Abandonné)
+- [x] Permettre de créer de nouveaux parcours.
+- [x] Afficher les parcours d'autres étudiants.
 - [x] Pouvoir télécharger son parcours dans un fichier texte.
+- [x] Afficher les parcours type.
 
 #### Date prévue : 
 *vendredi 17 avril 2020*
@@ -117,7 +115,9 @@ les catégories des UE.
 ### [Itération 10](https://github.com/L3-Info-Miage-Universite-Cote-D-Azur/pl2020-plplg/milestone/10)
 
 - [X] Le client peut avoir une vue globale des choix qu'il a effectués pour les quatre semestres.
-- [X] L'application doit être finie et testé avec toutes les fonctionnalités nécessaires. 
+- [x] Permettre d'éditer et de supprimer des parcours enregistrés.
+- [X] L'application doit être finie et testé avec toutes les fonctionnalités nécessaires.
+- [x] Se connecter à un serveur SMTP pour pouvoir partager son parcours par mail.
 
 #### Date prévue : 
 *vendredi 24 avril 2020*
