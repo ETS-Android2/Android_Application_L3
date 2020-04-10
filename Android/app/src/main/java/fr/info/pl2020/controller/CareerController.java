@@ -24,6 +24,8 @@ import fr.info.pl2020.model.Semester;
 import fr.info.pl2020.model.TeachingUnitListContent;
 import fr.info.pl2020.service.CareerService;
 
+import static fr.info.pl2020.util.JsonModelConvert.jsonObjectToTeachingUnit;
+
 public class CareerController {
 
     private CareerService careerService = new CareerService();
@@ -42,17 +44,14 @@ public class CareerController {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 try {
-                    List<Integer> listId = new ArrayList<>();
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject teachingUnit = response.getJSONObject(i);
-                        listId.add(teachingUnit.getInt("id"));
-                    }
-
-                    for (Integer id : listId) {
-                        TeachingUnitListContent.TeachingUnit teachingUnit = TeachingUnitListContent.TEACHING_UNITS.get(id);
-                        if (teachingUnit != null) {
-                            teachingUnit.setSelected(true);
+                        int id = teachingUnit.getInt("id");
+                        
+                        if (!TeachingUnitListContent.TEACHING_UNITS.containsKey(id)) {
+                            TeachingUnitListContent.addItem(jsonObjectToTeachingUnit(teachingUnit));
                         }
+                        TeachingUnitListContent.TEACHING_UNITS.get(id).setSelected(true);
                     }
 
                     callback.run();

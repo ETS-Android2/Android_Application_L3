@@ -1,7 +1,6 @@
 package fr.info.pl2020.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,7 @@ public class CareerSummaryAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_career_summary, null);
+            convertView = layoutInflater.inflate(R.layout.career_summary_list_item, null);
         }
 
         TeachingUnitListContent.TeachingUnit teachingUnit = (TeachingUnitListContent.TeachingUnit) getItem(position);

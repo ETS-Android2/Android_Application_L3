@@ -45,7 +45,7 @@ public class SemesterAdapter extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_semester, null);
+            convertView = layoutInflater.inflate(R.layout.semester_list_item, null);
         }
 
         Semester semester = (Semester) getItem(position);

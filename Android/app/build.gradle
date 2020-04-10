@@ -11,7 +11,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         //testInstrumentationRunnerArguments clearPackageData: 'true'
-        buildConfigField "String", "SERVER_HOSTNAME", "\"10.188.69.43\""
+        buildConfigField "String", "SERVER_HOSTNAME", "\"10.0.2.2\""
         buildConfigField "int", "SERVER_PORT", "8080"
     }
     buildTypes {
