@@ -21,7 +21,7 @@ android {
         }
 
         staging {
-            initWith debug
+            ; initWith debug
             buildConfigField "String", "SERVER_HOSTNAME", "\"127.0.0.1\""
             buildConfigField "int", "SERVER_PORT", "8080"
         }

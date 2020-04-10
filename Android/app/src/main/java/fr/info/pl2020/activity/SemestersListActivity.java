@@ -84,6 +84,8 @@ public class SemestersListActivity extends ToolbarIntegratedActivity {
         this.mDrawerList.setOnItemClickListener((parent, view, position, id) -> {
             switch ((int) id) {
                 case 0:
+                    Intent careerSummary = new Intent(SemestersListActivity.this, CareerSummaryActivity.class);
+                    startActivity(careerSummary);
                     Toast.makeText(SemestersListActivity.this, "Vous avez cliqué sur Afficher le parcours", Toast.LENGTH_SHORT).show();
                     break;
                 case 1:

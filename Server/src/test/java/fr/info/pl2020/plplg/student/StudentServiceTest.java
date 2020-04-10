@@ -122,7 +122,7 @@ public class StudentServiceTest {
         when(this.repository.save(any())).thenReturn(s);
         when(this.teachingUnitRepository.findAllByIdIn(any())).thenReturn(listTu2);
         when(this.repository.findById(any())).thenReturn(java.util.Optional.of(s));
-        this.service.updateCareer(s, listIdTu2);
+        this.service.updateCareer(s, listIdTu2,1);
         assertNotNull(s);
         assertEquals(1, s.getId());
         assertEquals(listTu2, s.getCareer());

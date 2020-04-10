@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Executable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,41 +20,41 @@ import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpStatus;
 import fr.info.pl2020.R;
 import fr.info.pl2020.manager.AuthenticationManager;
+import fr.info.pl2020.model.Semester;
 import fr.info.pl2020.model.TeachingUnitListContent;
 import fr.info.pl2020.service.CareerService;
+
+import static fr.info.pl2020.util.JsonModelConvert.jsonObjectToTeachingUnit;
 
 public class CareerController {
 
     private CareerService careerService = new CareerService();
 
-    public void getCareer(Context context) {
-        getCareer(context, 0);
+    public void getCareer(Context context, Runnable callback) {
+        getCareer(context, 0, callback);
     }
 
-    public void getCareer(Context context, int semesterId) {
+    public void getCareer(Context context, int semesterId, Runnable callback) {
         this.careerService.getCareer(semesterId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                new TeachingUnitController().setupExpandableListView(context);
+                callback.run();
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 try {
-                    List<Integer> listId = new ArrayList<>();
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject teachingUnit = response.getJSONObject(i);
-                        listId.add(teachingUnit.getInt("id"));
-                    }
-
-                    for (Integer id : listId) {
-                        TeachingUnitListContent.TeachingUnit teachingUnit = TeachingUnitListContent.TEACHING_UNITS.get(id);
-                        if (teachingUnit != null) {
-                            teachingUnit.setSelected(true);
+                        int id = teachingUnit.getInt("id");
+                        
+                        if (!TeachingUnitListContent.TEACHING_UNITS.containsKey(id)) {
+                            TeachingUnitListContent.addItem(jsonObjectToTeachingUnit(teachingUnit));
                         }
+                        TeachingUnitListContent.TEACHING_UNITS.get(id).setSelected(true);
                     }
 
-                    new TeachingUnitController().setupExpandableListView(context);
+                    callback.run();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -71,9 +72,9 @@ public class CareerController {
         });
     }
 
-    public void saveCareer(Context context) {
+    public void saveCareer(Context context, int semesterId) {
         List<Integer> teachingUnitIdList = TeachingUnitListContent.TEACHING_UNITS.values().stream().filter(TeachingUnitListContent.TeachingUnit::isSelected).map(TeachingUnitListContent.TeachingUnit::getId).collect(Collectors.toList());
-        this.careerService.saveCareer(teachingUnitIdList, new JsonHttpResponseHandler() {
+        this.careerService.saveCareer(teachingUnitIdList, semesterId, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

@@ -63,10 +63,19 @@ public class StudentService {
         this.studentRepository.save(student);
     }
 
-    public void updateCareer(Student student, List<Integer> teachingUnitIdList) throws ClientRequestException {
+    public void updateCareer(Student student, List<Integer> teachingUnitIdList, int currentSemesterId) throws ClientRequestException {
         List<TeachingUnit> teachingUnits = this.teachingUnitRepository.findAllByIdIn(teachingUnitIdList);
-
         List<TeachingUnit> currentTeachingUnits = student.getCareer();
+
+        List<TeachingUnit> currentTeachingUnitsBefore = currentTeachingUnits;
+        for ( int i = currentTeachingUnitsBefore.size() - 1; i >= 0; i--){
+            TeachingUnit tu = currentTeachingUnits.get(i);
+
+            if(tu.getSemester().getId()==currentSemesterId && !teachingUnitIdList.contains(tu.getId())){
+
+                currentTeachingUnits.remove(tu);
+            }
+        }
         List<Integer> currentIdList = currentTeachingUnits.stream().map(TeachingUnit::getId).collect(Collectors.toList());
 
         for (int i = teachingUnits.size() - 1; i >= 0; i--) {
@@ -77,8 +86,10 @@ public class StudentService {
 
         checkPrerequisiteTeachingUnits(currentTeachingUnits, teachingUnits);
         currentTeachingUnits.addAll(teachingUnits);
+
         maxiTeachingUnit(currentTeachingUnits);
         student.setCareer(currentTeachingUnits);
+
         this.studentRepository.save(student);
     }
 
