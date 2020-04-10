@@ -38,7 +38,6 @@ public class SearchController {
                         TextView searchErrorTextView = context.findViewById(R.id.searchErrorTextView);
                         searchErrorTextView.setText(R.string.search_no_teachingunit_found);
                         searchErrorTextView.setVisibility(View.VISIBLE);
-                        return;
                     }
 
                     SearchAdapter searchAdapter = new SearchAdapter(context, teachingUnitList, semesterId == 0);

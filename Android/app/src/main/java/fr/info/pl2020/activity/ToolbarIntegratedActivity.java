@@ -4,47 +4,72 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import fr.info.pl2020.R;
-import fr.info.pl2020.controller.SearchController;
+import fr.info.pl2020.adapter.DrawerAdapter;
 
 public abstract class ToolbarIntegratedActivity extends AppCompatActivity {
 
-    private static final int MIN_CHAR_FOR_SEARCH = 3 ;
+    public static final int MIN_CHAR_FOR_SEARCH = 3;
     private ActionBar actionBar;
-    private int semesterId;
-    private boolean isDrawerEnabled;
-    private boolean isSearchEnabled;
+    private ToolbarConfig config;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    protected void init(int semesterId, boolean isDrawerEnabled, boolean isSearchEnabled) {
+    private void init(ToolbarConfig config) {
         this.actionBar = getSupportActionBar();
         if (this.actionBar == null) {
             throw new IllegalStateException("L'activité ne peut pas hérité de " + this.getLocalClassName() + ", elle ne comporte aucune Toolbar.");
         }
 
-        this.semesterId = semesterId;
-        this.isDrawerEnabled = isDrawerEnabled;
-        this.isSearchEnabled = isSearchEnabled;
-    }
-
-    protected void setTitle(String title) {
-        actionBar.setTitle(title);
+        this.config = config;
+        if (config.title != null) {
+            actionBar.setTitle(config.title);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
 
-        if (isSearchEnabled) {
+        if (config.isSearchEnabled) {
             initSearch(menu);
         }
 
+        if (config.isDrawerEnabled) {
+            initDrawer();
+        }
+
         return true;
+    }
+
+    private void initDrawer() {
+        try {
+            // Hamburger
+            actionBarDrawerToggle = new ActionBarDrawerToggle(this, config.drawerLayout, R.string.drawer_open, R.string.drawer_close);
+            actionBarDrawerToggle.syncState();
+            this.actionBar.setDisplayHomeAsUpEnabled(true);
+
+            // Drawer
+            ListView navList = findViewById(R.id.drawerNavList);
+            if (navList == null) {
+                Log.e("TOOLBAR", "ListView 'drawerNavList' not found in RootView, is it properly included in the activity layout?");
+                return;
+            }
+
+            DrawerAdapter adapter = new DrawerAdapter(this, config.drawerLayout);
+            navList.setAdapter(adapter);
+        } catch (ClassCastException e) {
+            Log.e("TOOLBAR", "RootView is not a DrawerLayout.");
+        } catch (Exception e) {
+            Log.e("TOOLBAR", "Drawer initialization failed", e);
+        }
     }
 
     private void initSearch(Menu menu) {
@@ -63,32 +88,43 @@ public abstract class ToolbarIntegratedActivity extends AppCompatActivity {
             searchView.setIconified(true);
         });
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                SearchController searchController = new SearchController();
-                searchController.searchTeachingUnit(ToolbarIntegratedActivity.this, query, semesterId);
-                return true;
-            }
+        searchView.setOnQueryTextListener(config.onQueryTextListener);
+    }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                TextView searchErrorTextView = findViewById(R.id.searchErrorTextView);
-                searchErrorTextView.setVisibility(View.GONE);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (actionBarDrawerToggle != null && actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-                if (newText.isEmpty()) {
-                    searchBackground.setVisibility(View.GONE);
-                    return false;
-                } else if (newText.length() < MIN_CHAR_FOR_SEARCH) {
-                    searchBackground.setVisibility(View.VISIBLE);
-                    return false;
-                } else {
-                    searchBackground.setVisibility(View.VISIBLE);
-                    SearchController searchController = new SearchController();
-                    searchController.searchTeachingUnit(ToolbarIntegratedActivity.this, newText, semesterId);
-                    return true;
-                }
-            }
-        });
+    class ToolbarConfig {
+        private String title;
+        private boolean isDrawerEnabled;
+        private boolean isSearchEnabled;
+        private SearchView.OnQueryTextListener onQueryTextListener;
+        private DrawerLayout drawerLayout;
+
+        ToolbarConfig setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        ToolbarConfig enableSearch(SearchView.OnQueryTextListener onQueryTextListener) {
+            this.onQueryTextListener = onQueryTextListener;
+            this.isSearchEnabled = true;
+            return this;
+        }
+
+        ToolbarConfig enableDrawer(DrawerLayout drawerLayout) {
+            this.drawerLayout = drawerLayout;
+            this.isDrawerEnabled = true;
+            return this;
+        }
+
+        void build() {
+            ToolbarIntegratedActivity.this.init(this);
+        }
     }
 }

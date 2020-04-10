@@ -1,8 +1,11 @@
 package fr.info.pl2020.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ExpandableListView;
+import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -11,6 +14,7 @@ import java.util.ArrayList;
 import fr.info.pl2020.R;
 import fr.info.pl2020.adapter.TeachingUnitAdapter;
 import fr.info.pl2020.controller.CareerController;
+import fr.info.pl2020.controller.SearchController;
 import fr.info.pl2020.controller.TeachingUnitController;
 import fr.info.pl2020.model.Semester;
 import fr.info.pl2020.model.TeachingUnitListContent;
@@ -25,7 +29,7 @@ import static java.util.stream.Collectors.toList;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class TeachingUnitListActivity extends ToolbarIntegratedActivity {
+public class TeachingUnitListActivity extends ToolbarIntegratedActivity implements SearchView.OnQueryTextListener {
 
     public static final String ARG_SEMESTER_ID = "semester_id";
     public static final String ARG_FOCUS_TU_ID = "teaching_unit_id";
@@ -33,8 +37,8 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity {
     public static boolean isTwoPane;
     private Semester currentSemester;
 
-    private TeachingUnitController teachingUnitController = new TeachingUnitController();
     private CareerController careerController = new CareerController();
+    private SearchController searchController = new SearchController();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +56,10 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity {
         }
 
         // Initialisation de la toolbar
-        super.init(this.currentSemester.getId(), false, true);
-        super.setTitle(this.currentSemester.getName());
+        new ToolbarConfig()
+                .setTitle(this.currentSemester.getName())
+                .enableSearch(this)
+                .build();
 
         // Le bouton enregistrer
         FloatingActionButton fab = findViewById(R.id.fab_save_career);
@@ -66,8 +72,7 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity {
         }
 
         // Récupération de la liste des UE
-        this.teachingUnitController = new TeachingUnitController();
-        this.teachingUnitController.updateTeachingUnits(this, currentSemester.getId());
+        new TeachingUnitController().updateTeachingUnits(this, currentSemester.getId());
 
         // Si c'est la recherche qui a créé cette page, on redirige vers l'UE demandé
         // Très bancale comme solution, mais à défaut d'en avoir une autre on va faire comme ça.
@@ -110,5 +115,30 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity {
         TeachingUnitListContent.clear();
         TeachingUnitListContent.setLastOpenedTeachingUnit(0);
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        this.searchController.searchTeachingUnit(this, query, this.currentSemester.getId());
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        TextView searchErrorTextView = findViewById(R.id.searchErrorTextView);
+        View searchBackground = findViewById(R.id.search_background);
+        searchErrorTextView.setVisibility(View.GONE);
+
+        if (newText.isEmpty()) {
+            searchBackground.setVisibility(View.GONE);
+            return false;
+        } else if (newText.length() < MIN_CHAR_FOR_SEARCH) {
+            searchBackground.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            searchBackground.setVisibility(View.VISIBLE);
+            this.searchController.searchTeachingUnit(this, newText, this.currentSemester.getId());
+            return true;
+        }
     }
 }

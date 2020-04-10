@@ -52,12 +52,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="fr.info.pl2020.activity.TeachingUnitListActivity" />
         </activity>
-        <activity
-            android:name=".activity.CareerSummaryActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="fr.info.pl2020.activity.SemestersListActivity" />
-        </activity>
+        <activity android:name=".activity.CareerSummaryActivity" />
 
     </application>
 

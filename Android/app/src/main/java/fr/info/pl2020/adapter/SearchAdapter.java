@@ -1,5 +1,6 @@
 package fr.info.pl2020.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -77,6 +78,11 @@ public class SearchAdapter extends BaseAdapter {
             Intent intent = new Intent(context, TeachingUnitListActivity.class);
             intent.putExtra(TeachingUnitListActivity.ARG_SEMESTER_ID, tu.getSemester());
             intent.putExtra(TeachingUnitListActivity.ARG_FOCUS_TU_ID, tu.getId());
+
+            // TODO POURQUOI ???? Faire mieux, c'est pas normal ça
+            if (context instanceof TeachingUnitListActivity) {
+                ((Activity) context).finish();
+            }
             context.startActivity(intent);
         });
 
