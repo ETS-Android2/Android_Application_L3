@@ -38,7 +38,7 @@
     <string name="register_email_length_error">Votre email doit contenir moins 49 caractères</string>
     <string name="register_password_length_error">Le mot de passe doit contenir entre 5 et 49 caractères</string>
     <string name="register_confirmpassword_length_error">Le mot de passe doit contenir entre 5 et 49 caractères</string>
-    <string name="register_matchingpassword_missing_error">Les mots de passe ne correspondent pas</string>
+    <string name="register_not_matching_passwords_error">Les mots de passe ne correspondent pas</string>
     <string name="register_bad_email_error">Email incorrect</string>
 
 

@@ -1,5 +1,8 @@
 package fr.info.pl2020.util;
 
+import android.widget.TextView;
+
+import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,10 +35,14 @@ public class FunctionsUtils {
 
     public static int getIndex(Set<?> set, Object value) {
         int result = 0;
-        for (Object entry:set) {
+        for (Object entry : set) {
             if (entry.equals(value)) return result;
             result++;
         }
         return -1;
+    }
+
+    public static String readTextView(TextView v) {
+        return new String(v.getText().toString().trim().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
     }
 }

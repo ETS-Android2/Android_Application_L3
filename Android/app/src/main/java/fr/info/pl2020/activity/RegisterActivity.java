@@ -2,23 +2,19 @@ package fr.info.pl2020.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
-
 import fr.info.pl2020.R;
 import fr.info.pl2020.controller.RegisterController;
-import fr.info.pl2020.util.FunctionsUtils;
+
+import static fr.info.pl2020.util.FunctionsUtils.isEmail;
+import static fr.info.pl2020.util.FunctionsUtils.readTextView;
 
 public class RegisterActivity extends AppCompatActivity {
-    private TextView loginView;
     private TextView errorTextView;
     private RegisterController registerController;
     private EditText nameRegister;
@@ -33,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         //go to Login page
-        this.loginView = findViewById(R.id.register);
+        TextView loginView = findViewById(R.id.register);
         loginView.setOnClickListener(v -> this.finish());
         changeBackground();
         //register
@@ -54,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void changeBackground() {
-        View view = (View) findViewById(R.id.register_page);
+        View view = findViewById(R.id.register_page);
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             view.setBackgroundResource(R.drawable.background_landscape);
@@ -65,20 +61,39 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void register(View view) {
         hideErrorMessage();
-        String name = this.nameRegister.getText().toString();
-        String lastname = this.lastNameRegister.getText().toString();
-        String email = this.emailRegister.getText().toString();
-        String password = this.passwordRegister.getText().toString();
-        String confirmpassword = this.confirmPasswordRegister.getText().toString();
+        String name = readTextView(this.nameRegister);
+        String lastname = readTextView(this.lastNameRegister);
+        String email = readTextView(this.emailRegister);
+        String password = readTextView(this.passwordRegister);
+        String confirmPassword = readTextView(this.confirmPasswordRegister);
 
-        //error on data
-        if(error(name, lastname, email, password, confirmpassword)){return;}
-        this.registerController.authenticate(this, name, lastname, email, password, confirmpassword);
+        try {
+            validate(name, 2, 49, R.string.register_name_missing_error, R.string.register_name_length_error, this.nameRegister);
+            validate(name, 2, 49, R.string.register_lastname_missing_error, R.string.register_lastname_length_error, this.lastNameRegister);
+            validate(name, 0, 49, R.string.register_email_missing_error, R.string.register_email_length_error, this.emailRegister);
+            validate(name, 5, 49, R.string.register_lastname_missing_error, R.string.register_lastname_length_error, this.passwordRegister);
+            validate(name, 5, 49, R.string.register_confirmpassword_missing_error, R.string.register_confirmpassword_length_error, this.confirmPasswordRegister);
+
+            if (!isEmail(email)) {
+                this.displayErrorMessage(R.string.register_bad_email_error, this.emailRegister);
+                throw new IllegalArgumentException();
+            } else if (!password.equals(confirmPassword)) {
+                this.displayErrorMessage(R.string.register_not_matching_passwords_error, this.passwordRegister);
+                throw new IllegalArgumentException();
+            }
+
+            this.registerController.authenticate(this, name, lastname, email, password);
+        } catch (RuntimeException ignored) {
+        }
     }
 
-    private void displayErrorMessage(int resId) {
+    private void displayErrorMessage(int resId, View toFocus) {
         this.errorTextView.setText(resId);
         this.errorTextView.setVisibility(View.VISIBLE);
+
+        if (toFocus != null) {
+            toFocus.requestFocus();
+        }
     }
 
     private void hideErrorMessage() {
@@ -87,91 +102,12 @@ public class RegisterActivity extends AppCompatActivity {
         registerErrorTextView.setVisibility(View.GONE);
     }
 
-    private boolean error(String name, String lastname, String email, String password, String confirmpassword){
-        if (lastNameError(lastname)){return true;}
-        else if (nameError(name)){return true;}
-        else if (emailError(email)){return true;}
-        else if (passwordError(password)){return true;}
-        else if (confirmPasswordError(confirmpassword)){return true;}
-        else return notMatchingPassword(password, confirmpassword);
-    }
-    private boolean lastNameError(String lastname){
-        if (lastname.trim().isEmpty()) {
-            this.displayErrorMessage(R.string.register_lastname_missing_error);
-            this.lastNameRegister.requestFocus();
-            return true;
+    private void validate(String value, int minSize, int maxSize, int missingErrorMessage, int lengthErrorMessage, TextView view) {
+        if (value.length() >= minSize || value.length() <= maxSize) {
+            return;
         }
-        else if(lastname.trim().length() < 2 ||  lastname.trim().length() > 49){
-            this.displayErrorMessage(R.string.register_lastname_length_error);
-            this.lastNameRegister.requestFocus();
-            return true;
-        }
-        return false;
-    }
-    private boolean nameError(String name){
-        if (name.trim().isEmpty()) {
-            this.displayErrorMessage(R.string.register_name_missing_error);
-            this.nameRegister.requestFocus();
-            return true;
-        }
-        else if(name.trim().length() < 2 ||  name.trim().length() > 49){
-            this.displayErrorMessage(R.string.register_name_length_error);
-            this.nameRegister.requestFocus();
-            return true;
-        }
-        return false;
-    }
-    private boolean emailError(String email){
-        if (email.trim().isEmpty()) {
-            this.displayErrorMessage(R.string.register_email_missing_error);
-            this.emailRegister.requestFocus();
-            return true;
-        }
-        else if(email.trim().length() > 49){
-            this.displayErrorMessage(R.string.register_email_length_error);
-            this.emailRegister.requestFocus();
-            return true;
-        }
-        else if(!FunctionsUtils.isEmail(email.trim())){
-            this.displayErrorMessage(R.string.register_bad_email_error);
-            this.emailRegister.requestFocus();
-            return true;
-        }
-        return false;
-    }
-    private boolean passwordError(String password){
-        if (password.trim().isEmpty()) {
-            this.displayErrorMessage(R.string.register_password_missing_error);
-            this.passwordRegister.requestFocus();
-            return true;
-        }
-        else if(password.trim().length() < 5 ||  password.trim().length() > 49){
-            this.displayErrorMessage(R.string.register_password_length_error);
-            this.passwordRegister.requestFocus();
-            return true;
-        }
-        return false;
-    }
-    private boolean confirmPasswordError(String confrimPassword) {
-        if (confrimPassword.trim().isEmpty()) {
-            this.displayErrorMessage(R.string.register_confirmpassword_missing_error);
-            this.confirmPasswordRegister.requestFocus();
-            return true;
-        }
-        else if(confrimPassword.trim().length() < 5 ||  confrimPassword.trim().length() > 49){
-            this.displayErrorMessage(R.string.register_confirmpassword_length_error);
-            this.passwordRegister.requestFocus();
-            return true;
-        }
-        return false;
-    }
-    private boolean notMatchingPassword(String password, String confirmPassword){
-        if (!password.equals(confirmPassword)){
-            this.displayErrorMessage(R.string.register_matchingpassword_missing_error);
-            this.passwordRegister.requestFocus();
-            this.confirmPasswordRegister.requestFocus();
-            return true;
-        }
-        return false;
+
+        displayErrorMessage(value.isEmpty() ? missingErrorMessage : lengthErrorMessage, view);
+        throw new IllegalArgumentException();
     }
 }
