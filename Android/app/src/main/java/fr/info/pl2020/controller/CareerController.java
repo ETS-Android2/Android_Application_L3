@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Executable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,15 +28,15 @@ public class CareerController {
 
     private CareerService careerService = new CareerService();
 
-    public void getCareer(Context context) {
-        getCareer(context, 0);
+    public void getCareer(Context context, Runnable callback) {
+        getCareer(context, 0, callback);
     }
 
-    public void getCareer(Context context, int semesterId) {
+    public void getCareer(Context context, int semesterId, Runnable callback) {
         this.careerService.getCareer(semesterId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                new TeachingUnitController().setupExpandableListView(context);
+                callback.run();
             }
 
             @Override
@@ -54,7 +55,7 @@ public class CareerController {
                         }
                     }
 
-                    new TeachingUnitController().setupExpandableListView(context);
+                    callback.run();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -44,7 +44,7 @@ public class TeachingUnitController {
                     TeachingUnitListContent.addItem(tu);
                 }
 
-                careerController.getCareer(context, semesterId);
+                careerController.getCareer(context, semesterId, () -> setupExpandableListView(context));
             }
 
             @Override

@@ -22,7 +22,7 @@ public class CareerSummaryActivity extends AppCompatActivity {
 
         // Récupération de la liste des UE
         this.careerController = new CareerController();
-        this.careerController.getCareer(this);
+        this.careerController.getCareer(this ,() -> {});
 
 
 
