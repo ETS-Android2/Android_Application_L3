@@ -30,7 +30,7 @@ Pour accéder à l'application le lancement d'Android Studio est obligatoire.
 
 ## Utilisation
 
-* L'utilisateur peut s'inscrire dans la page d'enregistrement s'il n'ai pas membre.
+* L'utilisateur peut s'inscrire dans la page d'enregistrement s'il n'est pas membre.
 * L'utilisateur peut se connecter avec son adresse mail et son mot de passe s'il est déjà membre.
 
 
