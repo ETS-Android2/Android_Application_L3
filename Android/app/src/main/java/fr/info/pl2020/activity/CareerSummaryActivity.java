@@ -29,5 +29,11 @@ public class CareerSummaryActivity extends ToolbarIntegratedActivity {
             listTU.setAdapter(adapter);
         });
     }
+    @Override
+    protected void onDestroy() {
+        TeachingUnitListContent.clear();
+        TeachingUnitListContent.setLastOpenedTeachingUnit(0);
+        super.onDestroy();
+    }
 
 }
