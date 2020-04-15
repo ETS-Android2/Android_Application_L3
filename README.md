@@ -29,11 +29,10 @@ Pour accéder à l'application le lancement d'Android Studio est obligatoire.
 <br>
 
 ## Utilisation
-Pour se connecter il faut saisir les identifiants suivants :
-* Email : `toto@gmail.com`
-* Mot de passe : `12345`
 
-<br>
+* L'utilisateur peut s'inscrire dans la page d'enregistrement s'il n'ai pas membre.
+* L'utilisateur peut se connecter avec son adresse mail et son mot de passe s'il est déjà membre.
+
 
 ## Outils
 
