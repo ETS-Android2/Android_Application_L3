@@ -44,4 +44,8 @@
     <string name="register_not_matching_passwords_error">Les mots de passe ne correspondent pas</string>
     <string name="register_bad_email_error">Email incorrect</string>
 
+    <string name="nom_parcours">Nom du parcours choisi:</string>
+    <string name="online">Rendre le parcours public ?</string>
+    <string name="validation">Valider</string>
+    <string name="newcourse_missing_name">Nom non choisi</string>
 </resources>

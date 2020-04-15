@@ -2,4 +2,5 @@
 <resources>
     <item name="lastNameRegisterLayout" type="id" />
     <item name="emailRegLayout" type="id" />
+    <item name="nameErrorTextView" type="id" />
 </resources>
