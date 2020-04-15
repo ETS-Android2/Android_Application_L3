@@ -63,23 +63,24 @@ public class StudentService {
         this.studentRepository.save(student);
     }
 
-    public void validateCareer( Student student, List<Integer> teachingUnitIdList, int currentSemesterId) throws ClientRequestException {
+    public void validateCareer( Student student, List<Integer> teachingUnitIdList) throws ClientRequestException {
         List<TeachingUnit> teachingUnits = this.teachingUnitRepository.findAllByIdIn(teachingUnitIdList);
         teachingUnits.addAll(student.getCareer());
 
-        List<TeachingUnit> currentValidateTeachingUnit = student.getValidateTeachingUnit();
+        List<TeachingUnit> currentValidateTeachingUnit = student.getValidateCareer();
         List<Integer> currentIdListTu = currentValidateTeachingUnit.stream().map(TeachingUnit::getId).collect(Collectors.toList());
+
         for (int i = teachingUnits.size() - 1; i >= 0; i--) {
             if (currentIdListTu.contains(teachingUnits.get(i).getId())) {
                 teachingUnits.remove(i);
             }
         }
-
         checkPrerequisiteTeachingUnits(currentValidateTeachingUnit, teachingUnits);
         currentValidateTeachingUnit.addAll(teachingUnits);
         maxiTeachingUnit(currentValidateTeachingUnit);
-        student.setCareer(teachingUnits);
-        student.setValidateTeachingUnit(teachingUnits);
+        student.setCareer(currentValidateTeachingUnit);
+        student.setValidateCareer(currentValidateTeachingUnit);
+        this.studentRepository.save(student);
     }
 
 
