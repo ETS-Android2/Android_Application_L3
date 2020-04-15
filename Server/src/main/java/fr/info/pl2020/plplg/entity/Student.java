@@ -35,6 +35,10 @@ public class Student {
     )
     private List<TeachingUnit> career;
 
+    @ApiModelProperty(hidden = true)
+    @OneToMany
+    private List<TeachingUnit> validateTeachingUnit;
+
     public Student() {
     }
 
@@ -44,6 +48,7 @@ public class Student {
         this.email = email;
         this.password = password;
         this.career = Collections.emptyList();
+        this.validateTeachingUnit= Collections.emptyList();
     }
 
     public String getFirstName() {
@@ -91,6 +96,15 @@ public class Student {
     }
 
     public void setCareer(List<TeachingUnit> career) {
+
         this.career = career;
+    }
+
+    public List<TeachingUnit> getValidateTeachingUnit() {
+        return validateTeachingUnit;
+    }
+
+    public void setValidateTeachingUnit(List<TeachingUnit> validateTeachingUnit) {
+        this.validateTeachingUnit = validateTeachingUnit;
     }
 }
