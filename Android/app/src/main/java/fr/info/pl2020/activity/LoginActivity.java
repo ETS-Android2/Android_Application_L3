@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import fr.info.pl2020.R;
 import fr.info.pl2020.controller.LoginController;
+import fr.info.pl2020.util.FunctionsUtils;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -38,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         this.passwordInput = findViewById(R.id.passwordInput);
 
         //go to register page
-        this.registerView = findViewById(R.id.register);
+        this.registerView = findViewById(R.id.signinButton);
         registerView.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
 
         changeBackground();
@@ -62,6 +63,14 @@ public class LoginActivity extends AppCompatActivity {
             return;
         } else if (password.trim().isEmpty()) {
             this.displayErrorMessage(R.string.login_error_missing_password);
+            this.passwordInput.requestFocus();
+            return;
+        } else if (!FunctionsUtils.isEmail(email)) {
+            this.displayErrorMessage(R.string.login_error_bad_email);
+            this.passwordInput.requestFocus();
+            return;
+        } else if (!FunctionsUtils.isGoodPassword(password)) {
+            this.displayErrorMessage(R.string.login_error_bad_password);
             this.passwordInput.requestFocus();
             return;
         }

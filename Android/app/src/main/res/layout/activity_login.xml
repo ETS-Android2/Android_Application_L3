@@ -53,6 +53,7 @@
             android:inputType="textEmailAddress"
             android:paddingStart="15dp"
             android:paddingEnd="10dp"
+            android:textColor="#000000"
             android:textAlignment="center" />
 
     </LinearLayout>
@@ -82,6 +83,7 @@
             android:inputType="textPassword"
             android:paddingStart="15dp"
             android:paddingEnd="10dp"
+            android:textColor="#000000"
             android:textAlignment="center" />
 
     </LinearLayout>
@@ -124,14 +126,15 @@
         app:layout_constraintVertical_bias="0.95">
 
         <TextView
-            android:id="@+id/not_register_yet"
+            android:id="@+id/already_memberButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/not_registered"
             android:textColor="#000000"
             android:textSize="11sp" />
+
         <TextView
-            android:id="@+id/register"
+            android:id="@+id/signinButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"

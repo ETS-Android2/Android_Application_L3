@@ -37,7 +37,7 @@
         <activity android:name=".activity.ProfilActivity" />
         <activity
             android:name=".activity.TeachingUnitListActivity"
-            android:label="@string/title_teachingunit_list"
+            android:label="@string/title_teaching_unit_list"
             android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -45,7 +45,7 @@
         </activity>
         <activity
             android:name=".activity.TeachingUnitDetailActivity"
-            android:label="@string/title_teachingunit_detail"
+            android:label="@string/title_teaching_unit_detail"
             android:parentActivityName=".activity.TeachingUnitListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

@@ -6,10 +6,14 @@ import androidx.test.filters.LargeTest;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.rule.ActivityTestRule;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 
+import java.io.IOException;
 import java.net.InetAddress;
 
 import fr.info.pl2020.BuildConfig;
@@ -33,6 +37,7 @@ import static org.junit.Assert.assertEquals;
 
 @LargeTest
 @RunWith(AndroidJUnit4ClassRunner.class)
+
 public class LoginActivityTest {
 
     @Rule
@@ -54,18 +59,34 @@ public class LoginActivityTest {
      * Permet de tester si le bouton "login" nous renvoie à
      * une autre activity qui contient la liste des semestres
      */
+
+    //-----------------------MAIL-----------------------\\
     @Test
     public void loginButtonExecute_EmptyEmail() {
         onView(withId(R.id.loginErrorTextView)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
         onView(withId(R.id.loginButton)).perform(click());
         onView(withId(R.id.loginErrorTextView)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+        onView(withId(R.id.loginErrorTextView)).check(matches(withText(R.string.login_error_missing_email)));
     }
-
     @Test
     public void loginButtonExecute_BadEmail() {
         onView(withId(R.id.loginErrorTextView)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+        onView(withId(R.id.emailInput)).perform(replaceText("totogmail.com"));
+        onView(withId(R.id.passwordInput)).perform(replaceText("12345"));
         onView(withId(R.id.loginButton)).perform(click());
         onView(withId(R.id.loginErrorTextView)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+        onView(withId(R.id.loginErrorTextView)).check(matches(withText(R.string.login_error_bad_email)));
+    }
+
+
+    //-----------------------PASSWORD-----------------------\\
+    @Test
+    public void loginButtonExecute_EmptyPassword() {
+        onView(withId(R.id.loginErrorTextView)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+        onView(withId(R.id.emailInput)).perform(replaceText("toto@gmail.com"));
+        onView(withId(R.id.loginButton)).perform(click());
+        onView(withId(R.id.loginErrorTextView)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+        onView(withId(R.id.loginErrorTextView)).check(matches(withText(R.string.login_error_missing_password)));
     }
 
     @Test
@@ -78,8 +99,8 @@ public class LoginActivityTest {
 
         mockServer.enqueue(response);
         mockServer.start(InetAddress.getByName(BuildConfig.SERVER_HOSTNAME), BuildConfig.SERVER_PORT);
-
         Intents.init();
+
         onView(withId(R.id.loginErrorTextView)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 
         onView(withId(R.id.emailInput)).perform(replaceText("toto@gmail.com"));
@@ -122,5 +143,14 @@ public class LoginActivityTest {
         onView(withId(R.id.loginErrorTextView)).check(matches(withText(R.string.bad_credentials)));
 
         mockServer.close();
+    }
+
+    /**
+     * Permet de tester si le bouton "s'enregistrer" nous renvoie à
+     * l'activité Register
+     */
+    public void signupExecute() throws Exception {
+        onView(withId(R.id.signinButton)).perform(click());
+        intended(hasComponent(RegisterActivity.class.getName()));
     }
 }
