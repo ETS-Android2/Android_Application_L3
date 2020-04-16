@@ -1,6 +1,6 @@
-INSERT INTO Semester (id, year, name) VALUES (1, 1, 'Semestre 1'), (2, 1, 'Semestre 2'), (3, 2, 'Semestre 3'), (4, 2, 'Semestre 4') , (5,3,'Semestre 5'), (6,3,'Semestre 6');
-INSERT INTO Category VALUES (1,'Chimie') , (2,'Electronique'),(3,'Géographie'),(4,'Informatique'),(5,'Mathématiques'),(6,'MIASHS'),(7,'Physique'),(8,'Sciences de la Terre'),(9,'Sciences de la Vie');
-INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUES
+MERGE INTO Semester (id, year, name) KEY(id) VALUES (1, 1, 'Semestre 1'), (2, 1, 'Semestre 2'), (3, 2, 'Semestre 3'), (4, 2, 'Semestre 4') , (5,3,'Semestre 5'), (6,3,'Semestre 6');
+MERGE INTO Category KEY(id) VALUES (1,'Chimie') , (2,'Electronique'),(3,'Géographie'),(4,'Informatique'),(5,'Mathématiques'),(6,'MIASHS'),(7,'Physique'),(8,'Sciences de la Terre'),(9,'Sciences de la Vie');
+MERGE INTO TeachingUnit (id, name, code, description, semester, category) KEY(id) VALUES
 
 --Chimie--
 (1,'Structure Microscopique de la Matière','SPUC10','Atome, ion, molécule, gaz, solide sont les constituants et les états de la matière que nous découvrons dans ce module.',1,1),
@@ -214,7 +214,7 @@ INSERT INTO TeachingUnit (id, name, code, description, semester, category) VALUE
 (93,'Physiologie. Neurologie. Enzymologie.','SPUV200','Etude fonctionnement des parties du corps, c''est-à -dire sur la façon dont celles-ci jouent leur rôle et permettent le maintien de la vie.',2,9),
 (94,'Diversité du Vivant','SPUV201','Propriétés du vivant. Historique de la classification. Présentation des principes de la phylogénie et l’arbre du vivant. Les caractères apomorphiques de certains clades, comme ceux des Eumycètes, sont plus précisément énoncés.',2,9);
 
-INSERT INTO Student (id, firstname, lastname, email, password) VALUES (1, 'Toto', 'Tata', 'toto@gmail.com', '$2a$10$fex0RS2Nshik5jiIyWXWC.6MmI6eZb9QW9NLr7gBPNyZTQqWhJIPm');
+MERGE INTO Student (id, firstname, lastname, email, password) KEY(id) VALUES (1, 'Toto', 'Tata', 'toto@gmail.com', '$2a$10$fex0RS2Nshik5jiIyWXWC.6MmI6eZb9QW9NLr7gBPNyZTQqWhJIPm');
 
-INSERT INTO Prerequisite values (6, 8), (5, 9),(15,20),(21,22),(23,30),(30,26),(22,24),(24,25),(26,27),(29,34),(28,31),(31,32),(32,33),(37,44),(37,44),(47,50),(49,52),(50,53),
+MERGE INTO Prerequisite KEY(parent_id, child_id) values (6, 8), (5, 9),(15,20),(21,22),(23,30),(30,26),(22,24),(24,25),(26,27),(29,34),(28,31),(31,32),(32,33),(37,44),(37,44),(47,50),(49,52),(50,53),
 (69,71),(72,75),(74,79),(71,78),(42,106),(78,108),(73,109), (129,133);
