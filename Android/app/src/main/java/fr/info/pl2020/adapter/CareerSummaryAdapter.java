@@ -11,15 +11,15 @@ import java.util.List;
 
 import fr.info.pl2020.R;
 
-import fr.info.pl2020.model.TeachingUnitListContent;
+import fr.info.pl2020.model.TeachingUnitListContent.TeachingUnit;
 
 public class CareerSummaryAdapter extends BaseAdapter {
     private Context context;
-    private List<TeachingUnitListContent.TeachingUnit>  teachingUnits ;
+    private List<Object> teachingUnits;
 
-    public CareerSummaryAdapter(Context context, List<TeachingUnitListContent.TeachingUnit> teachingUnits){
-        this.context=context;
-        this.teachingUnits=teachingUnits;
+    public CareerSummaryAdapter(Context context, List<Object> teachingUnits) {
+        this.context = context;
+        this.teachingUnits = teachingUnits;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class CareerSummaryAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return this.teachingUnits.get(position) ;
+        return this.teachingUnits.get(position);
     }
 
     @Override
@@ -39,14 +39,19 @@ public class CareerSummaryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        Object o = getItem(position);
+        if (o instanceof TeachingUnit) {
             convertView = layoutInflater.inflate(R.layout.career_summary_list_item, null);
-        }
 
-        TeachingUnitListContent.TeachingUnit teachingUnit = (TeachingUnitListContent.TeachingUnit) getItem(position);
-        TextView teachingUnitTextView = convertView.findViewById(R.id.career);
-        teachingUnitTextView.setText(teachingUnit.getName());
+            TextView teachingUnitTextView = convertView.findViewById(R.id.career);
+            teachingUnitTextView.setText(((TeachingUnit) o).getName());
+        } else if (o instanceof String) {
+            convertView = layoutInflater.inflate(R.layout.career_summary_list_header, null);
+
+            TextView semesterName = convertView.findViewById(R.id.semesterName);
+            semesterName.setText((String) o);
+        }
         return convertView;
     }
 }

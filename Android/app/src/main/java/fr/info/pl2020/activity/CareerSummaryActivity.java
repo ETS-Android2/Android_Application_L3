@@ -3,10 +3,11 @@ package fr.info.pl2020.activity;
 import android.os.Bundle;
 import android.widget.ListView;
 
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
+import androidx.drawerlayout.widget.DrawerLayout;
 import fr.info.pl2020.R;
 import fr.info.pl2020.adapter.CareerSummaryAdapter;
 import fr.info.pl2020.controller.CareerController;
@@ -24,9 +25,15 @@ public class  CareerSummaryActivity extends ToolbarIntegratedActivity {
 
         // Récupération de la liste des UE
         new CareerController().getCareer(this, () -> {
-            CareerSummaryAdapter adapter = new CareerSummaryAdapter(CareerSummaryActivity.this, new ArrayList<>(TeachingUnitListContent.TEACHING_UNITS.values()));
-            ListView listTU = findViewById(R.id.teBySemester);
-            listTU.setAdapter(adapter);
+            Map<Integer, List<TeachingUnitListContent.TeachingUnit>> teachingUnitBySemester = TeachingUnitListContent.getTeachingUnitBySemester();
+            List<Object> listItem = new ArrayList<>();
+            teachingUnitBySemester.forEach((semesterId, teachingUnits) -> {
+                listItem.add("Semestre " + semesterId);
+                listItem.addAll(teachingUnits);
+            });
+            ListView summaryCareerList = findViewById(R.id.summaryCareerList);
+            CareerSummaryAdapter adapter = new CareerSummaryAdapter(this, listItem);
+            summaryCareerList.setAdapter(adapter);
         });
     }
     @Override

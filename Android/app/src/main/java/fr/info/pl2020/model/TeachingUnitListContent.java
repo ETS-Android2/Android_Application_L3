@@ -35,6 +35,17 @@ public class TeachingUnitListContent {
         return listMap;
     }
 
+    public static Map<Integer, List<TeachingUnit>> getTeachingUnitBySemester() {
+        Map<Integer, List<TeachingUnit>> listMap = new TreeMap<>();
+        TEACHING_UNITS.values().forEach(teachingUnit -> {
+            if (!listMap.containsKey(teachingUnit.semester)) {
+                listMap.put(teachingUnit.semester, new ArrayList<>());
+            }
+            listMap.get(teachingUnit.semester).add(teachingUnit);
+        });
+        return listMap;
+    }
+
     public static int getLastOpenedTeachingUnit() {
         return lastOpenedTeachingUnit;
     }
