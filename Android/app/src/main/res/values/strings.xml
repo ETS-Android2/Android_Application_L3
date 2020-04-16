@@ -11,13 +11,15 @@
     <string name="double_click_for_exit">Cliquez une deuxième fois pour quitter l\'application</string>
     <string name="login_error_missing_email">Email non renseigné.</string>
     <string name="login_error_missing_password">Mot de passe non renseigné.</string>
+    <string name="login_error_bad_email">Email invalide.</string>
+    <string name="login_error_bad_password">Mot de passe invalide.</string>
     <string name="last_name">Nom</string>
     <string name="name">Prénom</string>
     <string name="email">Email</string>
     <string name="password">Mot de passe</string>
     <string name="confirm_password">Confirmer mot de passe</string>
-    <string name="title_teachingunit_detail">TeachingUnit_Detail</string>
-    <string name="title_teachingunit_list">TeachingUnits</string>
+    <string name="title_teaching_unit_detail">TeachingUnit_Detail</string>
+    <string name="title_teaching_unit_list">TeachingUnits</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="search_title">Search Title</string>
@@ -30,16 +32,20 @@
     <string name="register_name_missing_error">Prénom non renseigné.</string>
     <string name="register_lastname_missing_error">Nom non renseigné.</string>
     <string name="register_email_missing_error">Email non renseigné.</string>
+    <string name="register_confirm_mail_missing_error">Confirmer le mail non renseigné</string>
     <string name="register_password_missing_error">Mot de passe non renseigné.</string>
-    <string name="register_confirmpassword_missing_error">Confirmer le mot de passe non renseigné</string>
+    <string name="register_confirm_password_missing_error">Confirmer le mot de passe non renseigné</string>
 
     <string name="register_lastname_length_error">Votre nom doit contenir entre 2 et 49 caractères</string>
     <string name="register_name_length_error">Votre prénom doit contenir entre 2 et 49 caractères</string>
-    <string name="register_email_length_error">Votre email doit contenir moins 49 caractères</string>
+    <string name="register_email_length_error">Votre email doit contenir moins de 49 caractères</string>
     <string name="register_password_length_error">Le mot de passe doit contenir entre 5 et 49 caractères</string>
-    <string name="register_confirmpassword_length_error">Le mot de passe doit contenir entre 5 et 49 caractères</string>
+    <string name="register_confirm_password_length_error">Le mot de passe doit contenir entre 5 et 49 caractères</string>
     <string name="register_not_matching_passwords_error">Les mots de passe ne correspondent pas</string>
     <string name="register_bad_email_error">Email incorrect</string>
 
-
+    <string name="nom_parcours">Nom du parcours choisi:</string>
+    <string name="online">Rendre le parcours public ?</string>
+    <string name="validation">Valider</string>
+    <string name="newcourse_missing_name">Nom non choisi</string>
 </resources>

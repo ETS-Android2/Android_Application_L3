@@ -29,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         //go to Login page
-        TextView loginView = findViewById(R.id.register);
+        TextView loginView = findViewById(R.id.signinButton);
         loginView.setOnClickListener(v -> this.finish());
         changeBackground();
         //register
@@ -72,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
             validate(name, 2, 49, R.string.register_lastname_missing_error, R.string.register_lastname_length_error, this.lastNameRegister);
             validate(name, 0, 49, R.string.register_email_missing_error, R.string.register_email_length_error, this.emailRegister);
             validate(name, 5, 49, R.string.register_lastname_missing_error, R.string.register_lastname_length_error, this.passwordRegister);
-            validate(name, 5, 49, R.string.register_confirmpassword_missing_error, R.string.register_confirmpassword_length_error, this.confirmPasswordRegister);
+            validate(name, 5, 49, R.string.register_confirm_password_missing_error, R.string.register_confirm_password_length_error, this.confirmPasswordRegister);
 
             if (!isEmail(email)) {
                 this.displayErrorMessage(R.string.register_bad_email_error, this.emailRegister);

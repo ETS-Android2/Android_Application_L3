@@ -12,7 +12,7 @@ import fr.info.pl2020.adapter.CareerSummaryAdapter;
 import fr.info.pl2020.controller.CareerController;
 import fr.info.pl2020.model.TeachingUnitListContent;
 
-public class CareerSummaryActivity extends ToolbarIntegratedActivity {
+public class  CareerSummaryActivity extends ToolbarIntegratedActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,12 @@ public class CareerSummaryActivity extends ToolbarIntegratedActivity {
             ListView listTU = findViewById(R.id.teBySemester);
             listTU.setAdapter(adapter);
         });
+    }
+    @Override
+    protected void onDestroy() {
+        TeachingUnitListContent.clear();
+        TeachingUnitListContent.setLastOpenedTeachingUnit(0);
+        super.onDestroy();
     }
 
 }

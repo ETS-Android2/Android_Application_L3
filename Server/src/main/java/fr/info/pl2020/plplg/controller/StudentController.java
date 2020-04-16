@@ -51,6 +51,15 @@ public class StudentController {
             return new ResponseEntity<>(cre.getClientMessage(), cre.getStatus());
         }
     }
+    @PutMapping(value= "/student/validateCareer",produces  = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> validateStudentCareer(@RequestBody @NotNull @NotEmpty List<Integer> teachingUnitIdList) {
+        try {
+            this.studentService.validateCareer(getLoggedStudent(), teachingUnitIdList);
+            return new ResponseEntity<>("{}", HttpStatus.OK);
+        } catch (ClientRequestException cre) {
+            return new ResponseEntity<>(cre.getClientMessage(), cre.getStatus());
+        }
+    }
 
     @PutMapping(value = "/student/career", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> updateStudentCareer(@RequestBody @NotNull @NotEmpty List<Integer> teachingUnitIdList,@RequestParam(name = "semester", defaultValue = "0") int currentSemesterId ) {
