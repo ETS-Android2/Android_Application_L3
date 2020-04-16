@@ -1,6 +1,7 @@
 package fr.info.pl2020.plplg.controller;
 
 import fr.info.pl2020.plplg.dto.CareerRequest;
+import fr.info.pl2020.plplg.dto.TeachingUnitResponse;
 import fr.info.pl2020.plplg.entity.Student;
 import fr.info.pl2020.plplg.entity.TeachingUnit;
 import fr.info.pl2020.plplg.exception.ClientRequestException;
@@ -33,12 +34,12 @@ public class StudentController {
 
     @GetMapping(value = "/student/career", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public ResponseEntity<List<TeachingUnit>> getStudentCareer(@RequestParam(name = "semester", defaultValue = "0") int semester) {
+    public ResponseEntity<List<TeachingUnitResponse>> getStudentCareer(@RequestParam(name = "semester", defaultValue = "0") int semester) {
         List<TeachingUnit> career = getLoggedStudent().getCareer();
         if (semester != 0) {
             career = career.stream().filter(teachingUnit -> teachingUnit.getSemester().getId() == semester).collect(Collectors.toList());
         }
-        return new ResponseEntity<>(career, career.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);  //TODO tester les 2 cas
+        return new ResponseEntity<>(TeachingUnitResponse.TeachingUnitListToTeachingUnitResponseList(career), career.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);  //TODO tester les 2 cas
     }
 
     @PostMapping(value = "/student/career", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
