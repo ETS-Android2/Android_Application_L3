@@ -30,12 +30,13 @@
         <include layout="@layout/teachingunit_list" />
     </FrameLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.example.MovableFloatingActionButton
         android:id="@+id/fab_save_career"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_save_white_24dp" />
 
     <include layout="@layout/search_teachingunit_list" />

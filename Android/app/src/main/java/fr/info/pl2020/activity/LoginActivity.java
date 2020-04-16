@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void changeBackground(){
-        View view = (View) findViewById(R.id.login_page);
+        View view = findViewById(R.id.login_page);
         int orientation = getResources().getConfiguration().orientation;
         if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
             view.setBackgroundResource (R.drawable.background_landscape);
