@@ -26,14 +26,8 @@ public class Student {
     private String password;
 
     @ApiModelProperty(hidden = true)
-    @ManyToMany
-    @JoinTable(
-            name = "career",
-            joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
-            uniqueConstraints = @UniqueConstraint(name = "pk", columnNames = {"student_id", "teaching_unit_id"}),
-            inverseJoinColumns = {@JoinColumn(name = "teaching_unit_id", referencedColumnName = "id", nullable = false)}
-    )
-    private List<TeachingUnit> career;
+    @OneToMany(mappedBy = "student")
+    private List<Career> careers;
 
     @ApiModelProperty(hidden = true)
     @OneToMany
@@ -47,12 +41,12 @@ public class Student {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.career = Collections.emptyList();
+        this.careers = Collections.emptyList();
         this.validateCareer = Collections.emptyList();
     }
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -60,7 +54,7 @@ public class Student {
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     public void setLastName(String lastName) {
@@ -68,7 +62,7 @@ public class Student {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -76,7 +70,7 @@ public class Student {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
@@ -84,24 +78,23 @@ public class Student {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public List<TeachingUnit> getCareer() {
-        return career;
+    public List<Career> getCareers() {
+        return this.careers;
     }
 
-    public void setCareer(List<TeachingUnit> career) {
-
-        this.career = career;
+    public void setCareers(List<Career> careers) {
+        this.careers = careers;
     }
 
     public List<TeachingUnit> getValidateCareer() {
-        return validateCareer;
+        return this.validateCareer;
     }
 
     public void setValidateCareer(List<TeachingUnit> validateTeachingUnit) {

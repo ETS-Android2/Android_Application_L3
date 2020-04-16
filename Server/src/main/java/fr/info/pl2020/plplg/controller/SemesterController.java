@@ -16,17 +16,17 @@ public class SemesterController {
     @Autowired
     private SemesterService semesterService;
 
-    @GetMapping(value = "/semester", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/semester", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Semester> getAllSemester() {
         return this.semesterService.getAll();
     }
 
-    @GetMapping(value = "/semester/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/semester/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Semester getSemester(@PathVariable int id) {
         return this.semesterService.getById(id);
     }
 
-    @PostMapping(value = "/semester", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/semester", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public ResponseEntity<Semester> createSemester() {

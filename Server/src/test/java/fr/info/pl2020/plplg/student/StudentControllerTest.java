@@ -1,7 +1,6 @@
 package fr.info.pl2020.plplg.student;
 
 import fr.info.pl2020.plplg.entity.Student;
-import fr.info.pl2020.plplg.entity.TeachingUnit;
 import fr.info.pl2020.plplg.service.StudentService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,10 +13,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.*;
-
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -38,7 +35,7 @@ public class StudentControllerTest {
     void getOne() throws Exception {
         Student s = new Student("Yasmine", "Ben Fredj", "yas@mine.fr", "1234");
         s.setId(1);
-        when(service.getByLoggedUser(any())).thenReturn(s);
+        when(this.service.getByLoggedUser(any())).thenReturn(s);
         this.mockMvc.perform(get("/student")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -48,7 +45,8 @@ public class StudentControllerTest {
                 .andExpect(jsonPath("$.lastName", is("Ben Fredj")))
                 .andExpect(jsonPath("$.email", is("yas@mine.fr")))
                 .andExpect(jsonPath("$.password", is("1234")))
-                .andExpect(jsonPath("$.career").isEmpty());
+                .andExpect(jsonPath("$.careers").isEmpty())
+                .andExpect(jsonPath("$.validateCareer").isEmpty());
     }
 
     @Test

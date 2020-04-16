@@ -18,17 +18,17 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping(value = "/category", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/category", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Category> getAllCategory() {
         return this.categoryService.getAll();
     }
 
-    @GetMapping(value = "/category/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/category/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Category getCategory(@PathVariable int id) {
         return this.categoryService.getById(id);
     }
 
-    @PostMapping(value = "/category", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/category", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public ResponseEntity<Category> createCategory(@RequestBody @Valid CategoryRequest category) {

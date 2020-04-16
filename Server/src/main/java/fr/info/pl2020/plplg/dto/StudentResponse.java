@@ -1,9 +1,6 @@
 package fr.info.pl2020.plplg.dto;
 
 import fr.info.pl2020.plplg.entity.Student;
-import fr.info.pl2020.plplg.entity.TeachingUnit;
-
-import java.util.List;
 
 public class StudentResponse {
 
@@ -11,18 +8,16 @@ public class StudentResponse {
     private String firstName;
     private String lastName;
     private String email;
-    private List<TeachingUnitResponse> career;
 
     public StudentResponse(Student student) {
         this.id = student.getId();
         this.firstName = student.getFirstName();
         this.lastName = student.getLastName();
         this.email = student.getEmail();
-        this.career = TeachingUnitResponse.TeachingUnitListToTeachingUnitResponseList(student.getCareer());
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -30,7 +25,7 @@ public class StudentResponse {
     }
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -38,7 +33,7 @@ public class StudentResponse {
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     public void setLastName(String lastName) {
@@ -46,18 +41,10 @@ public class StudentResponse {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public List<TeachingUnitResponse> getCareer() {
-        return career;
-    }
-
-    public void setCareer(List<TeachingUnitResponse> career) {
-        this.career = career;
     }
 }

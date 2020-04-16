@@ -21,13 +21,13 @@ public class TeachingUnitController {
     @Autowired
     private TeachingUnitService teachingUnitService;
 
-    @GetMapping(value = "/teachingUnit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/teachingUnit", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TeachingUnitResponse>> getAllTeachingUnit(@RequestParam(value = "semester", defaultValue = "0") int semester, @RequestParam(value = "name", defaultValue = "") String name) {
         List<TeachingUnit> teachingUnitList = this.teachingUnitService.getAll(semester, name);
         return new ResponseEntity<>(TeachingUnitResponse.TeachingUnitListToTeachingUnitResponseList(teachingUnitList), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/teachingUnit/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/teachingUnit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TeachingUnitResponse> getTeachingUnit(@PathVariable int id) {
         TeachingUnit teachingUnit = this.teachingUnitService.getById(id);
         if (teachingUnit == null) {

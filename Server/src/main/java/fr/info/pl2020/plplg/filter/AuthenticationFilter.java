@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 import static fr.info.pl2020.plplg.util.FunctionsUtils.isNullOrBlank;
 
 @Component
@@ -28,12 +29,12 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
+        int studentId = 0;
         try {
             String token = getToken(request);
 
             if (!isNullOrBlank(token) && jwtTokenProvider.validateToken(token)) {
-                int studentId = jwtTokenProvider.getUserIdFromToken(token);
+                studentId = jwtTokenProvider.getUserIdFromToken(token);
 
                 UserDetails userDetails = studentDetailsService.loadUserById(studentId);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -45,6 +46,9 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+        System.out.println("La requête '" + request.getMethod().toUpperCase() + " " + request.getServletPath() + "' a été demandé par " +
+                (studentId == 0 ? "un utilisateur non connecté" : "l'utilisateur '" + studentId + "'") +
+                "\t\t(Status " + response.getStatus() + ")");
     }
 
     private String getToken(HttpServletRequest request) {
