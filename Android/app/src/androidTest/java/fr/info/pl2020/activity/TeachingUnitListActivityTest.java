@@ -140,7 +140,7 @@ public class TeachingUnitListActivityTest {
 
         // getCareer
         RecordedRequest request2 = this.server.takeRequest();
-        assertEquals("GET /student/career?semester=1 HTTP/1.1", request2.getRequestLine());
+        assertEquals("GET /career/main?semester=1 HTTP/1.1", request2.getRequestLine());
         assertEquals("application/json", request2.getHeader("Content-Type"));
         assertEquals("Bearer", request2.getHeader("Authorization"));
 
