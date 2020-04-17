@@ -183,7 +183,7 @@
             android:textAlignment="center"
             android:onClick="register"
             android:background="@drawable/right_button"
-            android:text="Créer compte"
+            android:text="@string/signup"
             android:textColor="#fff"
             android:textStyle="bold" />
     </LinearLayout>
@@ -202,19 +202,21 @@
         app:layout_constraintVertical_bias="0.95">
 
         <TextView
-            android:id="@+id/not_register_yet"
+            android:id="@+id/already_registered"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Déjà membre?"
+            android:text="@string/already_member"
             android:textColor="#000"
-            android:textSize="11sp" />
+            android:textSize="12sp" />
+
         <TextView
-            android:id="@+id/register"
+            android:id="@+id/signin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="Se connecter"
+            android:onClick="goLogin"
+            android:text="@string/signin"
             android:textColor="@color/pink"
-            android:textSize="11sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

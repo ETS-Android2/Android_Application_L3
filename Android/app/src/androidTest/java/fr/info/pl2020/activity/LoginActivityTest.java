@@ -6,14 +6,10 @@ import androidx.test.filters.LargeTest;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.rule.ActivityTestRule;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 
-import java.io.IOException;
 import java.net.InetAddress;
 
 import fr.info.pl2020.BuildConfig;
@@ -68,6 +64,7 @@ public class LoginActivityTest {
         onView(withId(R.id.loginErrorTextView)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
         onView(withId(R.id.loginErrorTextView)).check(matches(withText(R.string.login_error_missing_email)));
     }
+
     @Test
     public void loginButtonExecute_BadEmail() {
         onView(withId(R.id.loginErrorTextView)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
@@ -150,7 +147,7 @@ public class LoginActivityTest {
      * l'activité Register
      */
     public void signupExecute() throws Exception {
-        onView(withId(R.id.signinButton)).perform(click());
+        onView(withId(R.id.signin)).perform(click());
         intended(hasComponent(RegisterActivity.class.getName()));
     }
 }

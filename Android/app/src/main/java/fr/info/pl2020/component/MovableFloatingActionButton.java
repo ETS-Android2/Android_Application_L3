@@ -1,7 +1,6 @@
-package com.example;
+package fr.info.pl2020.component;
 
 import android.content.Context;
-
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,9 +35,9 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
     }
 
     @Override
-    public boolean onTouch(View view, MotionEvent motionEvent){
+    public boolean onTouch(View view, MotionEvent motionEvent) {
 
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
 
         int action = motionEvent.getAction();
         if (action == MotionEvent.ACTION_DOWN) {
@@ -48,12 +47,11 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
 
             return true; // Consumed
 
-        }
-        else if (action == MotionEvent.ACTION_MOVE) {
+        } else if (action == MotionEvent.ACTION_MOVE) {
 
             int viewWidth = view.getWidth();
 
-            View viewParent = (View)view.getParent();
+            View viewParent = (View) view.getParent();
             int parentWidth = viewParent.getWidth();
 
             float newX = motionEvent.getRawX() + dX;
@@ -67,8 +65,7 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
 
             return true; // Consumed
 
-        }
-        else if (action == MotionEvent.ACTION_UP) {
+        } else if (action == MotionEvent.ACTION_UP) {
 
             float upRawX = motionEvent.getRawX();
 
@@ -78,13 +75,11 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
 
             if (Math.abs(upDX) < CLICK_DRAG_TOLERANCE) { // A click
                 return performClick();
-            }
-            else { // A drag
+            } else { // A drag
                 return true;
             }
 
-        }
-        else {
+        } else {
             return super.onTouchEvent(motionEvent);
         }
 

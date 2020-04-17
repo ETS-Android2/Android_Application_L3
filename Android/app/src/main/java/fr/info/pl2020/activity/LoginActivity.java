@@ -20,7 +20,6 @@ public class LoginActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce = false;
     private boolean hasParent = false;
     private LoginController loginController;
-    private TextView registerView;
     private TextView errorTextView;
     private EditText emailInput;
     private EditText passwordInput;
@@ -29,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         Bundle b = getIntent().getExtras();
         if (b != null) {
             hasParent = b.getBoolean("hasAParent");
@@ -37,11 +37,6 @@ public class LoginActivity extends AppCompatActivity {
         this.errorTextView = findViewById(R.id.loginErrorTextView);
         this.emailInput = findViewById(R.id.emailInput);
         this.passwordInput = findViewById(R.id.passwordInput);
-
-        //go to register page
-        this.registerView = findViewById(R.id.signinButton);
-        registerView.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
-
         changeBackground();
     }
 
@@ -49,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        overridePendingTransition(0, 0);
         hideErrorMessage();
     }
 
@@ -101,13 +97,17 @@ public class LoginActivity extends AppCompatActivity {
         loginErrorTextView.setVisibility(View.GONE);
     }
 
-    private void changeBackground(){
+    private void changeBackground() {
         View view = findViewById(R.id.login_page);
         int orientation = getResources().getConfiguration().orientation;
-        if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            view.setBackgroundResource (R.drawable.background_landscape);
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            view.setBackgroundResource(R.drawable.background_landscape);
         } else {
-            view.setBackgroundResource (R.drawable.login);
+            view.setBackgroundResource(R.drawable.login);
         }
+    }
+
+    public void goRegister(View view) {
+        startActivity(new Intent(this, RegisterActivity.class));
     }
 }

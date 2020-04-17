@@ -32,7 +32,6 @@
     <string name="register_name_missing_error">Prénom non renseigné.</string>
     <string name="register_lastname_missing_error">Nom non renseigné.</string>
     <string name="register_email_missing_error">Email non renseigné.</string>
-    <string name="register_confirm_mail_missing_error">Confirmer le mail non renseigné</string>
     <string name="register_password_missing_error">Mot de passe non renseigné.</string>
     <string name="register_confirm_password_missing_error">Confirmer le mot de passe non renseigné</string>
 
@@ -48,4 +47,7 @@
     <string name="online">Rendre le parcours public ?</string>
     <string name="validation">Valider</string>
     <string name="newcourse_missing_name">Nom non choisi</string>
+    <string name="signin">Se connecter</string>
+    <string name="signup">Créer compte</string>
+    <string name="already_member">Déjà membre?</string>
 </resources>

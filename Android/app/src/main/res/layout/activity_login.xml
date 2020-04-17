@@ -126,21 +126,22 @@
         app:layout_constraintVertical_bias="0.95">
 
         <TextView
-            android:id="@+id/already_memberButton"
+            android:id="@+id/not_memberButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/not_registered"
             android:textColor="#000000"
-            android:textSize="11sp" />
+            android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/signinButton"
+            android:id="@+id/signin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:onClick="goRegister"
             android:text="@string/register"
             android:textColor="@color/pink"
-            android:textSize="11sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <CheckBox
@@ -150,7 +151,6 @@
         android:text="@string/remember_me"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

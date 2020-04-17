@@ -28,9 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        //go to Login page
-        TextView loginView = findViewById(R.id.signinButton);
-        loginView.setOnClickListener(v -> this.finish());
+        overridePendingTransition(0, 0);
         changeBackground();
         //register
         errorTextView = findViewById(R.id.registerErrorTextView);
@@ -69,10 +67,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         try {
             validate(name, 2, 49, R.string.register_name_missing_error, R.string.register_name_length_error, this.nameRegister);
-            validate(name, 2, 49, R.string.register_lastname_missing_error, R.string.register_lastname_length_error, this.lastNameRegister);
-            validate(name, 0, 49, R.string.register_email_missing_error, R.string.register_email_length_error, this.emailRegister);
-            validate(name, 5, 49, R.string.register_lastname_missing_error, R.string.register_lastname_length_error, this.passwordRegister);
-            validate(name, 5, 49, R.string.register_confirm_password_missing_error, R.string.register_confirm_password_length_error, this.confirmPasswordRegister);
+            validate(lastname, 2, 49, R.string.register_lastname_missing_error, R.string.register_lastname_length_error, this.lastNameRegister);
+            validate(email, 1, 49, R.string.register_email_missing_error, R.string.register_email_length_error, this.emailRegister);
+            validate(password, 5, 49, R.string.register_password_missing_error, R.string.register_password_length_error, this.passwordRegister);
+            validate(confirmPassword, 5, 49, R.string.register_confirm_password_missing_error, R.string.register_confirm_password_length_error, this.confirmPasswordRegister);
 
             if (!isEmail(email)) {
                 this.displayErrorMessage(R.string.register_bad_email_error, this.emailRegister);
@@ -103,11 +101,15 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void validate(String value, int minSize, int maxSize, int missingErrorMessage, int lengthErrorMessage, TextView view) {
-        if (value.length() >= minSize || value.length() <= maxSize) {
+        if (value.length() >= minSize && value.length() <= maxSize) {
             return;
         }
 
         displayErrorMessage(value.isEmpty() ? missingErrorMessage : lengthErrorMessage, view);
         throw new IllegalArgumentException();
+    }
+
+    public void goLogin(View view) {
+        this.finish();
     }
 }
