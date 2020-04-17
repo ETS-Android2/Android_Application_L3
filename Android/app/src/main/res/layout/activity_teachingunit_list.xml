@@ -30,7 +30,7 @@
         <include layout="@layout/teachingunit_list" />
     </FrameLayout>
 
-    <com.example.MovableFloatingActionButton
+    <fr.info.pl2020.component.MovableFloatingActionButton
         android:id="@+id/fab_save_career"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
