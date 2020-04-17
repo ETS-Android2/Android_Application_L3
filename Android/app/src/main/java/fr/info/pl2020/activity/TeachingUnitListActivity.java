@@ -51,6 +51,9 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity implemen
         if (b != null && b.getInt(ARG_SEMESTER_ID) != 0) {
             this.currentSemester = new Semester(b.getInt(ARG_SEMESTER_ID));
             focusedTeachingUnitId = b.getInt(ARG_FOCUS_TU_ID);
+            if (focusedTeachingUnitId != 0) {
+                overridePendingTransition(0, 0);
+            }
         } else {
             finish();
         }

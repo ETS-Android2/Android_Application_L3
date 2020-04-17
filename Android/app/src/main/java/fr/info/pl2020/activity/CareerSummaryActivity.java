@@ -1,19 +1,24 @@
 package fr.info.pl2020.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import androidx.drawerlayout.widget.DrawerLayout;
 import fr.info.pl2020.R;
 import fr.info.pl2020.adapter.CareerSummaryAdapter;
 import fr.info.pl2020.controller.CareerController;
 import fr.info.pl2020.model.TeachingUnitListContent;
 
-public class  CareerSummaryActivity extends ToolbarIntegratedActivity {
+public class CareerSummaryActivity extends ToolbarIntegratedActivity {
+
+    private boolean doubleBackToExitPressedOnce;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +41,25 @@ public class  CareerSummaryActivity extends ToolbarIntegratedActivity {
             summaryCareerList.setAdapter(adapter);
         });
     }
+
     @Override
     protected void onDestroy() {
         TeachingUnitListContent.clear();
         TeachingUnitListContent.setLastOpenedTeachingUnit(0);
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, R.string.double_click_for_exit, Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
 
 }

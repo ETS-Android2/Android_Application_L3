@@ -59,16 +59,16 @@ public abstract class ToolbarIntegratedActivity extends AppCompatActivity {
             // Drawer
             ListView navList = findViewById(R.id.drawerNavList);
             if (navList == null) {
-                Log.e("TOOLBAR", "ListView 'drawerNavList' not found in RootView, is it properly included in the activity layout?");
+                Log.e("TOOLBAR", "ListView 'drawerNavList' n'a pas été trouvé dans la RootView, est-il correctement inclue dans le layout de l'activité ?");
                 return;
             }
 
             DrawerAdapter adapter = new DrawerAdapter(this, config.drawerLayout);
             navList.setAdapter(adapter);
         } catch (ClassCastException e) {
-            Log.e("TOOLBAR", "RootView is not a DrawerLayout.");
+            Log.e("TOOLBAR", "RootView n'est pas un DrawerLayout.");
         } catch (Exception e) {
-            Log.e("TOOLBAR", "Drawer initialization failed", e);
+            Log.e("TOOLBAR", "Echec de l'intialisation du Drawer", e);
         }
     }
 
@@ -78,7 +78,7 @@ public abstract class ToolbarIntegratedActivity extends AppCompatActivity {
 
         View searchBackground = findViewById(R.id.search_background);
         if (searchBackground == null) {
-            Log.e("TOOLBAR", "SearchListView is null, is it properly included in the activity layout?");
+            Log.e("TOOLBAR", "SearchListView est null, est-elle correctement incluse dans le layout de l'activité ?");
             return;
         }
 
