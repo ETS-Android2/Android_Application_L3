@@ -13,6 +13,7 @@ public class Career {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @ApiModelProperty(hidden = true)
     @ManyToOne
     private Student student;
 

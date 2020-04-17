@@ -2,14 +2,11 @@ package fr.info.pl2020.plplg.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.info.pl2020.plplg.dto.ErrorResponse;
-import fr.info.pl2020.plplg.exception.ClientRequestException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
