@@ -5,6 +5,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.property.TextAlignment;
 import fr.info.pl2020.plplg.entity.*;
+import fr.info.pl2020.plplg.util.FunctionsUtils;
 import org.jboss.logging.Logger;
 
 import java.io.File;
@@ -69,6 +70,21 @@ public class ExportFacade {
             logger.error("exportCareerToTxt(" + career.getId() + ") - La création du fichier texte a échoué.", e);
             throw e;
         }
+    }
+
+    public void sendCareerByMail(Career career) throws Exception {
+        Student student = career.getStudent();
+        if (student == null || FunctionsUtils.isNullOrBlank(student.getEmail())) {
+            logger.error("sendCareerByMail(" + career.getId() + ") - L'étudiant ou l'adresse email de l'étudiant est null.");
+            throw new Exception("Echec de l'envoi du mail : l'adresse de destination n'existe pas.");
+        }
+
+        EmailBuilder emailBuilder = new EmailBuilder();
+        emailBuilder.setTo(student.getEmail());
+        emailBuilder.setSubject("Votre parcours enregistré : " + career.getName());
+        emailBuilder.setBody("Madame, Monsieur,\nVous avez demandé l'envoi de votre parcours '" + career.getName() + "' par email. Vous trouverez ce parcours en pièce-jointe.\n\nCordialement\n\n\nCe message est envoyé automatiquement, merci de ne pas y répondre.");
+        emailBuilder.addAttachment(exportCareerToPdf(career));
+        emailBuilder.send();
     }
 
     public static void main(String[] args) {

@@ -66,42 +66,10 @@ public class CareerController {
 
     @GetMapping(value = "/career/{careerId}")
     @ResponseBody
-    public ResponseEntity<?> getStudentCareer(@PathVariable int careerId, @RequestParam(name = "export", required = false) ExportFacade.ExportType exportType) {
+    public ResponseEntity<?> getCareer(@PathVariable int careerId) {
         try {
             Career c = getCareerByIdAndCheckOwner(careerId);
-            if (exportType == null) {
-                return new ResponseEntity<>(new CareerResponse(c), HttpStatus.OK);
-            } else {
-                switch (exportType) {
-                    case PDF:
-                        try {
-                            File pdfFile = this.exportFacade.exportCareerToPdf(c);
-                            Resource resource = new UrlResource(pdfFile.toURI());
-
-                            return ResponseEntity.ok()
-                                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + c.getName() + ".pdf\"")
-                                    .body(resource);
-                        } catch (IOException e) {
-                            throw new ClientRequestException("La création du pdf a échoué. Veuillez réessayer ultérieurement.", e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-                        }
-
-                    case TXT:
-                        try {
-                            File txtFile = this.exportFacade.exportCareerToTxt(c);
-                            Resource resource = new UrlResource(txtFile.toURI());
-
-                            return ResponseEntity.ok()
-                                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + c.getName() + ".txt\"")
-                                    .body(resource);
-                        } catch (IOException e) {
-                            throw new ClientRequestException("La création du fichier texte a échoué. Veuillez réessayer ultérieurement.", e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-                        }
-                }
-
-                return ResponseEntity.ok("");
-            }
+            return new ResponseEntity<>(new CareerResponse(c), HttpStatus.OK);
         } catch (ClientRequestException e) {
             return new ResponseEntity<>(e.getClientMessage(), e.getStatus());
         }
@@ -109,7 +77,7 @@ public class CareerController {
 
     @PostMapping(value = "/career/{careerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<?> addTeachingUnitInStudentCareer(@PathVariable int careerId, @RequestBody @NotNull @Valid CareerRequest body) {
+    public ResponseEntity<?> addTeachingUnitInCareer(@PathVariable int careerId, @RequestBody @NotNull @Valid CareerRequest body) {
         try {
             this.careerService.addTeachingUnitInCareer(getCareerByIdAndCheckOwner(careerId), body.getTeachingUnitId());
             return new ResponseEntity<>(HttpStatus.OK);
@@ -119,10 +87,66 @@ public class CareerController {
     }
 
     @PutMapping(value = "/career/{careerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateStudentCareer(@PathVariable int careerId, @RequestBody @NotNull @NotEmpty List<Integer> teachingUnitIdList, @RequestParam(name = "semester", defaultValue = "0") int currentSemesterId) {
+    public ResponseEntity<?> updateCareer(@PathVariable int careerId, @RequestBody @NotNull @NotEmpty List<Integer> teachingUnitIdList, @RequestParam(name = "semester", defaultValue = "0") int currentSemesterId) {
         try {
             this.careerService.updateCareer(getCareerByIdAndCheckOwner(careerId), teachingUnitIdList, currentSemesterId);
             return new ResponseEntity<>("{}", HttpStatus.OK);
+        } catch (ClientRequestException cre) {
+            return new ResponseEntity<>(cre.getClientMessage(), cre.getStatus());
+        }
+    }
+
+    @GetMapping(value = "/career/{careerId}/export")
+    @ResponseBody
+    public ResponseEntity<?> exportCareer(@PathVariable int careerId, @RequestParam(name = "export") ExportFacade.ExportType exportType) {
+        try {
+            Career c = getCareerByIdAndCheckOwner(careerId);
+            switch (exportType) {
+                case PDF:
+                    try {
+                        File pdfFile = this.exportFacade.exportCareerToPdf(c);
+                        Resource resource = new UrlResource(pdfFile.toURI());
+
+                        return ResponseEntity.ok()
+                                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + c.getName() + ".pdf\"")
+                                .body(resource);
+                    } catch (IOException e) {
+                        throw new ClientRequestException("La création du pdf a échoué. Veuillez réessayer ultérieurement.", e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+                    }
+
+                case TXT:
+                    try {
+                        File txtFile = this.exportFacade.exportCareerToTxt(c);
+                        Resource resource = new UrlResource(txtFile.toURI());
+
+                        return ResponseEntity.ok()
+                                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + c.getName() + ".txt\"")
+                                .body(resource);
+                    } catch (IOException e) {
+                        throw new ClientRequestException("La création du fichier texte a échoué. Veuillez réessayer ultérieurement.", e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+                    }
+
+                default:
+                    // On est pas censé arriver ici car le RequestParam est obligatoire et RestController renvoi tout seul un 400 si le type est incorrect
+                    throw new ClientRequestException("Format de l'export non renseigné ou non reconnu.", HttpStatus.BAD_REQUEST);
+            }
+        } catch (ClientRequestException e) {
+            return new ResponseEntity<>(e.getClientMessage(), e.getStatus());
+        }
+    }
+
+    @GetMapping(value = "/career/{careerId}/send")
+    public ResponseEntity<?> sendCareer(@PathVariable int careerId) {
+        try {
+            Career c = getCareerByIdAndCheckOwner(careerId);
+            try {
+                this.exportFacade.sendCareerByMail(c);
+                return ResponseEntity.noContent().build();
+            } catch (Exception e) {
+                throw new ClientRequestException("L'envoi du mail à échoué, veuillez réessayer ultérieurement.", "Echec de l'envoi du parcours par mail (careerId = '" + c.getId() + "') - " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         } catch (ClientRequestException cre) {
             return new ResponseEntity<>(cre.getClientMessage(), cre.getStatus());
         }
