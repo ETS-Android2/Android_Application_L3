@@ -1,16 +1,19 @@
 package fr.info.pl2020.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import androidx.drawerlayout.widget.DrawerLayout;
 import fr.info.pl2020.R;
 import fr.info.pl2020.adapter.CareerSummaryAdapter;
 import fr.info.pl2020.controller.CareerController;
@@ -31,14 +34,24 @@ public class CareerSummaryActivity extends ToolbarIntegratedActivity {
         // Récupération de la liste des UE
         new CareerController().getCareer(this, () -> {
             Map<Integer, List<TeachingUnitListContent.TeachingUnit>> teachingUnitBySemester = TeachingUnitListContent.getTeachingUnitBySemester();
-            List<Object> listItem = new ArrayList<>();
-            teachingUnitBySemester.forEach((semesterId, teachingUnits) -> {
-                listItem.add("Semestre " + semesterId);
-                listItem.addAll(teachingUnits);
-            });
-            ListView summaryCareerList = findViewById(R.id.summaryCareerList);
-            CareerSummaryAdapter adapter = new CareerSummaryAdapter(this, listItem);
-            summaryCareerList.setAdapter(adapter);
+            System.out.println(teachingUnitBySemester);
+            if (teachingUnitBySemester.size() != 0) {
+                List<Object> listItem = new ArrayList<>();
+                teachingUnitBySemester.forEach((semesterId, teachingUnits) -> {
+                    listItem.add("Semestre " + semesterId);
+                    listItem.addAll(teachingUnits);
+                });
+                ListView summaryCareerList = findViewById(R.id.summaryCareerList);
+                CareerSummaryAdapter adapter = new CareerSummaryAdapter(this, listItem);
+                summaryCareerList.setAdapter(adapter);
+            } else {
+                LayoutInflater inflater = (LayoutInflater) CareerSummaryActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View v = inflater.inflate(R.layout.empty_career_summary_list, null);
+
+                LinearLayout linearLayout = findViewById(R.id.summaryCareer);
+                linearLayout.addView(v);
+
+            }
         });
     }
 
