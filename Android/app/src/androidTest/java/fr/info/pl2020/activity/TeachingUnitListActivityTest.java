@@ -63,7 +63,7 @@ public class TeachingUnitListActivityTest {
             "    \"id\": 1,\n" +
             "    \"name\": \"Structure Microscopique de la Matière\",\n" +
             "    \"code\": \"SPUC10\",\n" +
-            "    \"description\": \"Atome, ion, molécule, gaz, solide sont les constituants et les états de la matière que nous découvrons dans ce module.\",\n" +
+            "    \"description\": \"Atomes, ions, molécules, gaz, solides, sont les constituants et les états de la matière que nous découvrirons dans ce module.\",\n" +
             "    \"semester\": 1,\n" +
             "    \"category\": \"Chimie\"\n" +
             "  },\n" +

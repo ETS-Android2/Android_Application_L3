@@ -3,7 +3,7 @@ MERGE INTO Category KEY(id) VALUES (1,'Chimie') , (2,'Electronique'),(3,'Géogra
 MERGE INTO TeachingUnit (id, name, code, description, semester, category) KEY(id) VALUES
 
 --Chimie--
-(1,'Structure Microscopique de la Matière','SPUC10','Atome, ion, molécule, gaz, solide sont les constituants et les états de la matière que nous découvrons dans ce module.',1,1),
+(1,'Structure Microscopique de la Matière','SPUC10','Atomes, ions, molécules, gaz, solides, sont les constituants et les états de la matière que nous découvrirons dans ce module.',1,1),
 (2,'Réactions et Réactivites Chimiques','SPUC20','L’objectif de l’UE est de mobiliser les connaissances acquises par les étudiants dans les cours de physique-chimie du lycée, pour les approfondir afin d''aborder de nouvelles notions sur la structure et la réactivité chimique.',2,1),
 (3,'Thermodynamique Chimique','SPUC21','La thermodynamique s’intéresse aux transferts thermiques et de travail. Pour compléter les notions vues au lycée à propos des chaleurs de combustion, de dissolution ou de changement d’états, il est nécessaire de définir un certain nombre de termes. ',2,1),
 (4,'Chimie des Solutions','SPUC30','L’objectif de l’enseignement est l’acquisition de connaissances fondamentales en chimie des solutions aqueuses. La maîtrise des équilibres élémentaires de la chimie des solutions et de la chimie analytique permet d’appréhender la chimie de milieux plus complexes comme les milieux naturels (écosystèmes aquatiques, milieux physiologiques…).',3,1),
