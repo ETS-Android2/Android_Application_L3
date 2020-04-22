@@ -1,10 +1,13 @@
 package fr.info.pl2020.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +27,10 @@ public class LoginActivity extends AppCompatActivity {
     private EditText emailInput;
     private EditText passwordInput;
 
+    private CheckBox saveLoginCheckBox;
+    private SharedPreferences.Editor loginPrefsEditor;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +44,18 @@ public class LoginActivity extends AppCompatActivity {
         this.errorTextView = findViewById(R.id.loginErrorTextView);
         this.emailInput = findViewById(R.id.emailInput);
         this.passwordInput = findViewById(R.id.passwordInput);
+
+        saveLoginCheckBox = findViewById(R.id.checkBox);
+        SharedPreferences loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
+        boolean saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        if (saveLogin) {
+            emailInput.setText(loginPreferences.getString("email", ""));
+            passwordInput.setText(loginPreferences.getString("password", ""));
+            saveLoginCheckBox.setChecked(true);
+        }
+        loginPrefsEditor.apply();
+
         changeBackground();
     }
 
@@ -70,6 +89,17 @@ public class LoginActivity extends AppCompatActivity {
             this.passwordInput.requestFocus();
             return;
         }
+
+        if (saveLoginCheckBox.isChecked()) {
+            loginPrefsEditor.putBoolean("saveLogin", true);
+            loginPrefsEditor.putString("email", email);
+            loginPrefsEditor.putString("password", password);
+            loginPrefsEditor.commit();
+        } else {
+            loginPrefsEditor.clear();
+            loginPrefsEditor.commit();
+        }
+
         this.loginController.authenticate(this, email, password, !hasParent);
     }
 
