@@ -84,7 +84,9 @@ public class CareerController {
             Student loggedStudent = this.authenticationService.getLoggedStudent();
             if (FunctionsUtils.isNullOrBlank(body.getName())) {
                 String name = this.careerService.generateDefaultName(loggedStudent.getCareers());
+                body.setName(name);
             }
+            this.careerService.createCareer(loggedStudent,body);
         } catch (Exception e) {
             e.printStackTrace();
         }

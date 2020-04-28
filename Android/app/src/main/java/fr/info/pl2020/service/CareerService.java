@@ -15,7 +15,7 @@ import fr.info.pl2020.manager.HttpClientManager;
 public class CareerService {
 
     private final String urn = "/career/main";
-
+    private final String urnAllCarrer = "/career";
     public void getCareer(int semester, AsyncHttpResponseHandler responseHandler) {
         String currentUrn = urn + (semester == 0 ? "" : "?semester=" + semester);
         HttpClientManager.get(currentUrn, true, responseHandler);
@@ -33,5 +33,8 @@ public class CareerService {
         } catch (UnsupportedEncodingException e) {
             Log.e("CAREER_SERVICE", "Echec de la conversion de la liste des UE en StringEntity", e);
         }
+    }
+    public void getAllCareer(AsyncHttpResponseHandler responseHandler){
+        HttpClientManager.get(urnAllCarrer, true, responseHandler);
     }
 }

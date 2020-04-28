@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import androidx.drawerlayout.widget.DrawerLayout;
 import fr.info.pl2020.R;
+import fr.info.pl2020.activity.CareerListActivity;
 import fr.info.pl2020.activity.CareerSummaryActivity;
 import fr.info.pl2020.activity.SemestersListActivity;
 import fr.info.pl2020.manager.AuthenticationManager;
@@ -50,6 +50,16 @@ public class DrawerAdapter extends BaseAdapter {
             if (!(context instanceof SemestersListActivity)) {
                 Intent careerSummary = new Intent(context, SemestersListActivity.class);
                 context.startActivity(careerSummary);
+                ((Activity) context).finish();
+            } else {
+                drawerLayout.closeDrawers();
+            }
+        });
+        items.add("Afficher mes parcours");
+        eventByPositionMap.put("Afficher mes parcours", v -> {
+            if (!(context instanceof CareerListActivity)) {
+                Intent careerList = new Intent(context, CareerListActivity.class);
+                context.startActivity(careerList);
                 ((Activity) context).finish();
             } else {
                 drawerLayout.closeDrawers();

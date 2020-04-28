@@ -1,13 +1,13 @@
 package fr.info.pl2020.util;
 
-import androidx.annotation.Nullable;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import fr.info.pl2020.model.Career;
 import fr.info.pl2020.model.TeachingUnitListContent.TeachingUnit;
 
 public class JsonModelConvert {
@@ -37,5 +37,28 @@ public class JsonModelConvert {
                 jsonObject.optString("description"),
                 jsonObject.optInt("semester"),
                 jsonObject.optString("category"));
+    }
+
+    public static List<Career> jsonArrayToCareer(@Nullable JSONArray jsonArray){
+        if(jsonArray == null){
+            return new ArrayList<>();
+        }
+        List<Career> careers = new ArrayList<>();
+        for (int i =0 ; i< jsonArray.length(); i++){
+            careers.add(jsonObjectToCareer(jsonArray.optJSONObject(i)));
+        }
+        return careers;
+    }
+
+    public static Career jsonObjectToCareer(@Nullable JSONObject jsonObject) {
+        if (jsonObject == null)
+            return null;
+
+        return new Career(
+                jsonObject.optInt("id"),
+                jsonObject.optString("name"),
+                jsonObject.optBoolean("isPublicCareer"),
+                jsonObject.optBoolean("isMainCareer"),
+                jsonArrayToTeachingUnits(jsonObject.optJSONArray ("teachingUnits")));
     }
 }
