@@ -1,24 +1,38 @@
 package fr.info.pl2020.plplg.dto;
 
-import javax.validation.constraints.Positive;
-
 public class CareerRequest {
 
-    @Positive
-    private int teachingUnitId;
+    private String name;
+    private boolean isPublic;
+    private boolean mainCareer;
 
-    public CareerRequest() {
+    public CareerRequest(String name, boolean isPublic, boolean mainCareer) {
+        this.name = name;
+        this.isPublic = isPublic;
+        this.mainCareer = mainCareer;
     }
 
-    public CareerRequest(@Positive int teachingUnitId) {
-        this.teachingUnitId = teachingUnitId;
+    public String getName() {
+        return this.name;
     }
 
-    public int getTeachingUnitId() {
-        return teachingUnitId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setTeachingUnitId(int teachingUnitId) {
-        this.teachingUnitId = teachingUnitId;
+    public boolean isPublic() {
+        return this.isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        this.isPublic = aPublic;
+    }
+
+    public boolean isMainCareer() {
+        return this.mainCareer;
+    }
+
+    public void setMainCareer(boolean mainCareer) {
+        this.mainCareer = mainCareer;
     }
 }

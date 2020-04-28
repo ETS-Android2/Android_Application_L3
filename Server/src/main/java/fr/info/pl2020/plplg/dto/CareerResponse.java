@@ -2,6 +2,7 @@ package fr.info.pl2020.plplg.dto;
 
 import fr.info.pl2020.plplg.entity.Career;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CareerResponse {
@@ -58,5 +59,13 @@ public class CareerResponse {
 
     public void setMainCareer(boolean mainCareer) {
         this.isMainCareer = mainCareer;
+    }
+
+    public static List<CareerResponse> CareerListToCareerResponseList(List<Career> careerList) {
+        List<CareerResponse> careerResponseList = new ArrayList<>();
+        for (Career c : careerList) {
+            careerResponseList.add(new CareerResponse(c));
+        }
+        return careerResponseList;
     }
 }

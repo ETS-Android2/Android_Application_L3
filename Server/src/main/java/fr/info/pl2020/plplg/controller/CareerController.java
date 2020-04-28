@@ -2,6 +2,7 @@ package fr.info.pl2020.plplg.controller;
 
 import fr.info.pl2020.plplg.dto.CareerRequest;
 import fr.info.pl2020.plplg.dto.CareerResponse;
+import fr.info.pl2020.plplg.dto.CareerTeachingUnitRequest;
 import fr.info.pl2020.plplg.dto.TeachingUnitResponse;
 import fr.info.pl2020.plplg.entity.Career;
 import fr.info.pl2020.plplg.entity.Student;
@@ -10,6 +11,7 @@ import fr.info.pl2020.plplg.exception.ClientRequestException;
 import fr.info.pl2020.plplg.export.ExportFacade;
 import fr.info.pl2020.plplg.service.AuthenticationService;
 import fr.info.pl2020.plplg.service.CareerService;
+import fr.info.pl2020.plplg.util.FunctionsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -64,6 +66,34 @@ public class CareerController {
         }
     }
 
+
+    /*** Gestion de la liste des parcours d'un étudiant ***/
+
+    @GetMapping(value = "/career")
+    @ResponseBody
+    public ResponseEntity<List<CareerResponse>> getCareers() {
+        Student loggedStudent = this.authenticationService.getLoggedStudent();
+        List<CareerResponse> responseList = CareerResponse.CareerListToCareerResponseList(loggedStudent.getCareers());
+        return new ResponseEntity<>(responseList, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/career")
+    @ResponseBody
+    public ResponseEntity<Career> createCareer(@RequestBody @NotNull CareerRequest body) {
+        try {
+            Student loggedStudent = this.authenticationService.getLoggedStudent();
+            if (FunctionsUtils.isNullOrBlank(body.getName())) {
+                String name = this.careerService.generateDefaultName(loggedStudent.getCareers());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /*** Gestion d'un parcours en particulier ***/
+
     @GetMapping(value = "/career/{careerId}")
     @ResponseBody
     public ResponseEntity<?> getCareer(@PathVariable int careerId) {
@@ -77,7 +107,7 @@ public class CareerController {
 
     @PostMapping(value = "/career/{careerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<?> addTeachingUnitInCareer(@PathVariable int careerId, @RequestBody @NotNull @Valid CareerRequest body) {
+    public ResponseEntity<?> addTeachingUnitInCareer(@PathVariable int careerId, @RequestBody @NotNull @Valid CareerTeachingUnitRequest body) {
         try {
             this.careerService.addTeachingUnitInCareer(getCareerByIdAndCheckOwner(careerId), body.getTeachingUnitId());
             return new ResponseEntity<>(HttpStatus.OK);
@@ -96,9 +126,20 @@ public class CareerController {
         }
     }
 
+    @DeleteMapping(value = "/career/{careerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateCareer(@PathVariable int careerId) {
+        try {
+            Career career = getCareerByIdAndCheckOwner(careerId);
+            this.careerService.removeCareer(career.getStudent().getId(), career.getId());
+            return new ResponseEntity<>("{}", HttpStatus.OK);
+        } catch (ClientRequestException cre) {
+            return new ResponseEntity<>(cre.getClientMessage(), cre.getStatus());
+        }
+    }
+
     @GetMapping(value = "/career/{careerId}/export")
     @ResponseBody
-    public ResponseEntity<?> exportCareer(@PathVariable int careerId, @RequestParam(name = "export") ExportFacade.ExportType exportType) {
+    public ResponseEntity<?> exportCareer(@PathVariable int careerId, @RequestParam(name = "format") ExportFacade.ExportType exportType) {
         try {
             Career c = getCareerByIdAndCheckOwner(careerId);
             switch (exportType) {
