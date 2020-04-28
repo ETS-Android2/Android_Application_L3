@@ -11,10 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +28,7 @@ public class CareerService {
     private TeachingUnitRepository teachingUnitRepository;
 
     private static final int MAX_TU_BY_SEMESTER = 4;
+    private static final String DEFAULT_CAREER_NAME = "Mon parcours";
 
     public Career findById(int careerId) {
         return this.careerRepository.findById(careerId).orElse(null);
@@ -131,5 +130,38 @@ public class CareerService {
                         HttpStatus.UNPROCESSABLE_ENTITY);
             }
         }
+    }
+
+    public void removeCareer(int studentId, int careerId) throws ClientRequestException {
+        Student student = this.studentRepository.findById(studentId).orElseThrow(() -> new ClientRequestException("L'étudiant demandé n'existe pas.", HttpStatus.NOT_FOUND));
+        student.getCareers().stream().filter(c -> c.getId() == careerId).findFirst().orElseThrow(() -> new ClientRequestException("Le parcours demandé n'existe pas.", HttpStatus.NOT_FOUND));
+        student.getCareers().removeIf(c -> c.getId() == careerId);
+
+        this.studentRepository.save(student);
+    }
+
+    public String generateDefaultName(List<Career> careerList) {
+        if (careerList.isEmpty()) {
+            return DEFAULT_CAREER_NAME;
+        }
+
+        Pattern patternSimple = Pattern.compile("^" + DEFAULT_CAREER_NAME + "");
+        int maxDefault = careerList.stream().map(Career::getName).filter(s -> patternSimple.matcher(s).find()).map(s -> {
+            String numberValue = s.substring(DEFAULT_CAREER_NAME.length()).trim();
+            return numberValue.equals("") ? 1 : Integer.parseInt(numberValue);
+        }).max(Integer::compareTo).orElse(0);
+
+        return DEFAULT_CAREER_NAME + (maxDefault == 0 ? "" : " " + (maxDefault + 1));
+    }
+
+    public static void main(String[] args) {
+        List<Career> careers = Arrays.asList(new Career("toto", Collections.emptyList(), false, false),
+                //new Career("Mon parcours", Collections.emptyList(), false, false),
+                new Career("toto Mon parcours 2", Collections.emptyList(), false, false)
+                //new Career("toto", Collections.emptyList(), false, false),
+                //new Career("Mon parcours 2", Collections.emptyList(), false, false)
+        );
+
+        System.out.println(new CareerService().generateDefaultName(careers));
     }
 }

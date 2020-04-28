@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -194,4 +195,23 @@ public class CareerServiceTest {
         assertThrows(ClientRequestException.class, () -> this.careerService.maxiTeachingUnit(listTu)); //TODO tester le cas ou ça passe bien
     }
 
+    @Test
+    public void generateDefaultNameTest() {
+        final String defaultName = "Mon parcours";
+
+        List<Career> careers = new ArrayList<>();
+        assertEquals(defaultName, this.careerService.generateDefaultName(careers));
+
+        careers.add(new Career("toto", Collections.emptyList(), false, false));
+        assertEquals(defaultName, this.careerService.generateDefaultName(careers));
+
+        careers.add(new Career(defaultName, Collections.emptyList(), false, false));
+        assertEquals(defaultName + " 2", this.careerService.generateDefaultName(careers));
+
+        careers.add(new Career(defaultName + " 2", Collections.emptyList(), false, false));
+        assertEquals(defaultName + " 3", this.careerService.generateDefaultName(careers));
+
+        careers.add(new Career(defaultName + " 5", Collections.emptyList(), false, false));
+        assertEquals(defaultName + " 6", this.careerService.generateDefaultName(careers));
+    }
 }
