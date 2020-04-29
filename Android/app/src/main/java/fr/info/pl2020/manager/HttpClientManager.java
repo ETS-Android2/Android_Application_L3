@@ -9,7 +9,7 @@ import fr.info.pl2020.BuildConfig;
 
 public class HttpClientManager {
 
-    private static final String BASE_URL = "http://" + BuildConfig.SERVER_HOSTNAME + ':' + BuildConfig.SERVER_PORT;
+    public static final String BASE_URL = "http://" + BuildConfig.SERVER_HOSTNAME + ':' + BuildConfig.SERVER_PORT;
 
     public static void get(String urn, boolean needAuthentication, AsyncHttpResponseHandler responseHandler) {
         createClient(needAuthentication).get(BASE_URL + urn, responseHandler);

@@ -31,7 +31,7 @@ public class CareerController {
 
     private CareerService careerService = new CareerService();
 
-    public void getAllCareers(Context context, ListView listView){
+    public void getAllCareers(Context context, ListView listView) {
         new CareerService().getAllCareer(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -39,14 +39,10 @@ public class CareerController {
                     List<Career> careersList = JsonModelConvert.jsonArrayToCareer(response);
                     CareerListAdapter careerAdapter = new CareerListAdapter(context, careersList);
                     listView.setAdapter(careerAdapter);
-                }
-                else {
+                } else {
                     Log.e("CAREER_SERVICE", "Erreur lors de la récupération des informations de la liste des cariéres");
                     Toast.makeText(context, R.string.standard_exception, Toast.LENGTH_SHORT).show();
-                    return;
-
                 }
-
             }
 
             @Override
@@ -61,6 +57,7 @@ public class CareerController {
 
         });
     }
+
     public void getCareer(Context context, Runnable callback) {
         getCareer(context, 0, callback);
     }
@@ -78,7 +75,7 @@ public class CareerController {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject teachingUnit = response.getJSONObject(i);
                         int id = teachingUnit.getInt("id");
-                        
+
                         if (!TeachingUnitListContent.TEACHING_UNITS.containsKey(id)) {
                             TeachingUnitListContent.addItem(jsonObjectToTeachingUnit(teachingUnit));
                         }
@@ -139,5 +136,31 @@ public class CareerController {
                 }
             }
         });
+    }
+
+    public void downloadCareer(Context context, int careerId, CareerService.ExportFormat format) {
+        this.careerService.exportCareer(context, careerId, format);
+        /*this.careerService.exportCareer(careerId, format, new FileAsyncHttpResponseHandler(context) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, File response) {
+                Optional<Header> dispositionHeader = Arrays.stream(headers).filter(header -> header.getName().toLowerCase().equals("content-disposition")).findFirst();
+                String filename;
+                if (dispositionHeader.isPresent()) {
+                    String disposition = dispositionHeader.get().getValue();
+                    filename = disposition.replaceFirst("(?i)^.*filename=\"?([^\"]+)\"?.*$", "$1");
+                } else {
+                    filename = response.getName();
+                }
+
+                String dirName = "/Parcours Univ/Mes Parcours/";
+
+                //
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+
+            }
+        });*/
     }
 }

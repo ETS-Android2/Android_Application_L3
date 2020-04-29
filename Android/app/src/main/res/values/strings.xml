@@ -50,4 +50,8 @@
     <string name="signin">Se connecter</string>
     <string name="signup">Créer compte</string>
     <string name="already_member">Déjà membre?</string>
+    <string name="export_title">Exporter</string>
+    <string name="export_by_txt">Exporter en txt</string>
+    <string name="export_by_pdf">Exporter en PDF</string>
+    <string name="export_by_email">Exporter par mail</string>
 </resources>

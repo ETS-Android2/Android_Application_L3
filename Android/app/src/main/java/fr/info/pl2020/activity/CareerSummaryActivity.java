@@ -29,7 +29,7 @@ public class CareerSummaryActivity extends ToolbarIntegratedActivity {
         setContentView(R.layout.activity_career_summary);
 
         DrawerLayout drawerLayout = findViewById(R.id.career_summary_layout);
-        new ToolbarConfig().enableDrawer(drawerLayout).build();
+        new ToolbarConfig().enableDrawer(drawerLayout).enableExport(1).build();
 
         // Récupération de la liste des UE
         new CareerController().getCareer(this, () -> {

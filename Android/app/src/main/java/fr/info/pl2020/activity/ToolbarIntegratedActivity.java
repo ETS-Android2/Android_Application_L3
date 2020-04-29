@@ -14,6 +14,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import fr.info.pl2020.R;
 import fr.info.pl2020.adapter.DrawerAdapter;
+import fr.info.pl2020.controller.CareerController;
+import fr.info.pl2020.service.CareerService;
 
 public abstract class ToolbarIntegratedActivity extends AppCompatActivity {
 
@@ -44,6 +46,10 @@ public abstract class ToolbarIntegratedActivity extends AppCompatActivity {
 
         if (config.isDrawerEnabled) {
             initDrawer();
+        }
+
+        if (config.isExportEnabled) {
+            initExport(menu);
         }
 
         return true;
@@ -91,20 +97,39 @@ public abstract class ToolbarIntegratedActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(config.onQueryTextListener);
     }
 
+    private void initExport(Menu menu) {
+        MenuItem exportItem = menu.findItem(R.id.action_export);
+        exportItem.setVisible(true);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (actionBarDrawerToggle != null && actionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        return super.onOptionsItemSelected(item);
+
+        switch (item.getItemId()) {
+            case R.id.action_export_txt:
+                new CareerController().downloadCareer(this, 1, CareerService.ExportFormat.TXT);
+                return true;
+
+            case R.id.action_export_pdf:
+                new CareerController().downloadCareer(this, 1, CareerService.ExportFormat.PDF);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     class ToolbarConfig {
         private String title;
         private boolean isDrawerEnabled;
         private boolean isSearchEnabled;
+        private boolean isExportEnabled;
         private SearchView.OnQueryTextListener onQueryTextListener;
         private DrawerLayout drawerLayout;
+        private int currentCareerId;
 
         ToolbarConfig setTitle(String title) {
             this.title = title;
@@ -120,6 +145,12 @@ public abstract class ToolbarIntegratedActivity extends AppCompatActivity {
         ToolbarConfig enableDrawer(DrawerLayout drawerLayout) {
             this.drawerLayout = drawerLayout;
             this.isDrawerEnabled = true;
+            return this;
+        }
+
+        ToolbarConfig enableExport(int careerId) {
+            this.currentCareerId = careerId;
+            this.isExportEnabled = true;
             return this;
         }
 
