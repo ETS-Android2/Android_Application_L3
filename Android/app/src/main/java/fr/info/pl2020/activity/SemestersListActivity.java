@@ -15,7 +15,6 @@ import fr.info.pl2020.controller.SemestersListController;
 public class SemestersListActivity extends ToolbarIntegratedActivity implements SearchView.OnQueryTextListener {
 
     private ListView semesterList;
-    private boolean doubleBackToExitPressedOnce = false;
     private SearchController searchController;
 
     @Override
@@ -39,18 +38,6 @@ public class SemestersListActivity extends ToolbarIntegratedActivity implements 
         new SemestersListController().displaySemesterList(this, this.semesterList);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, R.string.double_click_for_exit, Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
-    }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
