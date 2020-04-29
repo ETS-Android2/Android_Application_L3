@@ -12,14 +12,14 @@ import android.widget.Toast;
 
 import com.commonsware.cwac.provider.StreamProvider;
 
-import fr.info.pl2020.service.CareerService;
+import fr.info.pl2020.model.Career;
 
 public class DownloadAndOpenManager {
 
     private static final String AUTHORITY = "fr.info.pl2020.fileprovider";
     private static final Uri PROVIDER = Uri.parse("content://" + AUTHORITY);
 
-    public void downloadFile(Context context, String urn, String fileName, CareerService.ExportFormat format) {
+    public void downloadFile(Context context, String urn, String fileName, Career.ExportFormat format) {
         String url = HttpClientManager.BASE_URL + urn;
         Uri uri = Uri.parse(url);
         context.registerReceiver(new BroadcastReceiver() {
@@ -36,7 +36,7 @@ public class DownloadAndOpenManager {
 
         DownloadManager.Request request = new DownloadManager.Request(uri);
         request.addRequestHeader("Authorization", new AuthenticationManager().getToken());
-        request.setMimeType(format == CareerService.ExportFormat.PDF ? "application/pdf" : "text/plain")
+        request.setMimeType(format == Career.ExportFormat.PDF ? "application/pdf" : "text/plain")
                 .setTitle(fileName)
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                 .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);

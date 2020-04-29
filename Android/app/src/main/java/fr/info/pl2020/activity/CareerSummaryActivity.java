@@ -2,25 +2,23 @@ package fr.info.pl2020.activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import androidx.drawerlayout.widget.DrawerLayout;
 import fr.info.pl2020.R;
 import fr.info.pl2020.adapter.CareerSummaryAdapter;
 import fr.info.pl2020.controller.CareerController;
 import fr.info.pl2020.model.TeachingUnitListContent;
 
 public class CareerSummaryActivity extends ToolbarIntegratedActivity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,5 +58,4 @@ public class CareerSummaryActivity extends ToolbarIntegratedActivity {
         TeachingUnitListContent.setLastOpenedTeachingUnit(0);
         super.onDestroy();
     }
-
 }

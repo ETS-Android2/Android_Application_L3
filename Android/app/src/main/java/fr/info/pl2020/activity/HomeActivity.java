@@ -1,20 +1,23 @@
 package fr.info.pl2020.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import fr.info.pl2020.R;
 import fr.info.pl2020.controller.HomeController;
+
+import static fr.info.pl2020.controller.HomeController.StartActivity.CAREER_LIST;
+import static fr.info.pl2020.controller.HomeController.StartActivity.CAREER_SUMMARY;
+import static fr.info.pl2020.controller.HomeController.StartActivity.SEMESTER_LIST;
 
 public class HomeActivity extends AppCompatActivity {
 
     private HomeController homeController;
-    private boolean hasParent = false;
     private boolean doubleBackToExitPressedOnce = false;
 
     @Override
@@ -47,17 +50,20 @@ public class HomeActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
 
-    public void goCreate(View view){
-        this.homeController.changeActivity(this, "SemesterListActivity" ,!hasParent);
+    public void goCreate(View view) {
+        this.homeController.changeActivity(this, SEMESTER_LIST);
     }
-    public void goEdit(View view){
-        this.homeController.changeActivity(this, "SemesterListActivity",!hasParent);
+
+    public void goEdit(View view) {
+        this.homeController.changeActivity(this, SEMESTER_LIST);
     }
-    public void goMainCareer(View view){
-        this.homeController.changeActivity(this, "CareerSummaryActivity",!hasParent);
+
+    public void goMainCareer(View view) {
+        this.homeController.changeActivity(this, CAREER_SUMMARY);
     }
-    public void goMyCareersList(View view){
-        this.homeController.changeActivity(this, "CareerListActivity",!hasParent);
+
+    public void goMyCareersList(View view) {
+        this.homeController.changeActivity(this, CAREER_LIST);
     }
 
 }
