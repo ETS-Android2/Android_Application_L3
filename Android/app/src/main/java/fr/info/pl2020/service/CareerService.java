@@ -6,6 +6,7 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -24,6 +25,18 @@ public class CareerService {
     public void getCareer(int semester, AsyncHttpResponseHandler responseHandler) {
         String currentUrn = urnMain + (semester == 0 ? "" : "?semester=" + semester);
         HttpClientManager.get(currentUrn, true, responseHandler);
+    }
+    public void createCareer(String name, Boolean isPublic, Boolean isMain, AsyncHttpResponseHandler responseHandler){
+        JSONObject jsonObject= new JSONObject();
+        try {
+            jsonObject.put("name", name);
+            jsonObject.put("isPublic", isPublic);
+            jsonObject.put("mainCareer", isMain);
+            StringEntity entity = new StringEntity(jsonObject.toString());
+            HttpClientManager.post(urn, entity, true, responseHandler);
+        } catch (Exception e) {
+            Log.e("CAREER_SERVICE", "Echec de la Creation d'un parcours", e);
+        }
     }
 
     public void saveCareer(List<Integer> teachingUnitIdList, int semester, AsyncHttpResponseHandler responseHandler) {

@@ -1,6 +1,6 @@
 package fr.info.pl2020.plplg.service;
 
-import fr.info.pl2020.plplg.dto.CareerRequest;
+import fr.info.pl2020.plplg.dto.CareerResponse;
 import fr.info.pl2020.plplg.entity.Career;
 import fr.info.pl2020.plplg.entity.Student;
 import fr.info.pl2020.plplg.entity.TeachingUnit;
@@ -51,7 +51,7 @@ public class CareerService {
         this.careerRepository.save(career);
     }
 
-    public Career createCareer(Student student, CareerRequest careerRequest){
+    public Career createCareer(Student student, CareerResponse careerRequest){
         Career career= new Career(careerRequest.getName(),new ArrayList<>(),careerRequest.isPublic(),careerRequest.isMainCareer());
         career.setStudent(student);
         this.careerRepository.save(career);
