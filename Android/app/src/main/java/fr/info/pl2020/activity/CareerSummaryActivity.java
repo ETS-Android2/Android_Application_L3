@@ -21,7 +21,6 @@ import fr.info.pl2020.model.TeachingUnitListContent;
 
 public class CareerSummaryActivity extends ToolbarIntegratedActivity {
 
-    private boolean doubleBackToExitPressedOnce;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,19 +59,6 @@ public class CareerSummaryActivity extends ToolbarIntegratedActivity {
         TeachingUnitListContent.clear();
         TeachingUnitListContent.setLastOpenedTeachingUnit(0);
         super.onDestroy();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, R.string.double_click_for_exit, Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
 
 }

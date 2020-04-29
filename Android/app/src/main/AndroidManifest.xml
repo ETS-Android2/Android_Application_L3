@@ -15,6 +15,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activity.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -25,15 +28,18 @@
         </activity>
         <activity
             android:name=".activity.RegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="fr.info.pl2020.activity.LoginActivity" />
-
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fr.info.pl2020.activity.LoginActivity" />
+        </activity>
         <activity
             android:name=".activity.SemestersListActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fr.info.pl2020.activity.HomeActivity" />
+        </activity>
         <activity android:name=".activity.ProfilActivity" />
         <activity
             android:name=".activity.TeachingUnitListActivity"
@@ -53,9 +59,11 @@
                 android:value="fr.info.pl2020.activity.TeachingUnitListActivity" />
         </activity>
         <activity android:name=".activity.CareerListActivity" />
-
-        <activity android:name=".activity.CareerSummaryActivity" />
-
+        <activity android:name=".activity.CareerSummaryActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fr.info.pl2020.activity.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

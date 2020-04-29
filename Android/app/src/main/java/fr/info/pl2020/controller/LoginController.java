@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpStatus;
 import fr.info.pl2020.R;
-import fr.info.pl2020.activity.SemestersListActivity;
+import fr.info.pl2020.activity.HomeActivity;
 import fr.info.pl2020.manager.AuthenticationManager;
 import fr.info.pl2020.service.LoginService;
 
@@ -29,7 +29,7 @@ public class LoginController {
                         String token = response.getString("token");
                         new AuthenticationManager().setToken(token);
                         if (startNextActivity) {
-                            context.startActivity(new Intent(context, SemestersListActivity.class));
+                            context.startActivity(new Intent(context, HomeActivity.class));
                         }
                         ((Activity) context).finish();
                     } catch (JSONException e) {

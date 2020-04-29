@@ -17,6 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import fr.info.pl2020.R;
 import fr.info.pl2020.activity.CareerListActivity;
 import fr.info.pl2020.activity.CareerSummaryActivity;
+import fr.info.pl2020.activity.HomeActivity;
 import fr.info.pl2020.activity.SemestersListActivity;
 import fr.info.pl2020.manager.AuthenticationManager;
 
@@ -34,21 +35,20 @@ public class DrawerAdapter extends BaseAdapter {
     }
 
     private void init() {
-        items.add("Afficher le parcours");
-        eventByPositionMap.put("Afficher le parcours", v -> {
-            if (!(context instanceof CareerSummaryActivity)) {
-                Intent careerSummary = new Intent(context, CareerSummaryActivity.class);
-                context.startActivity(careerSummary);
+        items.add("Accueil");
+        eventByPositionMap.put("Accueil", v -> {
+            if (!(context instanceof HomeActivity)) {
+                Intent homeActivity = new Intent(context, HomeActivity.class);
+                context.startActivity(homeActivity);
                 ((Activity) context).finish();
             } else {
                 drawerLayout.closeDrawers();
             }
         });
-
-        items.add("Editer le parcours");
-        eventByPositionMap.put("Editer le parcours", v -> {
-            if (!(context instanceof SemestersListActivity)) {
-                Intent careerSummary = new Intent(context, SemestersListActivity.class);
+        items.add("Afficher le parcours");
+        eventByPositionMap.put("Afficher le parcours", v -> {
+            if (!(context instanceof CareerSummaryActivity)) {
+                Intent careerSummary = new Intent(context, CareerSummaryActivity.class);
                 context.startActivity(careerSummary);
                 ((Activity) context).finish();
             } else {
@@ -65,6 +65,18 @@ public class DrawerAdapter extends BaseAdapter {
                 drawerLayout.closeDrawers();
             }
         });
+
+        items.add("Editer le parcours");
+        eventByPositionMap.put("Editer le parcours", v -> {
+            if (!(context instanceof SemestersListActivity)) {
+                Intent careerSummary = new Intent(context, SemestersListActivity.class);
+                context.startActivity(careerSummary);
+                ((Activity) context).finish();
+            } else {
+                drawerLayout.closeDrawers();
+            }
+        });
+
 
         items.add("Se déconnecter");
         eventByPositionMap.put("Se déconnecter", v -> new AuthenticationManager().logout(((Activity) context), new Intent(context, SemestersListActivity.class)));
