@@ -10,4 +10,6 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".activity.TeachingUnitListActivity"
-    tools:listitem="@layout/teachingunit_list_content" />
+    tools:listitem="@layout/teachingunit_list_content"
+    android:paddingBottom="68dp"
+    android:clipToPadding="false" />
