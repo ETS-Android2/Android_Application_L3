@@ -17,7 +17,7 @@ public class EditCareerPopup {
 
         final Career career = currentCareer == null ? new Career() : currentCareer;
         final EditText namePopUp = new EditText(context);
-        namePopUp.setText(R.string.default_career_name);
+        namePopUp.setHint(R.string.default_career_name);
         namePopUp.setInputType(InputType.TYPE_CLASS_TEXT);
 
         final String[] items = {"Parcours Principal", "Rendre ce parcours public"};

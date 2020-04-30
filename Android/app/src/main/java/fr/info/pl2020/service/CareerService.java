@@ -21,6 +21,12 @@ public class CareerService {
 
     private final String urn = "/career";
 
+    private enum GetFilter {
+        STUDENT,
+        PUBLIC,
+        MAIN
+    }
+
     public void getCareerById(int careerId, AsyncHttpResponseHandler responseHandler) {
         if (careerId == 0) {
             getMainCareer(responseHandler);
@@ -31,7 +37,19 @@ public class CareerService {
     }
 
     private void getMainCareer(AsyncHttpResponseHandler responseHandler) {
-        HttpClientManager.get(urn + "?filter=MAIN", true, responseHandler);
+        getCareer(GetFilter.MAIN, responseHandler);
+    }
+
+    public void getAllCareers(AsyncHttpResponseHandler responseHandler) {
+        getCareer(GetFilter.STUDENT, responseHandler);
+    }
+
+    public void getPublicCareers(AsyncHttpResponseHandler responseHandler) {
+        getCareer(GetFilter.PUBLIC, responseHandler);
+    }
+
+    private void getCareer(GetFilter filter, AsyncHttpResponseHandler responseHandler) {
+        HttpClientManager.get(urn + "?filter=" + filter, true, responseHandler);
     }
     public void deleteCareer(Career career, AsyncHttpResponseHandler responseHandler){
         JSONObject jsonObject = new JSONObject();
@@ -75,10 +93,6 @@ public class CareerService {
         } catch (JSONException e) {
             Log.e("CAREER_SERVICE", "Echec de la conversion de la liste des UE en JSONObject", e);
         }
-    }
-
-    public void getAllCareers(AsyncHttpResponseHandler responseHandler) {
-        HttpClientManager.get(urn, true, responseHandler);
     }
 
     public void exportCareer(Context context, int careerId, Career.ExportFormat format) {

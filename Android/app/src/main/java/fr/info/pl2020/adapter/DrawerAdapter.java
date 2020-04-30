@@ -24,6 +24,8 @@ import fr.info.pl2020.activity.SemestersListActivity;
 import fr.info.pl2020.manager.AuthenticationManager;
 import fr.info.pl2020.store.CareerStore;
 
+import static fr.info.pl2020.activity.CareerListActivity.ARG_MODE;
+
 public class DrawerAdapter extends BaseAdapter {
 
     private Context context;
@@ -65,6 +67,7 @@ public class DrawerAdapter extends BaseAdapter {
         eventByPositionMap.put("Afficher mes parcours", v -> {
             if (!(context instanceof CareerListActivity)) {
                 Intent intent = new Intent(context, CareerListActivity.class);
+                intent.putExtra(ARG_MODE, CareerListActivity.CareerListMode.STUDENT);
                 context.startActivity(intent);
                 ((Activity) context).finish();
             } else {

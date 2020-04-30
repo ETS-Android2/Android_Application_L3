@@ -127,6 +127,41 @@ public class CareerController {
         });
     }
 
+    /**
+     * Récupère l'ensemble des parcours publics
+     */
+    public void getPublicCareers(Context context, Runnable callback) {
+        new CareerService().getPublicCareers(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                if (statusCode == HttpStatus.SC_OK) {
+                    CareerListStore.clear();
+                    List<Career> careers = jsonArrayToCareers(response);
+                    for (Career career : careers) {
+                        CareerListStore.addItem(career);
+                    }
+
+                    if (callback != null) {
+                        callback.run();
+                    }
+                } else {
+                    Log.e("CAREER_SERVICE", "Erreur lors de la récupération des informations de la liste des parcours publics");
+                    Toast.makeText(context, R.string.standard_exception, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
+                    new AuthenticationManager().callLoginActivity(context);
+                } else {
+                    Log.e("CAREER_SERVICE", "Echec de la récupération de la liste des parcours publics (Code: " + statusCode + ")", throwable);
+                    Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     public void createCareer(Context context, Career career, boolean redirectAfterEdit) {
         this.careerService.createCareer(career, new JsonHttpResponseHandler() {
             @Override
@@ -159,8 +194,8 @@ public class CareerController {
         });
     }
 
-    public void deleteCareer(Context context, Career career){
-        this.careerService.deleteCareer(career, new JsonHttpResponseHandler(){
+    public void deleteCareer(Context context, Career career) {
+        this.careerService.deleteCareer(career, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 if (response.has("error")) {
@@ -184,9 +219,6 @@ public class CareerController {
         });
     }
 
-    public void saveCareer(Context context, int semesterId) {
-        List<Integer> teachingUnitIdList = TeachingUnitListStore.TEACHING_UNITS.values().stream().filter(TeachingUnit::isSelected).map(TeachingUnit::getId).collect(Collectors.toList());
-        this.careerService.saveCareer(teachingUnitIdList, semesterId, new JsonHttpResponseHandler() {
     public void saveCareer(Context context, Runnable callback) {
         int careerId = CareerStore.getCurrentCareer().getId();
         List<Integer> teachingUnitIdList = CareerStore.getCurrentCareer().getTeachingUnits().stream().map(TeachingUnit::getId).collect(Collectors.toList());

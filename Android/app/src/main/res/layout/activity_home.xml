@@ -105,6 +105,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="9.5"
+                    android:onClick="goPublicCareersList"
                     android:background="@drawable/home_button"
                     android:text="@string/home_display_public_career" />
             </LinearLayout>

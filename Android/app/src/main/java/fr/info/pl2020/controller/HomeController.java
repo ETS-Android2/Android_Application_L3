@@ -8,12 +8,15 @@ import fr.info.pl2020.activity.CareerListActivity;
 import fr.info.pl2020.activity.CareerSummaryActivity;
 import fr.info.pl2020.component.EditCareerPopup;
 
+import static fr.info.pl2020.activity.CareerListActivity.ARG_MODE;
+
 public class HomeController {
 
     public enum StartActivity {
         SEMESTER_LIST,
         CAREER_SUMMARY,
-        CAREER_LIST
+        CAREER_LIST,
+        CAREER_LIST_PUBLIC
     }
 
     public void changeActivity(Context context, StartActivity activityName) {
@@ -27,7 +30,15 @@ public class HomeController {
                 break;
 
             case CAREER_LIST:
-                context.startActivity(new Intent(context, CareerListActivity.class));
+                Intent careerIntent = new Intent(context, CareerListActivity.class);
+                careerIntent.putExtra(ARG_MODE, CareerListActivity.CareerListMode.STUDENT);
+                context.startActivity(careerIntent);
+                break;
+
+            case CAREER_LIST_PUBLIC:
+                Intent careerPublicIntent = new Intent(context, CareerListActivity.class);
+                careerPublicIntent.putExtra(ARG_MODE, CareerListActivity.CareerListMode.PUBLIC);
+                context.startActivity(careerPublicIntent);
                 break;
 
             default:
