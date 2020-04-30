@@ -65,9 +65,5 @@ public class TeachingUnitDetailsActivityTest {
 
         onView(withId(R.id.teaching_unit_description)).check(matches(isDisplayed()));
         onView(withId(R.id.teaching_unit_description)).check(matches(withText(tu.getDescription())));
-
-        onView(withId(R.id.button)).check(matches(isDisplayed()));
-
-        onView(withId(R.id.button2)).check(matches(isDisplayed()));
     }
 }

@@ -64,11 +64,13 @@ public class DrawerAdapter extends BaseAdapter {
                 drawerLayout.closeDrawers();
             }
         });
-        items.add("Editer parcours en cours");
+        items.add("Editer le parcours en cours");
         eventByPositionMap.put("Editer le parcours en cours", v -> {
             if (!(context instanceof SemestersListActivity)) {
                 Intent intent = new Intent(context, SemestersListActivity.class);
-                intent.putExtra(SemestersListActivity.ARG_CAREER_ID, CareerStore.getCurrentCareer().getId());
+                if (CareerStore.getCurrentCareer() != null) {
+                    intent.putExtra(CareerSummaryActivity.ARG_CAREER_ID, CareerStore.getCurrentCareer().getId());
+                }
                 ((Activity) context).finish();
                 context.startActivity(intent);
             } else {
@@ -77,28 +79,18 @@ public class DrawerAdapter extends BaseAdapter {
         });
         items.add("Mes parcours");
         eventByPositionMap.put("Mes parcours", v -> {
-            if (!(context instanceof CareerListActivity)) {
-                Intent intent = new Intent(context, CareerListActivity.class);
-                intent.putExtra(ARG_MODE, CareerListActivity.CareerListMode.STUDENT);
-                context.startActivity(intent);
-                ((Activity) context).finish();
-            } else {
-                drawerLayout.closeDrawers();
-            }
+            Intent intent = new Intent(context, CareerListActivity.class);
+            intent.putExtra(ARG_MODE, CareerListActivity.CareerListMode.STUDENT);
+            context.startActivity(intent);
+            ((Activity) context).finish();
         });
         items.add("Parcours publics");
-        eventByPositionMap.put("Mes parcours", v -> {
-            if (!(context instanceof CareerListActivity)) {
-                Intent intent = new Intent(context, CareerListActivity.class);
-                intent.putExtra(ARG_MODE, CareerListActivity.CareerListMode.PUBLIC);
-                context.startActivity(intent);
-                ((Activity) context).finish();
-            } else {
-                drawerLayout.closeDrawers();
-            }
+        eventByPositionMap.put("Parcours publics", v -> {
+            Intent intent = new Intent(context, CareerListActivity.class);
+            intent.putExtra(ARG_MODE, CareerListActivity.CareerListMode.PUBLIC);
+            context.startActivity(intent);
+            ((Activity) context).finish();
         });
-
-
 
 
         items.add("Se déconnecter");

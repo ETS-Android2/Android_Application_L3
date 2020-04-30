@@ -25,7 +25,6 @@ import fr.info.pl2020.model.TeachingUnit;
 import fr.info.pl2020.service.CareerService;
 import fr.info.pl2020.store.CareerListStore;
 import fr.info.pl2020.store.CareerStore;
-import fr.info.pl2020.store.TeachingUnitListStore;
 
 import static fr.info.pl2020.util.JsonModelConvert.jsonArrayToCareers;
 import static fr.info.pl2020.util.JsonModelConvert.jsonObjectToCareer;

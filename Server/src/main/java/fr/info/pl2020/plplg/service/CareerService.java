@@ -43,8 +43,18 @@ public class CareerService {
      * @param studentId id de l'étudiant
      * @return le parcours principal de l'étudiant ou null si l'étudiant n'a aucun parcours
      */
-    public Career getMainCareer(int studentId) {
-        return this.careerRepository.findAllByStudentIdAndMainCareerIsTrue(studentId).orElse(null);
+    public Career getMainCareer(int studentId) throws ClientRequestException {
+        Career career = this.careerRepository.findAllByStudentIdAndMainCareerIsTrue(studentId).orElse(null);
+        if (career == null) {
+            Student student = this.studentRepository.findById(studentId).orElseThrow(RuntimeException::new);
+
+            try {
+                career = createCareer(student, new CareerRequest(generateDefaultName(student.getCareers()), false, true));
+            } catch (ClientRequestException e) {
+                throw new ClientRequestException("Une erreur est survenue.", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        return career;
     }
 
     /**
