@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -197,7 +198,7 @@ public class CareerService {
         Student student = this.studentRepository.findById(studentId).orElseThrow(() -> new ClientRequestException("L'étudiant demandé n'existe pas.", HttpStatus.NOT_FOUND));
         student.getCareers().stream().filter(c -> c.getId() == careerId).findFirst().orElseThrow(() -> new ClientRequestException("Le parcours demandé n'existe pas.", HttpStatus.NOT_FOUND));
         student.getCareers().removeIf(c -> c.getId() == careerId);
-
+        this.careerRepository.deleteById(careerId);
         this.studentRepository.save(student);
     }
 

@@ -52,7 +52,9 @@ public class DrawerAdapter extends BaseAdapter {
         eventByPositionMap.put("Afficher le parcours", v -> {
             if (!(context instanceof CareerSummaryActivity)) {
                 Intent intent = new Intent(context, CareerSummaryActivity.class);
-                intent.putExtra(CareerSummaryActivity.ARG_CAREER_ID, CareerStore.getCurrentCareer().getId());
+                if (CareerStore.getCurrentCareer() != null) {
+                    intent.putExtra(CareerSummaryActivity.ARG_CAREER_ID, CareerStore.getCurrentCareer().getId());
+                }
                 ((Activity) context).finish();
                 context.startActivity(intent);
             } else {
