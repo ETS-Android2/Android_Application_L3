@@ -6,6 +6,7 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -58,18 +59,21 @@ public class CareerService {
         }
     }
 
-    public void saveCareer(List<Integer> teachingUnitIdList, int semester, AsyncHttpResponseHandler responseHandler) {
-        JSONArray jsonArray = new JSONArray();
-        for (Integer id : teachingUnitIdList) {
-            jsonArray.put(id);
-        }
-
+    public void saveCareer(int careerId, List<Integer> teachingUnitIdList, AsyncHttpResponseHandler responseHandler) {
         try {
+            JSONArray jsonArray = new JSONArray();
+            for (Integer id : teachingUnitIdList) {
+                JSONObject tu = new JSONObject();
+                tu.put("id", id);
+                jsonArray.put(tu);
+            }
+            Log.d("TEST", jsonArray.toString());
             StringEntity entity = new StringEntity(jsonArray.toString());
-            String urnMain = "/career/main";
-            HttpClientManager.put(urnMain + (semester == 0 ? "" : "?semester=" + semester), entity, true, responseHandler);
+            HttpClientManager.put(urn + "/" + careerId, entity, true, responseHandler);
         } catch (UnsupportedEncodingException e) {
             Log.e("CAREER_SERVICE", "Echec de la conversion de la liste des UE en StringEntity", e);
+        } catch (JSONException e) {
+            Log.e("CAREER_SERVICE", "Echec de la conversion de la liste des UE en JSONObject", e);
         }
     }
 

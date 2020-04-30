@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import fr.info.pl2020.model.Career;
 import fr.info.pl2020.model.TeachingUnit;
@@ -25,6 +26,10 @@ public class CareerStore {
         CURRENT_CAREER = null;
     }
 
+    public static Map<Integer, TeachingUnit> getTeachingUnitById() {
+        return CURRENT_CAREER.getTeachingUnits().stream().collect(Collectors.toMap(TeachingUnit::getId, teachingUnit -> teachingUnit));
+    }
+
     public static Map<Integer, List<TeachingUnit>> getTeachingUnitBySemester() {
         return FunctionsUtils.groupTeachingUnitBySemester(CURRENT_CAREER.getTeachingUnits());
     }
@@ -34,6 +39,12 @@ public class CareerStore {
     }
 
     public static void addTeachingUnit(TeachingUnit teachingUnit) {
-        CURRENT_CAREER.getTeachingUnits().add(teachingUnit);
+        if (CURRENT_CAREER.getTeachingUnits().stream().noneMatch(t -> t.getId() == teachingUnit.getId())) {
+            CURRENT_CAREER.getTeachingUnits().add(teachingUnit);
+        }
+    }
+
+    public static void removeTeachingUnit(TeachingUnit teachingUnit) {
+        CURRENT_CAREER.getTeachingUnits().removeIf(t -> t.getId() == teachingUnit.getId());
     }
 }

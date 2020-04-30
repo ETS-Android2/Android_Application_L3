@@ -60,7 +60,7 @@ public class CareerServiceTest {
         when(this.teachingUnitRepository.findAllByIdIn(any())).thenReturn(new ArrayList<>(Collections.singletonList(tu)));
         when(this.careerRepository.save(any())).thenReturn(expectedCareer);
 
-        this.careerService.updateCareer(career, Arrays.asList(1, 2), 1);
+        this.careerService.updateCareer(career, Arrays.asList(1, 2));
     }
 /*
     // Tester le fait que les Ues s'ajjoute et ne se supprime pas si on modifie la liste ValidateCareer
@@ -150,7 +150,7 @@ public class CareerServiceTest {
 */
 
     @Test
-    public void checkPrerequisiteTeachingUnitsTest() throws ClientRequestException {
+    public void checkCategoryIsPresentInPreviousSemesterTest() throws ClientRequestException {
         //list Teachingunit 1
         Semester semester = new Semester();
         Category category = new Category();
@@ -160,9 +160,7 @@ public class CareerServiceTest {
         TeachingUnit tu = new TeachingUnit("UE1", "1", "blablabla", semester, category);
         tu.setId(1);
         List<TeachingUnit> listTu1 = new ArrayList<>();
-        List<Integer> listIdTu1 = new ArrayList<>();
         listTu1.add(tu);
-        listIdTu1.add(tu.getId());
 
         //list TeachingUnit 2
         Semester semester3 = new Semester();
@@ -170,11 +168,8 @@ public class CareerServiceTest {
         category2.setId(2);
         category2.setName("info");
         semester3.setYear(2);
-        List<TeachingUnit> listTu2 = listTu1;
-        List<Integer> listIdTu2 = listIdTu1;
-        listTu2.add(new TeachingUnit("UE2", "2", "blablabla", semester3, category2));
-        listIdTu2.add(2);
-        assertThrows(ClientRequestException.class, () -> this.careerService.checkPrerequisiteTeachingUnits(listTu1, listTu2)); //TODO tester le cas ou ça passe bien
+        listTu1.add(new TeachingUnit("UE2", "2", "blablabla", semester3, category2));
+        assertThrows(ClientRequestException.class, () -> this.careerService.checkCategoryIsPresentInPreviousSemester(listTu1)); //TODO tester le cas ou ça passe bien
     }
 
     @Test

@@ -145,7 +145,13 @@ public class TeachingUnitAdapter extends BaseExpandableListAdapter {
         holder.checkBox.setOnCheckedChangeListener(null);
 
         holder.checkBox.setChecked(CareerStore.isCurrentCareerContainsTeachingUnit(tu.getId()));
-        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> tu.setSelected(isChecked)); //TODO !!
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                CareerStore.addTeachingUnit(tu);
+            } else {
+                CareerStore.removeTeachingUnit(tu);
+            }
+        });
 
         return convertView;
     }
