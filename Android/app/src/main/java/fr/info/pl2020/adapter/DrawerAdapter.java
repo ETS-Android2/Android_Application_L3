@@ -3,6 +3,7 @@ package fr.info.pl2020.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +51,8 @@ public class DrawerAdapter extends BaseAdapter {
                 drawerLayout.closeDrawers();
             }
         });
-        items.add("Afficher le parcours");
-        eventByPositionMap.put("Afficher le parcours", v -> {
+        items.add("Parcours en cours");
+        eventByPositionMap.put("Parcours en cours", v -> {
             if (!(context instanceof CareerSummaryActivity)) {
                 Intent intent = new Intent(context, CareerSummaryActivity.class);
                 if (CareerStore.getCurrentCareer() != null) {
@@ -63,20 +64,8 @@ public class DrawerAdapter extends BaseAdapter {
                 drawerLayout.closeDrawers();
             }
         });
-        items.add("Afficher mes parcours");
-        eventByPositionMap.put("Afficher mes parcours", v -> {
-            if (!(context instanceof CareerListActivity)) {
-                Intent intent = new Intent(context, CareerListActivity.class);
-                intent.putExtra(ARG_MODE, CareerListActivity.CareerListMode.STUDENT);
-                context.startActivity(intent);
-                ((Activity) context).finish();
-            } else {
-                drawerLayout.closeDrawers();
-            }
-        });
-
-        items.add("Editer le parcours");
-        eventByPositionMap.put("Editer le parcours", v -> {
+        items.add("Editer parcours en cours");
+        eventByPositionMap.put("Editer le parcours en cours", v -> {
             if (!(context instanceof SemestersListActivity)) {
                 Intent intent = new Intent(context, SemestersListActivity.class);
                 intent.putExtra(SemestersListActivity.ARG_CAREER_ID, CareerStore.getCurrentCareer().getId());
@@ -86,6 +75,31 @@ public class DrawerAdapter extends BaseAdapter {
                 drawerLayout.closeDrawers();
             }
         });
+        items.add("Mes parcours");
+        eventByPositionMap.put("Mes parcours", v -> {
+            if (!(context instanceof CareerListActivity)) {
+                Intent intent = new Intent(context, CareerListActivity.class);
+                intent.putExtra(ARG_MODE, CareerListActivity.CareerListMode.STUDENT);
+                context.startActivity(intent);
+                ((Activity) context).finish();
+            } else {
+                drawerLayout.closeDrawers();
+            }
+        });
+        items.add("Parcours publics");
+        eventByPositionMap.put("Mes parcours", v -> {
+            if (!(context instanceof CareerListActivity)) {
+                Intent intent = new Intent(context, CareerListActivity.class);
+                intent.putExtra(ARG_MODE, CareerListActivity.CareerListMode.PUBLIC);
+                context.startActivity(intent);
+                ((Activity) context).finish();
+            } else {
+                drawerLayout.closeDrawers();
+            }
+        });
+
+
+
 
         items.add("Se déconnecter");
         eventByPositionMap.put("Se déconnecter", v -> new AuthenticationManager().logout(((Activity) context), new Intent(context, LoginActivity.class)));
@@ -117,6 +131,9 @@ public class DrawerAdapter extends BaseAdapter {
         String item = (String) getItem(position);
         TextView semesterTextView = convertView.findViewById(R.id.drawerItem);
         semesterTextView.setText(item);
+        if (item == "Se déconnecter") {
+            semesterTextView.setTextColor(Color.RED);
+        }
         semesterTextView.setOnClickListener(eventByPositionMap.get(item));
 
         return convertView;

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import fr.info.pl2020.activity.CareerListActivity;
 import fr.info.pl2020.activity.CareerSummaryActivity;
+import fr.info.pl2020.activity.SemestersListActivity;
 import fr.info.pl2020.component.EditCareerPopup;
 
 import static fr.info.pl2020.activity.CareerListActivity.ARG_MODE;
@@ -13,16 +14,20 @@ import static fr.info.pl2020.activity.CareerListActivity.ARG_MODE;
 public class HomeController {
 
     public enum StartActivity {
-        SEMESTER_LIST,
+        CREATE_CAREER,
         CAREER_SUMMARY,
         CAREER_LIST,
-        CAREER_LIST_PUBLIC
+        CAREER_LIST_PUBLIC,
+        SEMESTER_LIST
     }
 
     public void changeActivity(Context context, StartActivity activityName) {
         switch (activityName) {
-            case SEMESTER_LIST:
+            case CREATE_CAREER:
                 new EditCareerPopup(context, null, true);
+                break;
+            case SEMESTER_LIST:
+                context.startActivity(new Intent(context, SemestersListActivity.class));
                 break;
 
             case CAREER_SUMMARY:

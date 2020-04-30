@@ -15,6 +15,7 @@ import fr.info.pl2020.store.CareerStore;
 import static fr.info.pl2020.controller.HomeController.StartActivity.CAREER_LIST;
 import static fr.info.pl2020.controller.HomeController.StartActivity.CAREER_LIST_PUBLIC;
 import static fr.info.pl2020.controller.HomeController.StartActivity.CAREER_SUMMARY;
+import static fr.info.pl2020.controller.HomeController.StartActivity.CREATE_CAREER;
 import static fr.info.pl2020.controller.HomeController.StartActivity.SEMESTER_LIST;
 
 public class HomeActivity extends AppCompatActivity {
@@ -59,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void goCreate(View view) {
-        new HomeController().changeActivity(HomeActivity.this, SEMESTER_LIST);
+        new HomeController().changeActivity(HomeActivity.this, CREATE_CAREER);
     }
 
     public void goEdit(View view) {

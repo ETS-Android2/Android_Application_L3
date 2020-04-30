@@ -57,7 +57,7 @@
                     android:layout_weight="1"
                     android:onClick="goEdit"
                     android:background="@drawable/home_button"
-                    android:text="@string/home_edit_last_career" />
+                    android:text="@string/home_edit_main_career" />
             </LinearLayout>
 
             <LinearLayout

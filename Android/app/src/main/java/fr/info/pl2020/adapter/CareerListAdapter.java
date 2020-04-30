@@ -76,7 +76,7 @@ public class CareerListAdapter extends BaseAdapter {
             throw new IllegalArgumentException("Illegal mode");
         }
 
-        TextView careerTextView = convertView.findViewById(R.id.careerName);
+        TextView careerTextView = convertView.findViewById(R.id.publicCareerName);
 
         careerTextView.setText(career.getName());
 

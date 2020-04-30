@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.loopj.android.http.BlackholeHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -24,6 +25,7 @@ import fr.info.pl2020.model.TeachingUnit;
 import fr.info.pl2020.service.CareerService;
 import fr.info.pl2020.store.CareerListStore;
 import fr.info.pl2020.store.CareerStore;
+import fr.info.pl2020.store.TeachingUnitListStore;
 
 import static fr.info.pl2020.util.JsonModelConvert.jsonArrayToCareers;
 import static fr.info.pl2020.util.JsonModelConvert.jsonObjectToCareer;
@@ -46,40 +48,6 @@ public class CareerController {
                 }
             }
 
-            /*
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                            CareerListStore.clear();
-                            List<Career> careers = jsonArrayToCareers(response);
-                            for (Career career : careers) {
-                                CareerListStore.addItem(career);
-                            }
-
-                            if (callback != null) {
-                                callback.run();
-                            }
-
-                            /*
-                            Map<Integer, List<TeachingUnit>> teachingUnitBySemester = TeachingUnitListStore.getTeachingUnitBySemester();
-
-                            if (teachingUnitBySemester.size() != 0) {
-                                List<Object> listItem = new ArrayList<>();
-                                teachingUnitBySemester.forEach((semesterId, teachingUnits) -> {
-                                    listItem.add("Semestre " + semesterId);
-                                    listItem.addAll(teachingUnits);
-                                });
-                                ListView summaryCareerList = ((Activity) context).findViewById(R.id.summaryCareerList);
-                                CareerSummaryAdapter adapter = new CareerSummaryAdapter(context, listItem);
-                                summaryCareerList.setAdapter(adapter);
-                            } else {
-                                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                                View v = inflater.inflate(R.layout.empty_career_summary_list, null);
-
-                                LinearLayout linearLayout = ((Activity) context).findViewById(R.id.summaryCareer);
-                                linearLayout.addView(v);
-                            }*//*
-            }
-*/
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
@@ -280,25 +248,11 @@ public class CareerController {
     }
 
     public void sendMailCareer(Context context, int careerId) {
-        this.careerService.sendCareer(careerId, new JsonHttpResponseHandler() {
+        this.careerService.sendCareer(careerId, new BlackholeHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                if (response.has("error")) {
-                    new MessagePopup(context, "Erreur", response.optString("error"));
-                } else {
-                    new MessagePopup(context, "Le parcours a bien été envoyé.", null, (dialog, which) -> {
-                    });
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
-                    new AuthenticationManager().callLoginActivity(context);
-                } else {
-                    Log.e("CAREER", "Echec de l'envoi d'un parcours par email", throwable);
-                    Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();
-                }
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                new MessagePopup(context, "Le parcours a bien été envoyé.", null, (dialog, which) -> {
+                });
             }
         });
     }

@@ -198,7 +198,7 @@ public class CareerController {
             Career c = getCareerByIdAndCheckAccess(careerId, true);
             try {
                 this.exportFacade.sendCareerByMail(this.authenticationService.getLoggedStudent(), c);
-                return ResponseEntity.noContent().build();
+                return new ResponseEntity<>("{}", HttpStatus.OK);
             } catch (Exception e) {
                 throw new ClientRequestException("L'envoi du mail à échoué, veuillez réessayer ultérieurement.", "Echec de l'envoi du parcours par mail (careerId = '" + c.getId() + "') - " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
             }

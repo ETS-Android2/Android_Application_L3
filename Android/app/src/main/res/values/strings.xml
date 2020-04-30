@@ -55,7 +55,7 @@
     <string name="export_by_pdf">Exporter en PDF</string>
     <string name="export_by_email">Exporter par mail</string>
     <string name="home_create_career">Créer parcours</string>
-    <string name="home_edit_last_career">Editer dernier parcours</string>
+    <string name="home_edit_main_career">Editer parcours principal</string>
     <string name="home_display_main_career">Parcours principal</string>
     <string name="home_display_all_career">Mes parcours</string>
     <string name="home_display_public_career">Parcours publics</string>
