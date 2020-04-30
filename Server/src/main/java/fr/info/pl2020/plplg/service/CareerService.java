@@ -124,7 +124,7 @@ public class CareerService {
                 teachingUnits.remove(i);
             }
         }
-        checkPrerequisiteTeachingUnits(currentValidateTeachingUnit, teachingUnits);
+        checkPrerequisiteTeachingUnitIsPresent(teachingUnits);
         currentValidateTeachingUnit.addAll(teachingUnits);
         maxiTeachingUnit(currentValidateTeachingUnit);
         //career.setTeachingUnits(currentValidateTeachingUnit);
@@ -132,7 +132,7 @@ public class CareerService {
         this.studentRepository.save(student);
         //this.careerRepository.save(career);
     }
-
+/*
     public void updateCareer(Career career, List<Integer> teachingUnitIdList, int currentSemesterId) throws ClientRequestException {
         List<TeachingUnit> teachingUnits = this.teachingUnitRepository.findAllByIdIn(teachingUnitIdList);
         List<TeachingUnit> currentTeachingUnits = career.getTeachingUnits();
@@ -149,29 +149,56 @@ public class CareerService {
         career.setTeachingUnits(currentTeachingUnits);
 
         this.careerRepository.save(career);
+    }*/
+
+    public Career updateCareer(Career career, List<Integer> teachingUnitIdList) throws ClientRequestException {
+        List<TeachingUnit> teachingUnits = this.teachingUnitRepository.findAllByIdIn(teachingUnitIdList);
+
+        // Vérification des 4 UE max par semestre
+        maxiTeachingUnit(teachingUnits);
+
+        // Vérification des catégories précédentes
+        checkCategoryIsPresentInPreviousSemester(teachingUnits);
+
+        // Vérification des UE prérequis
+        checkPrerequisiteTeachingUnitIsPresent(teachingUnits);
+
+        career.setTeachingUnits(teachingUnits);
+        this.careerRepository.save(career);
+        return career;
     }
 
-    public void checkPrerequisiteTeachingUnits(List<TeachingUnit> currentTeachingUnits, List<TeachingUnit> teachingUnits) throws ClientRequestException {
-        Map<Integer, List<Integer>> categoryByYear = new HashMap<>();
+    /*
+        public void checkPrerequisiteTeachingUnits(List<TeachingUnit> currentTeachingUnits, List<TeachingUnit> teachingUnits) throws ClientRequestException {
+            Map<Integer, List<Integer>> categoryByYear = new HashMap<>();
 
-        for (TeachingUnit tu : currentTeachingUnits) {
-            int year = tu.getSemester().getYear();
-            if (categoryByYear.containsKey(year)) {
-                categoryByYear.get(year).add(tu.getCategory().getId());
-            } else {
-                List<Integer> categories = new ArrayList<>();
-                categories.add(tu.getCategory().getId());
-                categoryByYear.put(year, categories);
+            for (TeachingUnit tu : currentTeachingUnits) {
+                int year = tu.getSemester().getYear();
+                if (categoryByYear.containsKey(year)) {
+                    categoryByYear.get(year).add(tu.getCategory().getId());
+                } else {
+                    List<Integer> categories = new ArrayList<>();
+                    categories.add(tu.getCategory().getId());
+                    categoryByYear.put(year, categories);
+                }
+            }
+
+            for (TeachingUnit tu : teachingUnits) {
+                int year = tu.getSemester().getYear();
+                if (year != 1 && (!categoryByYear.containsKey(year - 1) || (categoryByYear.containsKey(year - 1) && !categoryByYear.get(year - 1).contains(tu.getCategory().getId())))) {
+                    throw new ClientRequestException("Vous devez avoir validé une UE de la catégorie " + tu.getCategory().getName() + " à la " + (tu.getSemester().getYear() - 1) + ((tu.getSemester().getYear() - 1) == 1 ? "ère" : "ème") + " année.",
+                            HttpStatus.UNPROCESSABLE_ENTITY);
+                }
             }
         }
+    */
 
-        for (TeachingUnit tu : teachingUnits) {
-            int year = tu.getSemester().getYear();
-            if (year != 1 && (!categoryByYear.containsKey(year - 1) || (categoryByYear.containsKey(year - 1) && !categoryByYear.get(year - 1).contains(tu.getCategory().getId())))) {
-                throw new ClientRequestException("Vous devez avoir validé une UE de la catégorie " + tu.getCategory().getName() + " à la " + (tu.getSemester().getYear() - 1) + ((tu.getSemester().getYear() - 1) == 1 ? "ère" : "ème") + " année.",
-                        HttpStatus.UNPROCESSABLE_ENTITY);
-            }
-        }
+    public void removeCareer(int studentId, int careerId) throws ClientRequestException {
+        Student student = this.studentRepository.findById(studentId).orElseThrow(() -> new ClientRequestException("L'étudiant demandé n'existe pas.", HttpStatus.NOT_FOUND));
+        student.getCareers().stream().filter(c -> c.getId() == careerId).findFirst().orElseThrow(() -> new ClientRequestException("Le parcours demandé n'existe pas.", HttpStatus.NOT_FOUND));
+        student.getCareers().removeIf(c -> c.getId() == careerId);
+
+        this.studentRepository.save(student);
     }
 
     public void maxiTeachingUnit(List<TeachingUnit> TeachingUnits) throws ClientRequestException {
@@ -193,12 +220,37 @@ public class CareerService {
         }
     }
 
-    public void removeCareer(int studentId, int careerId) throws ClientRequestException {
-        Student student = this.studentRepository.findById(studentId).orElseThrow(() -> new ClientRequestException("L'étudiant demandé n'existe pas.", HttpStatus.NOT_FOUND));
-        student.getCareers().stream().filter(c -> c.getId() == careerId).findFirst().orElseThrow(() -> new ClientRequestException("Le parcours demandé n'existe pas.", HttpStatus.NOT_FOUND));
-        student.getCareers().removeIf(c -> c.getId() == careerId);
+    public void checkCategoryIsPresentInPreviousSemester(List<TeachingUnit> teachingUnits) throws ClientRequestException {
+        Map<Integer, List<Integer>> categoryByYear = new HashMap<>();
 
-        this.studentRepository.save(student);
+        for (TeachingUnit tu : teachingUnits) {
+            int year = tu.getSemester().getYear();
+            if (categoryByYear.containsKey(year)) {
+                categoryByYear.get(year).add(tu.getCategory().getId());
+            } else {
+                List<Integer> categories = new ArrayList<>();
+                categories.add(tu.getCategory().getId());
+                categoryByYear.put(year, categories);
+            }
+        }
+
+        for (TeachingUnit tu : teachingUnits) {
+            int year = tu.getSemester().getYear();
+            if (year != 1 && (!categoryByYear.containsKey(year - 1) || (categoryByYear.containsKey(year - 1) && !categoryByYear.get(year - 1).contains(tu.getCategory().getId())))) {
+                throw new ClientRequestException("Vous devez avoir validé une UE de la catégorie " + tu.getCategory().getName() + " à la " + (tu.getSemester().getYear() - 1) + ((tu.getSemester().getYear() - 1) == 1 ? "ère" : "ème") + " année.",
+                        HttpStatus.UNPROCESSABLE_ENTITY);
+            }
+        }
+    }
+
+    public void checkPrerequisiteTeachingUnitIsPresent(List<TeachingUnit> teachingUnits) throws ClientRequestException {
+        for (TeachingUnit tu : teachingUnits) {
+            for (TeachingUnit prerequisite : tu.getPrerequisite()) {
+                if (!teachingUnits.contains(prerequisite)) {
+                    throw new ClientRequestException("Vous devez avoir validé l'UE " + prerequisite.getName() + " avant de pouvoir valider " + tu.getName(), HttpStatus.UNPROCESSABLE_ENTITY);
+                }
+            }
+        }
     }
 
     public String generateDefaultName(List<Career> careerList) {

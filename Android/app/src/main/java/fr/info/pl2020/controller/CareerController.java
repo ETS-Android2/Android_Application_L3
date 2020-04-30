@@ -24,7 +24,6 @@ import fr.info.pl2020.model.TeachingUnit;
 import fr.info.pl2020.service.CareerService;
 import fr.info.pl2020.store.CareerListStore;
 import fr.info.pl2020.store.CareerStore;
-import fr.info.pl2020.store.TeachingUnitListStore;
 
 import static fr.info.pl2020.util.JsonModelConvert.jsonArrayToCareers;
 import static fr.info.pl2020.util.JsonModelConvert.jsonObjectToCareer;
@@ -160,16 +159,21 @@ public class CareerController {
         });
     }
 
-    public void saveCareer(Context context, int semesterId) {
-        List<Integer> teachingUnitIdList = TeachingUnitListStore.TEACHING_UNITS.values().stream().filter(TeachingUnit::isSelected).map(TeachingUnit::getId).collect(Collectors.toList());
-        this.careerService.saveCareer(teachingUnitIdList, semesterId, new JsonHttpResponseHandler() {
+    public void saveCareer(Context context, Runnable callback) {
+        int careerId = CareerStore.getCurrentCareer().getId();
+        List<Integer> teachingUnitIdList = CareerStore.getCurrentCareer().getTeachingUnits().stream().map(TeachingUnit::getId).collect(Collectors.toList());
+        this.careerService.saveCareer(careerId, teachingUnitIdList, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 if (response.has("error")) {
                     new MessagePopup(context, "Erreur", response.optString("error"));
                 } else {
+                    CareerStore.setCurrentCareer(jsonObjectToCareer(response));
                     new MessagePopup(context, "Le parcours a bien été enregistré.");
+                    if (callback != null) {
+                        callback.run();
+                    }
                 }
             }
 

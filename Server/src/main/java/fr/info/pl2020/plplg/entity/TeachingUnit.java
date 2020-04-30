@@ -30,8 +30,8 @@ public class TeachingUnit {
     @ManyToMany
     @JoinTable(
             name = "prerequisite",
-            joinColumns = {@JoinColumn(name = "parent_id", referencedColumnName = "id", nullable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "child_id", referencedColumnName = "id", nullable = false)}
+            joinColumns = {@JoinColumn(name = "child_id", referencedColumnName = "id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "parent_id", referencedColumnName = "id", nullable = false)}
     )
     private List<TeachingUnit> prerequisite;
 
@@ -50,7 +50,7 @@ public class TeachingUnit {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -58,7 +58,7 @@ public class TeachingUnit {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -66,7 +66,7 @@ public class TeachingUnit {
     }
 
     public String getCode() {
-        return code;
+        return this.code;
     }
 
     public void setCode(String reference) {
@@ -74,7 +74,7 @@ public class TeachingUnit {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -82,7 +82,7 @@ public class TeachingUnit {
     }
 
     public Semester getSemester() {
-        return semester;
+        return this.semester;
     }
 
     public void setSemester(Semester semester) {
@@ -90,7 +90,7 @@ public class TeachingUnit {
     }
 
     public Category getCategory() {
-        return category;
+        return this.category;
     }
 
     public void setCategory(Category category) {
@@ -98,7 +98,7 @@ public class TeachingUnit {
     }
 
     public boolean isSelectedByStudent() {
-        return selectedByStudent;
+        return this.selectedByStudent;
     }
 
     public void setSelectedByStudent(boolean selectedByStudent) {
@@ -106,7 +106,7 @@ public class TeachingUnit {
     }
 
     public List<TeachingUnit> getPrerequisite() {
-        return prerequisite;
+        return this.prerequisite;
     }
 
     public void setPrerequisite(List<TeachingUnit> prerequisite) {

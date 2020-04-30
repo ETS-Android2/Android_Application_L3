@@ -1,5 +1,6 @@
 package fr.info.pl2020.plplg.controller;
 
+import fr.info.pl2020.plplg.dto.CareerContentRequest;
 import fr.info.pl2020.plplg.dto.CareerRequest;
 import fr.info.pl2020.plplg.dto.CareerResponse;
 import fr.info.pl2020.plplg.dto.CareerTeachingUnitRequest;
@@ -24,6 +25,7 @@ import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class CareerController {
@@ -42,20 +44,6 @@ public class CareerController {
         MAIN,
         LAST
     }
-
-    //TODO supprimer
-    @PutMapping(value = "/career/main")
-    @ResponseBody
-    public ResponseEntity<?> updateStudentMainCareer(@RequestBody @NotNull @NotEmpty List<Integer> teachingUnitIdList, @RequestParam(name = "semester", defaultValue = "0") int currentSemesterId) {
-        try {
-            Student loggedStudent = this.authenticationService.getLoggedStudent();
-            this.careerService.updateCareer(this.careerService.getMainCareer(loggedStudent.getId()), teachingUnitIdList, currentSemesterId);
-            return new ResponseEntity<>("{}", HttpStatus.OK);
-        } catch (ClientRequestException cre) {
-            return new ResponseEntity<>(cre.getClientMessage(), cre.getStatus());
-        }
-    }
-
 
     /*** Gestion de la liste des parcours d'un étudiant ***/
 
@@ -132,10 +120,11 @@ public class CareerController {
     }
 
     @PutMapping(value = "/career/{careerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateCareer(@PathVariable int careerId, @RequestBody @NotNull @NotEmpty List<Integer> teachingUnitIdList, @RequestParam(name = "semester", defaultValue = "0") int currentSemesterId) {
+    public ResponseEntity<?> updateCareer(@PathVariable int careerId, @RequestBody @NotNull @NotEmpty List<CareerContentRequest> careerContentRequests) {
+        List<Integer> teachingUnitIdList = careerContentRequests.stream().map(CareerContentRequest::getId).collect(Collectors.toList());
         try {
-            this.careerService.updateCareer(getCareerByIdAndCheckOwner(careerId), teachingUnitIdList, currentSemesterId);
-            return new ResponseEntity<>("{}", HttpStatus.OK);
+            Career newCareer = this.careerService.updateCareer(getCareerByIdAndCheckOwner(careerId), teachingUnitIdList);
+            return new ResponseEntity<>(new CareerResponse(newCareer), HttpStatus.OK);
         } catch (ClientRequestException cre) {
             return new ResponseEntity<>(cre.getClientMessage(), cre.getStatus());
         }

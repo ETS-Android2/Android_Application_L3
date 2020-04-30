@@ -67,7 +67,7 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity implemen
 
         // Le bouton enregistrer
         FloatingActionButton fab = findViewById(R.id.fab_save_career);
-        fab.setOnClickListener(view -> careerController.saveCareer(TeachingUnitListActivity.this, currentSemester.getId()));
+        fab.setOnClickListener(view -> careerController.saveCareer(TeachingUnitListActivity.this, this::refreshList));
 
         if (findViewById(R.id.teachingunit_detail_container) != null) {
             // The detail container view will be present only in the large-screen layouts (res/values-w900dp).
@@ -105,13 +105,16 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity implemen
 
     @Override
     public void onResume() {
+        refreshList();
+        super.onResume();
+    }
+
+    private void refreshList() {
         ExpandableListView expandableListView = findViewById(R.id.teachingunit_list);
         TeachingUnitAdapter adapter = (TeachingUnitAdapter) expandableListView.getExpandableListAdapter();
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
-
-        super.onResume();
     }
 
     @Override
