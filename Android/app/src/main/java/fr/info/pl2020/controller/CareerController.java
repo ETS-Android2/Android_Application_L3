@@ -99,6 +99,41 @@ public class CareerController {
             }
         });
     }
+    public void createCareer(Context context , String name , Boolean isPublic, Boolean isMain){
+        this.careerService.createCareer(name,isPublic,isMain,new JsonHttpResponseHandler(){
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                if (response.has("error")) {
+                    alertDialog.setTitle("Erreur");
+                    alertDialog.setMessage(response.optString("error"));
+                } else {
+                    alertDialog.setMessage("Le parcours a bien été Creé.");
+                }
+
+                alertDialog.setNeutralButton("OK", (dialog, which) -> {
+                });
+                alertDialog.show();
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
+                    new AuthenticationManager().callLoginActivity(context);
+                } else if (statusCode == HttpStatus.SC_UNPROCESSABLE_ENTITY) {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                    alertDialog.setTitle("Erreur");
+                    alertDialog.setMessage(errorResponse.optString("error"));
+                    alertDialog.setNeutralButton("OK", (dialog, which) -> {
+                    });
+                    alertDialog.show();
+                } else {
+                    Log.e("CAREER", "Echec de la creation  d'un parcours", throwable);
+                    Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
     public void saveCareer(Context context, int semesterId) {
         List<Integer> teachingUnitIdList = TeachingUnitListContent.TEACHING_UNITS.values().stream().filter(TeachingUnitListContent.TeachingUnit::isSelected).map(TeachingUnitListContent.TeachingUnit::getId).collect(Collectors.toList());
@@ -138,7 +173,7 @@ public class CareerController {
         });
     }
 
-    public void downloadCareer(Context context, int careerId, CareerService.ExportFormat format) {
+    public void downloadCareer(Context context, int careerId, Career.ExportFormat format) {
         this.careerService.exportCareer(context, careerId, format);
         /*this.careerService.exportCareer(careerId, format, new FileAsyncHttpResponseHandler(context) {
             @Override

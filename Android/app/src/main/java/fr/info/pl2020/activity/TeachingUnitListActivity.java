@@ -1,5 +1,6 @@
 package fr.info.pl2020.activity;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -36,6 +37,7 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity implemen
 
     public static boolean isTwoPane;
     private Semester currentSemester;
+    private TeachingUnitListActivity activity;
 
     private CareerController careerController = new CareerController();
     private SearchController searchController = new SearchController();
@@ -44,6 +46,7 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity implemen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teachingunit_list);
+        this.activity=this;
         int focusedTeachingUnitId = 0;
 
         // Récupération des attributs du semestre
@@ -66,7 +69,8 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity implemen
 
         // Le bouton enregistrer
         FloatingActionButton fab = findViewById(R.id.fab_save_career);
-        fab.setOnClickListener(view -> careerController.saveCareer(TeachingUnitListActivity.this, this.currentSemester.getId()));
+        fab.setOnClickListener(view -> careerController.saveCareer(TeachingUnitListActivity.this,currentSemester.getId()));
+
 
         if (findViewById(R.id.teachingunit_detail_container) != null) {
             // The detail container view will be present only in the large-screen layouts (res/values-w900dp).
