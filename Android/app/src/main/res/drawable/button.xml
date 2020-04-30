@@ -4,8 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:radius="50sp"/>
     <gradient
-        android:startColor="@color/pink"
+        android:startColor="#fff"
         android:endColor="@color/colorPrimary"
-        android:angle="180" />
+        android:angle="270" />
 
 </shape>
