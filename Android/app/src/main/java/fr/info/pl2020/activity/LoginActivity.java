@@ -130,9 +130,9 @@ public class LoginActivity extends AppCompatActivity {
         View view = findViewById(R.id.login_page);
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            view.setBackgroundResource(R.drawable.background_landscape);
+            view.setBackgroundResource(R.drawable.login_landscape);
         } else {
-            view.setBackgroundResource(R.drawable.login);
+            view.setBackgroundResource(R.drawable.login_portrait);
         }
     }
 
