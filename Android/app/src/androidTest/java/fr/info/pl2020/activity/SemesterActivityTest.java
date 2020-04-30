@@ -14,6 +14,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -93,6 +94,7 @@ public class SemesterActivityTest {
     }
 
     @Test
+    @Ignore
     public void displaySemesterList_OK() throws Exception {
         MockResponse response = new MockResponse()
                 .addHeader("Content-Type", "application/json")

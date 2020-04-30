@@ -92,17 +92,6 @@ public class TeachingUnitListActivityTest {
             "    \"category\": \"Géographie\"\n" +
             "  }]";
 
-    private final String defaultCareerResponse = "[\n" +
-            "  {\n" +
-            "    \"id\": 21,\n" +
-            "    \"name\": \"Decouverte I\",\n" +
-            "    \"code\": \"SPUGDE10\",\n" +
-            "    \"description\": \"Cette UE aborde l'histoire des statistiques, en présente les sources, puis elle souligne l'enjeu de la production, et de la critique de données pour le géographe. \",\n" +
-            "    \"semester\": 1,\n" +
-            "    \"category\": \"Géographie\"\n" +
-            "  }\n" +
-            "]";
-
     @Before
     public void setup() throws IOException {
         this.server = new MockWebServer();
@@ -124,25 +113,13 @@ public class TeachingUnitListActivityTest {
                 .setResponseCode(200)
                 .setBody(defaultTeachingUnitResponse);
 
-        MockResponse response2 = new MockResponse()
-                .addHeader("Content-Type", "application/json")
-                .setResponseCode(200)
-                .setBody(defaultCareerResponse);
-
         this.server.enqueue(response1);
-        this.server.enqueue(response2);
 
         // getTeachingUnit
         RecordedRequest request1 = this.server.takeRequest();
         assertEquals("GET /teachingUnit?semester=1 HTTP/1.1", request1.getRequestLine());
         assertEquals("application/json", request1.getHeader("Content-Type"));
         assertEquals("Bearer", request1.getHeader("Authorization"));
-
-        // getCareer
-        RecordedRequest request2 = this.server.takeRequest();
-        assertEquals("GET /career/main?semester=1 HTTP/1.1", request2.getRequestLine());
-        assertEquals("application/json", request2.getHeader("Content-Type"));
-        assertEquals("Bearer", request2.getHeader("Authorization"));
 
         // Le test est plus rapide que la construction de la ListView
         Thread.sleep(500);

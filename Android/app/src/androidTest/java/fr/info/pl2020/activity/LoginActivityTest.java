@@ -108,7 +108,7 @@ public class LoginActivityTest {
         assertEquals("POST /login HTTP/1.1", request.getRequestLine());
         assertEquals("application/json", request.getHeader("Content-Type"));
         assertEquals("{\"email\":\"toto@gmail.com\",\"password\":\"12345\"}", request.getBody().readUtf8());
-        intended(hasComponent(SemestersListActivity.class.getName()));
+        intended(hasComponent(HomeActivity.class.getName()));
 
         mockServer.close();
         Intents.release();
