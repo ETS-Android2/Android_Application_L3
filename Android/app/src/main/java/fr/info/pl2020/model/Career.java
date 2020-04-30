@@ -1,5 +1,6 @@
 package fr.info.pl2020.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Career {
@@ -18,6 +19,10 @@ public class Career {
 
     public Career() {
         this.id = 0;
+        this.name = "";
+        this.isPublicCareer = false;
+        this.isMainCareer = false;
+        this.teachingUnits = new ArrayList<>();
     }
 
     public Career(int id, String name, boolean isPublic, boolean isMainCareer, List<TeachingUnit> teachingUnits) {

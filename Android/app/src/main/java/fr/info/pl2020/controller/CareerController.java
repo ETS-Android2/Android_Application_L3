@@ -162,7 +162,7 @@ public class CareerController {
         });
     }
 
-    public void createCareer(Context context, Career career, boolean redirectAfterEdit) {
+    public void createCareer(Context context, Career career) {
         this.careerService.createCareer(career, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -170,12 +170,10 @@ public class CareerController {
                     new MessagePopup(context, "Erreur", response.optString("error"));
                 } else {
                     new MessagePopup(context, "Le parcours a bien été créé.", null, (dialog, which) -> {
-                        if (redirectAfterEdit) {
-                            CareerStore.setCurrentCareer(jsonObjectToCareer(response));
-                            Intent intent = new Intent(context, SemestersListActivity.class);
-                            intent.putExtra(SemestersListActivity.ARG_CAREER_ID, CareerStore.getCurrentCareer().getId());
-                            context.startActivity(intent);
-                        }
+                        CareerStore.setCurrentCareer(jsonObjectToCareer(response));
+                        Intent intent = new Intent(context, SemestersListActivity.class);
+                        intent.putExtra(SemestersListActivity.ARG_CAREER_ID, CareerStore.getCurrentCareer().getId());
+                        context.startActivity(intent);
                     });
                 }
             }
@@ -184,10 +182,36 @@ public class CareerController {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
                     new AuthenticationManager().callLoginActivity(context);
-                } else if (statusCode == HttpStatus.SC_UNPROCESSABLE_ENTITY) {
+                } else if (statusCode == HttpStatus.SC_UNPROCESSABLE_ENTITY || statusCode == HttpStatus.SC_CONFLICT) {
                     new MessagePopup(context, "Erreur", errorResponse.optString("error"));
                 } else {
                     Log.e("CAREER", "Echec de la creation  d'un parcours", throwable);
+                    Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void editCareer(Context context, Career career) {
+        this.careerService.editCareer(career, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                if (response.has("error")) {
+                    new MessagePopup(context, "Erreur", response.optString("error"));
+                } else {
+                    new MessagePopup(context, "Le parcours a bien été modifié.", null, (dialog, which) -> {
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
+                    new AuthenticationManager().callLoginActivity(context);
+                } else if (statusCode == HttpStatus.SC_UNPROCESSABLE_ENTITY || statusCode == HttpStatus.SC_CONFLICT) {
+                    new MessagePopup(context, "Erreur", errorResponse.optString("error"));
+                } else {
+                    Log.e("CAREER", "Echec de l'édition  d'un parcours", throwable);
                     Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -253,5 +277,29 @@ public class CareerController {
 
     public void downloadCareer(Context context, int careerId, Career.ExportFormat format) {
         this.careerService.exportCareer(context, careerId, format);
+    }
+
+    public void sendMailCareer(Context context, int careerId) {
+        this.careerService.sendCareer(careerId, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                if (response.has("error")) {
+                    new MessagePopup(context, "Erreur", response.optString("error"));
+                } else {
+                    new MessagePopup(context, "Le parcours a bien été envoyé.", null, (dialog, which) -> {
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
+                    new AuthenticationManager().callLoginActivity(context);
+                } else {
+                    Log.e("CAREER", "Echec de l'envoi d'un parcours par email", throwable);
+                    Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

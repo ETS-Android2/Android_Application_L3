@@ -1,5 +1,7 @@
 package fr.info.pl2020.util;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import org.json.JSONArray;
@@ -69,12 +71,13 @@ public class JsonModelConvert {
         if (jsonObject == null) {
             return null;
         }
+        Log.d("TEST", jsonObject.toString());
 
         return new Career(
                 jsonObject.optInt("id"),
                 jsonObject.optString("name"),
-                jsonObject.optBoolean("isPublic"),
-                jsonObject.optBoolean("isMain"),
+                jsonObject.optBoolean("public"),
+                jsonObject.optBoolean("mainCareer"),
                 jsonArrayToTeachingUnits(jsonObject.optJSONArray("teachingUnits")));
     }
 

@@ -51,18 +51,6 @@ public class CareerService {
     private void getCareer(GetFilter filter, AsyncHttpResponseHandler responseHandler) {
         HttpClientManager.get(urn + "?filter=" + filter, true, responseHandler);
     }
-    public void deleteCareer(Career career, AsyncHttpResponseHandler responseHandler){
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("name", career.getName());
-            jsonObject.put("isPublic", career.isPublicCareer());
-            jsonObject.put("mainCareer", career.isMainCareer());
-            StringEntity entity = new StringEntity(jsonObject.toString());
-            HttpClientManager.delete(urn+"/"+career.getId(), true, responseHandler);
-        } catch (Exception e) {
-            Log.e("CAREER_SERVICE", "Echec de la Suppression d'un parcours", e);
-        }
-    }
 
     public void createCareer(Career career, AsyncHttpResponseHandler responseHandler) {
         JSONObject jsonObject = new JSONObject();
@@ -74,6 +62,32 @@ public class CareerService {
             HttpClientManager.post(urn, entity, true, responseHandler);
         } catch (Exception e) {
             Log.e("CAREER_SERVICE", "Echec de la Creation d'un parcours", e);
+        }
+    }
+
+    public void editCareer(Career career, AsyncHttpResponseHandler responseHandler) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("name", career.getName());
+            jsonObject.put("isPublic", career.isPublicCareer());
+            jsonObject.put("mainCareer", career.isMainCareer());
+            StringEntity entity = new StringEntity(jsonObject.toString());
+            HttpClientManager.post(urn + "/" + career.getId(), entity, true, responseHandler);
+        } catch (Exception e) {
+            Log.e("CAREER_SERVICE", "Echec de la Creation d'un parcours", e);
+        }
+    }
+
+    public void deleteCareer(Career career, AsyncHttpResponseHandler responseHandler) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("name", career.getName());
+            jsonObject.put("isPublic", career.isPublicCareer());
+            jsonObject.put("mainCareer", career.isMainCareer());
+            StringEntity entity = new StringEntity(jsonObject.toString());
+            HttpClientManager.delete(urn + "/" + career.getId(), true, responseHandler);
+        } catch (Exception e) {
+            Log.e("CAREER_SERVICE", "Echec de la Suppression d'un parcours", e);
         }
     }
 
@@ -99,8 +113,7 @@ public class CareerService {
         new DownloadAndOpenManager().downloadFile(context, urn + "/" + careerId + "/export?format=" + format, "Mon parcours", format);
     }
 
-    public void exportCareer(int careerId, Career.ExportFormat format, AsyncHttpResponseHandler responseHandler) {
-        String currentUrn = urn + "/" + careerId + "/export?format=" + format;
-        HttpClientManager.get(currentUrn, true, responseHandler);
+    public void sendCareer(int careerId, AsyncHttpResponseHandler responseHandler) {
+        HttpClientManager.get(urn + "/" + careerId + "/send", true, responseHandler);
     }
 }

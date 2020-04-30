@@ -75,8 +75,7 @@ public class ExportFacade {
         }
     }
 
-    public void sendCareerByMail(Career career) throws Exception {
-        Student student = career.getStudent();
+    public void sendCareerByMail(Student student, Career career) throws Exception {
         if (student == null || FunctionsUtils.isNullOrBlank(student.getEmail())) {
             logger.error("sendCareerByMail(" + career.getId() + ") - L'étudiant ou l'adresse email de l'étudiant est null.");
             throw new Exception("Echec de l'envoi du mail : l'adresse de destination n'existe pas.");
@@ -85,7 +84,7 @@ public class ExportFacade {
         EmailBuilder emailBuilder = new EmailBuilder();
         emailBuilder.setTo(student.getEmail());
         emailBuilder.setSubject("Votre parcours enregistré : " + career.getName());
-        emailBuilder.setBody("Madame, Monsieur,\nVous avez demandé l'envoi de votre parcours '" + career.getName() + "' par email. Vous trouverez ce parcours en pièce-jointe.\n\nCordialement\n\n\nCe message est envoyé automatiquement, merci de ne pas y répondre.");
+        emailBuilder.setBody("Madame, Monsieur,\nVous avez demandé l'envoi du parcours '" + career.getName() + "' par email. Vous trouverez ce parcours en pièce-jointe.\n\nCordialement\n\n\nCe message est envoyé automatiquement, merci de ne pas y répondre.");
         emailBuilder.addAttachment(exportCareerToPdf(career));
         emailBuilder.send();
     }

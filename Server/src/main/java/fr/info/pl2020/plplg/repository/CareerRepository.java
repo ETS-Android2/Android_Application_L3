@@ -11,7 +11,7 @@ public interface CareerRepository extends JpaRepository<Career, Integer> {
     @Override
     Optional<Career> findById(Integer integer);
 
-    Optional<Career> findByName(String name);
+    Optional<Career> findAllByStudentIdAndName(int student_id, String name);
 
     Optional<Career> findAllByStudentIdAndMainCareerIsTrue(int student_id);
 

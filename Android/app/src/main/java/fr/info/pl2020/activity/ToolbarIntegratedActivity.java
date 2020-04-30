@@ -114,11 +114,15 @@ public abstract class ToolbarIntegratedActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_export_txt:
-                new CareerController().downloadCareer(this, 1, Career.ExportFormat.TXT);
+                new CareerController().downloadCareer(this, config.currentCareerId, Career.ExportFormat.TXT);
                 return true;
 
             case R.id.action_export_pdf:
-                new CareerController().downloadCareer(this, 1, Career.ExportFormat.PDF);
+                new CareerController().downloadCareer(this, config.currentCareerId, Career.ExportFormat.PDF);
+                return true;
+
+            case R.id.action_export_email:
+                new CareerController().sendMailCareer(this, config.currentCareerId);
                 return true;
 
             default:

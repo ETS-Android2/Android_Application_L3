@@ -14,7 +14,7 @@ import java.util.List;
 import fr.info.pl2020.R;
 import fr.info.pl2020.activity.CareerListActivity;
 import fr.info.pl2020.activity.CareerSummaryActivity;
-import fr.info.pl2020.activity.SemestersListActivity;
+import fr.info.pl2020.component.EditCareerPopup;
 import fr.info.pl2020.controller.CareerController;
 import fr.info.pl2020.model.Career;
 
@@ -59,13 +59,15 @@ public class CareerListAdapter extends BaseAdapter {
             ImageView deleteSelectedCareer = convertView.findViewById(R.id.delete_button);
 
             editSelectedCareer.setOnClickListener(v -> {
-                Intent intent = new Intent(context, SemestersListActivity.class);
-                context.startActivity(intent);
+                new EditCareerPopup(context, career, false);
             });
 
             deleteSelectedCareer.setOnClickListener(v -> {
                 CareerController careerController = new CareerController();
                 careerController.deleteCareer(context, career);
+
+                this.careerList.removeIf(c -> c.getId() == career.getId());
+                notifyDataSetChanged();
             });
         } else if (mode.equals(CareerListActivity.CareerListMode.PUBLIC)) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -83,7 +85,6 @@ public class CareerListAdapter extends BaseAdapter {
             intent.putExtra(ARG_CAREER_ID, career.getId());
             context.startActivity(intent);
         });
-
 
         return convertView;
     }

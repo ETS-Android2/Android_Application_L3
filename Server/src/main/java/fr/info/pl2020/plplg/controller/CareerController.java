@@ -3,7 +3,6 @@ package fr.info.pl2020.plplg.controller;
 import fr.info.pl2020.plplg.dto.CareerContentRequest;
 import fr.info.pl2020.plplg.dto.CareerRequest;
 import fr.info.pl2020.plplg.dto.CareerResponse;
-import fr.info.pl2020.plplg.dto.CareerTeachingUnitRequest;
 import fr.info.pl2020.plplg.entity.Career;
 import fr.info.pl2020.plplg.entity.Student;
 import fr.info.pl2020.plplg.exception.ClientRequestException;
@@ -101,13 +100,13 @@ public class CareerController {
     @ResponseBody
     public ResponseEntity<?> getCareer(@PathVariable int careerId) {
         try {
-            Career c = getCareerByIdAndCheckOwner(careerId);
+            Career c = getCareerByIdAndCheckAccess(careerId, true);
             return new ResponseEntity<>(new CareerResponse(c), HttpStatus.OK);
         } catch (ClientRequestException e) {
             return new ResponseEntity<>(e.getClientMessage(), e.getStatus());
         }
     }
-
+/*
     @PostMapping(value = "/career/{careerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<?> addTeachingUnitInCareer(@PathVariable int careerId, @RequestBody @NotNull @Valid CareerTeachingUnitRequest body) {
@@ -117,13 +116,24 @@ public class CareerController {
         } catch (ClientRequestException cre) {
             return new ResponseEntity<>(cre.getClientMessage(), cre.getStatus());
         }
+    }*/
+
+    @PostMapping(value = "/career/{careerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<?> editCareer(@PathVariable int careerId, @RequestBody @NotNull @Valid CareerRequest body) {
+        try {
+            Career career = this.careerService.editCareer(getCareerByIdAndCheckAccess(careerId, false), body);
+            return new ResponseEntity<>(new CareerResponse(career), HttpStatus.CREATED);
+        } catch (ClientRequestException e) {
+            return new ResponseEntity<>(e.getClientMessage(), e.getStatus());
+        }
     }
 
     @PutMapping(value = "/career/{careerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateCareer(@PathVariable int careerId, @RequestBody @NotNull @NotEmpty List<CareerContentRequest> careerContentRequests) {
         List<Integer> teachingUnitIdList = careerContentRequests.stream().map(CareerContentRequest::getId).collect(Collectors.toList());
         try {
-            Career newCareer = this.careerService.updateCareer(getCareerByIdAndCheckOwner(careerId), teachingUnitIdList);
+            Career newCareer = this.careerService.updateCareer(getCareerByIdAndCheckAccess(careerId, false), teachingUnitIdList);
             return new ResponseEntity<>(new CareerResponse(newCareer), HttpStatus.OK);
         } catch (ClientRequestException cre) {
             return new ResponseEntity<>(cre.getClientMessage(), cre.getStatus());
@@ -133,7 +143,7 @@ public class CareerController {
     @DeleteMapping(value = "/career/{careerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteCareer(@PathVariable int careerId) {
         try {
-            Career career = getCareerByIdAndCheckOwner(careerId);
+            Career career = getCareerByIdAndCheckAccess(careerId, false);
             this.careerService.removeCareer(career.getStudent().getId(), career.getId());
             return new ResponseEntity<>("{}", HttpStatus.OK);
         } catch (ClientRequestException cre) {
@@ -145,7 +155,7 @@ public class CareerController {
     @ResponseBody
     public ResponseEntity<?> exportCareer(@PathVariable int careerId, @RequestParam(name = "format") ExportFacade.ExportType exportType) {
         try {
-            Career c = getCareerByIdAndCheckOwner(careerId);
+            Career c = getCareerByIdAndCheckAccess(careerId, true);
             switch (exportType) {
                 case PDF:
                     try {
@@ -185,9 +195,9 @@ public class CareerController {
     @GetMapping(value = "/career/{careerId}/send")
     public ResponseEntity<?> sendCareer(@PathVariable int careerId) {
         try {
-            Career c = getCareerByIdAndCheckOwner(careerId);
+            Career c = getCareerByIdAndCheckAccess(careerId, true);
             try {
-                this.exportFacade.sendCareerByMail(c);
+                this.exportFacade.sendCareerByMail(this.authenticationService.getLoggedStudent(), c);
                 return ResponseEntity.noContent().build();
             } catch (Exception e) {
                 throw new ClientRequestException("L'envoi du mail à échoué, veuillez réessayer ultérieurement.", "Echec de l'envoi du parcours par mail (careerId = '" + c.getId() + "') - " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -197,14 +207,14 @@ public class CareerController {
         }
     }
 
-    private Career getCareerByIdAndCheckOwner(int careerId) throws ClientRequestException {
+    private Career getCareerByIdAndCheckAccess(int careerId, boolean readOnly) throws ClientRequestException {
         Career career = this.careerService.findById(careerId);
         if (career == null) {
             throw new ClientRequestException("Le parcours demandé n'existe pas", HttpStatus.NOT_FOUND);
         }
 
         Student loggedStudent = this.authenticationService.getLoggedStudent();
-        if (loggedStudent.getId() != career.getStudent().getId()) {
+        if (loggedStudent.getId() != career.getStudent().getId() && (!readOnly || !career.isPublic())) {
             throw new ClientRequestException("Le parcours demandé n'existe pas", HttpStatus.NOT_FOUND);
         }
 

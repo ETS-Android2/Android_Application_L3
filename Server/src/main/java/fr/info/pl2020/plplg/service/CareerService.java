@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -74,7 +73,7 @@ public class CareerService {
             name = generateDefaultName(student.getCareers());
         }
 
-        if (this.careerRepository.findByName(name).isPresent()) {
+        if (this.careerRepository.findAllByStudentIdAndName(student.getId(), name).isPresent()) {
             throw new ClientRequestException("Un parcours existe déjà avec ce nom là", HttpStatus.CONFLICT);
         }
 
@@ -93,6 +92,27 @@ public class CareerService {
 
         this.careerRepository.save(career);
         return career;
+    }
+
+    public Career editCareer(Career currentCareer, CareerRequest careerRequest) throws ClientRequestException {
+        if (!currentCareer.getName().equals(careerRequest.getName())) {
+            if (this.careerRepository.findAllByStudentIdAndName(currentCareer.getStudent().getId(), careerRequest.getName()).isPresent()) {
+                throw new ClientRequestException("Un parcours existe déjà avec ce nom là", HttpStatus.CONFLICT);
+            }
+            currentCareer.setName(careerRequest.getName());
+        }
+
+        if (careerRequest.isMainCareer() && !currentCareer.isMainCareer()) {
+            Career previousMainCareer = getMainCareer(currentCareer.getStudent().getId());
+            if (previousMainCareer != null) {
+                previousMainCareer.setMainCareer(false);
+                this.careerRepository.save(previousMainCareer);
+            }
+            currentCareer.setMainCareer(true);
+        }
+
+        currentCareer.setPublic(careerRequest.isPublic());
+        return this.careerRepository.save(currentCareer);
     }
 
     /**
@@ -196,7 +216,10 @@ public class CareerService {
 
     public void removeCareer(int studentId, int careerId) throws ClientRequestException {
         Student student = this.studentRepository.findById(studentId).orElseThrow(() -> new ClientRequestException("L'étudiant demandé n'existe pas.", HttpStatus.NOT_FOUND));
-        student.getCareers().stream().filter(c -> c.getId() == careerId).findFirst().orElseThrow(() -> new ClientRequestException("Le parcours demandé n'existe pas.", HttpStatus.NOT_FOUND));
+        Career career = student.getCareers().stream().filter(c -> c.getId() == careerId).findFirst().orElseThrow(() -> new ClientRequestException("Le parcours demandé n'existe pas.", HttpStatus.NOT_FOUND));
+        if (career.isMainCareer()) {
+            throw new ClientRequestException("Vous ne pouvez pas supprimer votre parcours principal", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
         student.getCareers().removeIf(c -> c.getId() == careerId);
         this.careerRepository.deleteById(careerId);
         this.studentRepository.save(student);
