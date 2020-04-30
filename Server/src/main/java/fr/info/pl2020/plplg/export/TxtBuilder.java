@@ -68,4 +68,13 @@ public class TxtBuilder {
 
         this.content.append(LS);
     }
+
+    public StringBuilder getContent() {
+        return content;
+    }
+
+    public void setContent(StringBuilder content) {
+        this.content = content;
+    }
+
 }
