@@ -23,6 +23,11 @@ public class HttpClientManager {
         createClient(needAuthentication).post(null, BASE_URL + urn, entity, null, responseHandler);
     }
 
+    public static void delete(String urn, boolean needAuthentication, AsyncHttpResponseHandler responseHandler) {
+        createClient(needAuthentication).delete(BASE_URL + urn, responseHandler);
+    }
+
+
     private static AsyncHttpClient createClient(boolean needAuthentication) {
         AsyncHttpClient client = new AsyncHttpClient();
         if (needAuthentication) {

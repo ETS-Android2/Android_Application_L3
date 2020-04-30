@@ -160,6 +160,31 @@ public class CareerController {
         });
     }
 
+    public void deleteCareer(Context context, Career career){
+        this.careerService.deleteCareer(career, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                if (response.has("error")) {
+                    new MessagePopup(context, "Erreur", response.optString("error"));
+                } else {
+                    new MessagePopup(context, "Le parcours a bien été Supprimé.");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
+                    new AuthenticationManager().callLoginActivity(context);
+                } else if (statusCode == HttpStatus.SC_UNPROCESSABLE_ENTITY) {
+                    new MessagePopup(context, "Erreur", errorResponse.optString("error"));
+                } else {
+                    Log.e("CAREER", "Echec de la Suppression d'un parcours", throwable);
+                    Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     public void saveCareer(Context context, int semesterId) {
         List<Integer> teachingUnitIdList = TeachingUnitListStore.TEACHING_UNITS.values().stream().filter(TeachingUnit::isSelected).map(TeachingUnit::getId).collect(Collectors.toList());
         this.careerService.saveCareer(teachingUnitIdList, semesterId, new JsonHttpResponseHandler() {

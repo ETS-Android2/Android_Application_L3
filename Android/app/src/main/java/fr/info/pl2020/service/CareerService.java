@@ -32,6 +32,18 @@ public class CareerService {
     private void getMainCareer(AsyncHttpResponseHandler responseHandler) {
         HttpClientManager.get(urn + "?filter=MAIN", true, responseHandler);
     }
+    public void deleteCareer(Career career, AsyncHttpResponseHandler responseHandler){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("name", career.getName());
+            jsonObject.put("isPublic", career.isPublicCareer());
+            jsonObject.put("mainCareer", career.isMainCareer());
+            StringEntity entity = new StringEntity(jsonObject.toString());
+            HttpClientManager.delete(urn+"/"+career.getId(), true, responseHandler);
+        } catch (Exception e) {
+            Log.e("CAREER_SERVICE", "Echec de la Suppression d'un parcours", e);
+        }
+    }
 
     public void createCareer(Career career, AsyncHttpResponseHandler responseHandler) {
         JSONObject jsonObject = new JSONObject();

@@ -142,7 +142,7 @@ public class CareerController {
     }
 
     @DeleteMapping(value = "/career/{careerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateCareer(@PathVariable int careerId) {
+    public ResponseEntity<?> deleteCareer(@PathVariable int careerId) {
         try {
             Career career = getCareerByIdAndCheckOwner(careerId);
             this.careerService.removeCareer(career.getStudent().getId(), career.getId());
