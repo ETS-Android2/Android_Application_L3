@@ -3,15 +3,12 @@ package fr.info.pl2020.plplg.controller;
 import fr.info.pl2020.plplg.dto.CareerRequest;
 import fr.info.pl2020.plplg.dto.CareerResponse;
 import fr.info.pl2020.plplg.dto.CareerTeachingUnitRequest;
-import fr.info.pl2020.plplg.dto.TeachingUnitResponse;
 import fr.info.pl2020.plplg.entity.Career;
 import fr.info.pl2020.plplg.entity.Student;
-import fr.info.pl2020.plplg.entity.TeachingUnit;
 import fr.info.pl2020.plplg.exception.ClientRequestException;
 import fr.info.pl2020.plplg.export.ExportFacade;
 import fr.info.pl2020.plplg.service.AuthenticationService;
 import fr.info.pl2020.plplg.service.CareerService;
-import fr.info.pl2020.plplg.util.FunctionsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -27,7 +24,6 @@ import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class CareerController {
@@ -40,17 +36,11 @@ public class CareerController {
 
     private ExportFacade exportFacade = new ExportFacade();
 
-    //TODO supprimer
-    @GetMapping(value = "/career/main")
-    @ResponseBody
-    public ResponseEntity<List<TeachingUnitResponse>> getStudentMainCareer(@RequestParam(name = "semester", defaultValue = "0") int semester) {
-        Student loggedStudent = this.authenticationService.getLoggedStudent();
-        List<TeachingUnit> tuList = this.careerService.getMainCareer(loggedStudent.getId()).getTeachingUnits();
-        if (semester != 0) {
-            tuList = tuList.stream().filter(teachingUnit -> teachingUnit.getSemester().getId() == semester).collect(Collectors.toList());
-        }
-        List<TeachingUnitResponse> responseList = TeachingUnitResponse.TeachingUnitListToTeachingUnitResponseList(tuList);
-        return new ResponseEntity<>(responseList, HttpStatus.OK);
+    public enum CareerFilter {
+        STUDENT,
+        PUBLIC,
+        MAIN,
+        LAST
     }
 
     //TODO supprimer
@@ -71,26 +61,49 @@ public class CareerController {
 
     @GetMapping(value = "/career")
     @ResponseBody
-    public ResponseEntity<List<CareerResponse>> getCareers() {
+    public ResponseEntity<?> getCareers(@RequestParam(name = "filter", defaultValue = "STUDENT") CareerFilter filter) {
         Student loggedStudent = this.authenticationService.getLoggedStudent();
-        List<CareerResponse> responseList = CareerResponse.CareerListToCareerResponseList(loggedStudent.getCareers());
-        return new ResponseEntity<>(responseList, HttpStatus.OK);
+        try {
+            switch (filter) {
+                case STUDENT:
+                    List<CareerResponse> careers = CareerResponse.careerListToCareerResponseList(loggedStudent.getCareers());
+                    return new ResponseEntity<>(careers, HttpStatus.OK);
+
+                case PUBLIC:
+                    List<Career> publicCareers = this.careerService.getAllPublicCareer();
+                    return new ResponseEntity<>(CareerResponse.careerListToCareerResponseList(publicCareers, true), HttpStatus.OK);
+
+                case MAIN:
+                    Career mainCareer = this.careerService.getMainCareer(loggedStudent.getId());
+                    return new ResponseEntity<>(new CareerResponse(mainCareer), HttpStatus.OK);
+
+                case LAST:
+                    Career lastCareer = this.careerService.getLastCreatedCareer(loggedStudent);
+                    if (lastCareer == null) {
+                        throw new ClientRequestException("Vous n'avez aucun parcours", HttpStatus.NOT_FOUND);
+                    }
+
+                    return new ResponseEntity<>(new CareerResponse(lastCareer), HttpStatus.OK);
+
+                default:
+                    //Aucune raison d'arriver ici...
+                    throw new RuntimeException();
+            }
+        } catch (ClientRequestException e) {
+            return new ResponseEntity<>(e.getClientMessage(), e.getStatus());
+        }
     }
 
     @PostMapping(value = "/career")
     @ResponseBody
-    public ResponseEntity<Career> createCareer(@RequestBody @NotNull CareerRequest body) {
+    public ResponseEntity<?> createCareer(@RequestBody @NotNull CareerRequest body) {
         try {
             Student loggedStudent = this.authenticationService.getLoggedStudent();
-            if (FunctionsUtils.isNullOrBlank(body.getName())) {
-                String name = this.careerService.generateDefaultName(loggedStudent.getCareers());
-                body.setName(name);
-            }
-            this.careerService.createCareer(loggedStudent,body);
-        } catch (Exception e) {
-            e.printStackTrace();
+            Career career = this.careerService.createCareer(loggedStudent, body);
+            return new ResponseEntity<>(new CareerResponse(career), HttpStatus.CREATED);
+        } catch (ClientRequestException e) {
+            return new ResponseEntity<>(e.getClientMessage(), e.getStatus());
         }
-        return null;
     }
 
 

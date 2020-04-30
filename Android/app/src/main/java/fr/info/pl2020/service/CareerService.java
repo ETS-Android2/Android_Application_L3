@@ -19,19 +19,26 @@ import fr.info.pl2020.model.Career;
 public class CareerService {
 
     private final String urn = "/career";
-    private final String urnMain = "/career/main";
-    private final String urnStudent = "/career/student";
 
-    public void getCareer(int semester, AsyncHttpResponseHandler responseHandler) {
-        String currentUrn = urnMain + (semester == 0 ? "" : "?semester=" + semester);
+    public void getCareerById(int careerId, AsyncHttpResponseHandler responseHandler) {
+        if (careerId == 0) {
+            getMainCareer(responseHandler);
+            return;
+        }
+        String currentUrn = urn + "/" + careerId;
         HttpClientManager.get(currentUrn, true, responseHandler);
     }
-    public void createCareer(String name, Boolean isPublic, Boolean isMain, AsyncHttpResponseHandler responseHandler){
-        JSONObject jsonObject= new JSONObject();
+
+    private void getMainCareer(AsyncHttpResponseHandler responseHandler) {
+        HttpClientManager.get(urn + "?filter=MAIN", true, responseHandler);
+    }
+
+    public void createCareer(Career career, AsyncHttpResponseHandler responseHandler) {
+        JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("name", name);
-            jsonObject.put("isPublic", isPublic);
-            jsonObject.put("mainCareer", isMain);
+            jsonObject.put("name", career.getName());
+            jsonObject.put("isPublic", career.isPublicCareer());
+            jsonObject.put("mainCareer", career.isMainCareer());
             StringEntity entity = new StringEntity(jsonObject.toString());
             HttpClientManager.post(urn, entity, true, responseHandler);
         } catch (Exception e) {
@@ -47,14 +54,15 @@ public class CareerService {
 
         try {
             StringEntity entity = new StringEntity(jsonArray.toString());
+            String urnMain = "/career/main";
             HttpClientManager.put(urnMain + (semester == 0 ? "" : "?semester=" + semester), entity, true, responseHandler);
         } catch (UnsupportedEncodingException e) {
             Log.e("CAREER_SERVICE", "Echec de la conversion de la liste des UE en StringEntity", e);
         }
     }
 
-    public void getAllCareer(AsyncHttpResponseHandler responseHandler) {
-        HttpClientManager.get(urnStudent, true, responseHandler);
+    public void getAllCareers(AsyncHttpResponseHandler responseHandler) {
+        HttpClientManager.get(urn, true, responseHandler);
     }
 
     public void exportCareer(Context context, int careerId, Career.ExportFormat format) {

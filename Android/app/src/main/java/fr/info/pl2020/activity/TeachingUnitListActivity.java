@@ -1,6 +1,5 @@
 package fr.info.pl2020.activity;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -18,7 +17,8 @@ import fr.info.pl2020.controller.CareerController;
 import fr.info.pl2020.controller.SearchController;
 import fr.info.pl2020.controller.TeachingUnitController;
 import fr.info.pl2020.model.Semester;
-import fr.info.pl2020.model.TeachingUnitListContent;
+import fr.info.pl2020.model.TeachingUnit;
+import fr.info.pl2020.store.TeachingUnitListStore;
 
 import static java.util.stream.Collectors.toList;
 
@@ -37,7 +37,6 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity implemen
 
     public static boolean isTwoPane;
     private Semester currentSemester;
-    private TeachingUnitListActivity activity;
 
     private CareerController careerController = new CareerController();
     private SearchController searchController = new SearchController();
@@ -46,7 +45,6 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity implemen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teachingunit_list);
-        this.activity=this;
         int focusedTeachingUnitId = 0;
 
         // Récupération des attributs du semestre
@@ -69,8 +67,7 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity implemen
 
         // Le bouton enregistrer
         FloatingActionButton fab = findViewById(R.id.fab_save_career);
-        fab.setOnClickListener(view -> careerController.saveCareer(TeachingUnitListActivity.this,currentSemester.getId()));
-
+        fab.setOnClickListener(view -> careerController.saveCareer(TeachingUnitListActivity.this, currentSemester.getId()));
 
         if (findViewById(R.id.teachingunit_detail_container) != null) {
             // The detail container view will be present only in the large-screen layouts (res/values-w900dp).
@@ -90,9 +87,9 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity implemen
                 @Override
                 public boolean onPreDraw() {
                     if (expandableListView.getAdapter() != null) {
-                        TeachingUnitListContent.TeachingUnit teachingUnit = TeachingUnitListContent.TEACHING_UNITS.get(finalFocusedTeachingUnitId);
-                        int groupId = new ArrayList<>(TeachingUnitListContent.getTeachingUnitByCategory().keySet()).indexOf(teachingUnit.getCategory());
-                        int childId = TeachingUnitListContent.getTeachingUnitByCategory().get(teachingUnit.getCategory()).stream().map(TeachingUnitListContent.TeachingUnit::getId).collect(toList()).indexOf(teachingUnit.getId());
+                        TeachingUnit teachingUnit = TeachingUnitListStore.TEACHING_UNITS.get(finalFocusedTeachingUnitId);
+                        int groupId = new ArrayList<>(TeachingUnitListStore.getTeachingUnitByCategory().keySet()).indexOf(teachingUnit.getCategory());
+                        int childId = TeachingUnitListStore.getTeachingUnitByCategory().get(teachingUnit.getCategory()).stream().map(TeachingUnit::getId).collect(toList()).indexOf(teachingUnit.getId());
 
                         expandableListView.expandGroup(groupId, false);
                         expandableListView.getExpandableListAdapter().getChildView(groupId, childId, true, null, null).findViewById(R.id.content).performClick();
@@ -119,8 +116,8 @@ public class TeachingUnitListActivity extends ToolbarIntegratedActivity implemen
 
     @Override
     protected void onDestroy() {
-        TeachingUnitListContent.clear();
-        TeachingUnitListContent.setLastOpenedTeachingUnit(0);
+        TeachingUnitListStore.clear();
+        TeachingUnitListStore.setLastOpenedTeachingUnit(0);
         super.onDestroy();
     }
 

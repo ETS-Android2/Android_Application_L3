@@ -10,8 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import fr.info.pl2020.R;
-
-import fr.info.pl2020.model.TeachingUnitListContent.TeachingUnit;
+import fr.info.pl2020.model.TeachingUnit;
 
 public class CareerSummaryAdapter extends BaseAdapter {
     private Context context;

@@ -13,7 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import fr.info.pl2020.R;
-import fr.info.pl2020.model.TeachingUnitListContent;
+import fr.info.pl2020.store.TeachingUnitListStore;
 
 /**
  * An activity representing a single TeachingUnit detail screen. This
@@ -35,11 +35,11 @@ public class TeachingUnitDetailActivity extends AppCompatActivity {
             finish();
         }
 
-        TeachingUnitListContent.setLastOpenedTeachingUnit(this.teachingUnitId);
+        TeachingUnitListStore.setLastOpenedTeachingUnit(this.teachingUnitId);
 
         // Le bouton ajouter/retirer du parcours
         FloatingActionButton fab = findViewById(R.id.fab);
-        boolean isSelected = TeachingUnitListContent.TEACHING_UNITS.get(this.teachingUnitId).isSelected();
+        boolean isSelected = TeachingUnitListStore.TEACHING_UNITS.get(this.teachingUnitId).isSelected();
         if (isSelected) {
             fab.setImageResource(R.drawable.ic_clear_white_24dp);
             fab.setOnClickListener(getClearListener());
@@ -88,7 +88,7 @@ public class TeachingUnitDetailActivity extends AppCompatActivity {
     private View.OnClickListener getAddListener() {
         return view -> {
             ((FloatingActionButton) view).setImageResource(R.drawable.ic_clear_white_24dp);
-            TeachingUnitListContent.TEACHING_UNITS.get(this.teachingUnitId).setSelected(true);
+            TeachingUnitListStore.TEACHING_UNITS.get(this.teachingUnitId).setSelected(true);
             Toast.makeText(this, "UE ajouté au parcours", Toast.LENGTH_SHORT).show();
             view.setOnClickListener(getClearListener());
         };
@@ -97,7 +97,7 @@ public class TeachingUnitDetailActivity extends AppCompatActivity {
     private View.OnClickListener getClearListener() {
         return view -> {
             ((FloatingActionButton) view).setImageResource(R.drawable.ic_check_white_24dp);
-            TeachingUnitListContent.TEACHING_UNITS.get(this.teachingUnitId).setSelected(false);
+            TeachingUnitListStore.TEACHING_UNITS.get(this.teachingUnitId).setSelected(false);
             Toast.makeText(this, "UE retiré du parcours", Toast.LENGTH_SHORT).show();
             view.setOnClickListener(getAddListener());
         };

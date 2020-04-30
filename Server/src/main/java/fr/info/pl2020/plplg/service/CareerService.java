@@ -1,6 +1,6 @@
 package fr.info.pl2020.plplg.service;
 
-import fr.info.pl2020.plplg.dto.CareerResponse;
+import fr.info.pl2020.plplg.dto.CareerRequest;
 import fr.info.pl2020.plplg.entity.Career;
 import fr.info.pl2020.plplg.entity.Student;
 import fr.info.pl2020.plplg.entity.TeachingUnit;
@@ -8,6 +8,7 @@ import fr.info.pl2020.plplg.exception.ClientRequestException;
 import fr.info.pl2020.plplg.repository.CareerRepository;
 import fr.info.pl2020.plplg.repository.StudentRepository;
 import fr.info.pl2020.plplg.repository.TeachingUnitRepository;
+import fr.info.pl2020.plplg.util.FunctionsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,14 +32,73 @@ public class CareerService {
     private static final int MAX_TU_BY_SEMESTER = 4;
     private static final String DEFAULT_CAREER_NAME = "Mon parcours";
 
+    /**
+     * @return le parcours correspondant à l'id envoyé ou null si id ne correspond à aucun parcours
+     */
     public Career findById(int careerId) {
         return this.careerRepository.findById(careerId).orElse(null);
     }
 
+    /**
+     * @param studentId id de l'étudiant
+     * @return le parcours principal de l'étudiant ou null si l'étudiant n'a aucun parcours
+     */
     public Career getMainCareer(int studentId) {
-        return this.careerRepository.findAllByStudentIdAndMainCareerIsTrue(studentId).orElse(null); //TODO si on trouve pas le parcours principal d'un étudiant faudrait-il throw ?
+        return this.careerRepository.findAllByStudentIdAndMainCareerIsTrue(studentId).orElse(null);
     }
 
+    /**
+     * @return le dernier parcours créé par l'étudiant ou null s'il n'a aucun parcours
+     */
+    public Career getLastCreatedCareer(Student student) {
+        return student.getCareers().stream().max(Comparator.comparingInt(Career::getId)).orElse(null);
+    }
+
+    /**
+     * @return tous les parcours publics
+     */
+    public List<Career> getAllPublicCareer() {
+        return this.careerRepository.findAllBySharedIsTrue();
+    }
+
+    /**
+     * Créé un nouveau parcours
+     *
+     * @return le parcours créé
+     * @throws ClientRequestException si un parcours existe déjà avec ce nom là
+     */
+    public Career createCareer(Student student, CareerRequest careerRequest) throws ClientRequestException {
+        String name = careerRequest.getName();
+        if (FunctionsUtils.isNullOrBlank(name)) {
+            name = generateDefaultName(student.getCareers());
+        }
+
+        if (this.careerRepository.findByName(name).isPresent()) {
+            throw new ClientRequestException("Un parcours existe déjà avec ce nom là", HttpStatus.CONFLICT);
+        }
+
+        if (this.careerRepository.countAllByStudentId(student.getId()) == 0) {
+            careerRequest.setMainCareer(true);
+        } else if (careerRequest.isMainCareer()) {
+            Career previousMainCareer = getMainCareer(student.getId());
+            if (previousMainCareer != null) {
+                previousMainCareer.setMainCareer(false);
+                this.careerRepository.save(previousMainCareer);
+            }
+        }
+
+        Career career = new Career(name, new ArrayList<>(), careerRequest.isPublic(), careerRequest.isMainCareer());
+        career.setStudent(student);
+
+        this.careerRepository.save(career);
+        return career;
+    }
+
+    /**
+     * Ajoute une UE dans un parcours
+     *
+     * @throws ClientRequestException si l'UE n'existe pas ou si l'UE est déjà dans le parcours
+     */
     public void addTeachingUnitInCareer(Career career, int teachingUnitId) throws ClientRequestException {
         TeachingUnit tu = this.teachingUnitRepository.findById(teachingUnitId).orElseThrow(() -> new ClientRequestException("L'UE demandé n'existe pas.", HttpStatus.NOT_FOUND));
 
@@ -49,14 +109,6 @@ public class CareerService {
 
         career.getTeachingUnits().add(tu);
         this.careerRepository.save(career);
-    }
-
-    public Career createCareer(Student student, CareerResponse careerRequest){
-        Career career= new Career(careerRequest.getName(),new ArrayList<>(),careerRequest.isPublic(),careerRequest.isMainCareer());
-        career.setStudent(student);
-        this.careerRepository.save(career);
-        return career;
-
     }
 
     // TODO : REVOIR CETTE METHODE
@@ -161,16 +213,5 @@ public class CareerService {
         }).max(Integer::compareTo).orElse(0);
 
         return DEFAULT_CAREER_NAME + (maxDefault == 0 ? "" : " " + (maxDefault + 1));
-    }
-
-    public static void main(String[] args) {
-        List<Career> careers = Arrays.asList(new Career("toto", Collections.emptyList(), false, false),
-                //new Career("Mon parcours", Collections.emptyList(), false, false),
-                new Career("toto Mon parcours 2", Collections.emptyList(), false, false)
-                //new Career("toto", Collections.emptyList(), false, false),
-                //new Career("Mon parcours 2", Collections.emptyList(), false, false)
-        );
-
-        System.out.println(new CareerService().generateDefaultName(careers));
     }
 }

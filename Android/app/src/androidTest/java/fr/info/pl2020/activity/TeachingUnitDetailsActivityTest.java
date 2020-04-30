@@ -13,7 +13,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import fr.info.pl2020.R;
-import fr.info.pl2020.model.TeachingUnitListContent;
+import fr.info.pl2020.model.TeachingUnit;
+import fr.info.pl2020.store.TeachingUnitListStore;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -23,14 +24,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 public class TeachingUnitDetailsActivityTest {
 
-    private TeachingUnitListContent.TeachingUnit tu = new TeachingUnitListContent.TeachingUnit(1, "Projet de Licence", "SLZI64", "La description", 6, "Informatique");
+    private TeachingUnit tu = new TeachingUnit(1, "Projet de Licence", "SLZI64", "La description", 6, "Informatique");
 
     @Rule
     public ActivityTestRule<TeachingUnitDetailActivity> mActivityRule =
             new ActivityTestRule<TeachingUnitDetailActivity>(TeachingUnitDetailActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
-                    TeachingUnitListContent.addItem(tu);
+                    TeachingUnitListStore.addItem(tu);
                     super.beforeActivityLaunched();
                 }
 

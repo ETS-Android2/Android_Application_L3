@@ -14,6 +14,8 @@ import fr.info.pl2020.R;
 import fr.info.pl2020.activity.CareerSummaryActivity;
 import fr.info.pl2020.model.Career;
 
+import static fr.info.pl2020.activity.CareerSummaryActivity.ARG_CAREER_ID;
+
 public class CareerListAdapter extends BaseAdapter {
     private Context context;
     private List<Career> careerList;
@@ -45,12 +47,12 @@ public class CareerListAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.career_list_item, null);
         }
 
-        Career career= (Career) getItem(position);
+        Career career = (Career) getItem(position);
         TextView careerTextView = convertView.findViewById(R.id.careers);
         careerTextView.setText(career.getName());
         careerTextView.setOnClickListener(v -> {
             Intent intent = new Intent(context, CareerSummaryActivity.class);
-            intent.putExtra("career_id", career.getId());
+            intent.putExtra(ARG_CAREER_ID, career.getId());
             context.startActivity(intent);
         });
 

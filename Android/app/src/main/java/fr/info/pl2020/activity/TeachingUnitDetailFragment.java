@@ -12,7 +12,8 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import fr.info.pl2020.R;
-import fr.info.pl2020.model.TeachingUnitListContent;
+import fr.info.pl2020.model.TeachingUnit;
+import fr.info.pl2020.store.TeachingUnitListStore;
 
 /**
  * A fragment representing a single TeachingUnit detail screen.
@@ -30,7 +31,7 @@ public class TeachingUnitDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private TeachingUnitListContent.TeachingUnit currentTeachingUnit;
+    private TeachingUnit currentTeachingUnit;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -47,7 +48,7 @@ public class TeachingUnitDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            currentTeachingUnit = TeachingUnitListContent.TEACHING_UNITS.get(getArguments().getInt(ARG_ITEM_ID));
+            currentTeachingUnit = TeachingUnitListStore.TEACHING_UNITS.get(getArguments().getInt(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);

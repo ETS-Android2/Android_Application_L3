@@ -31,7 +31,7 @@ public class Career {
     private List<TeachingUnit> teachingUnits;
 
     @Column
-    private boolean isPublic;
+    private boolean shared;
 
     @Column
     private boolean mainCareer;
@@ -42,7 +42,7 @@ public class Career {
     public Career(String name, List<TeachingUnit> teachingUnits, boolean isPublic, boolean isMainCareer) {
         this.name = name;
         this.teachingUnits = teachingUnits;
-        this.isPublic = isPublic;
+        this.shared = isPublic;
         this.mainCareer = isMainCareer;
     }
 
@@ -79,11 +79,11 @@ public class Career {
     }
 
     public boolean isPublic() {
-        return this.isPublic;
+        return this.shared;
     }
 
     public void setPublic(boolean aPublic) {
-        this.isPublic = aPublic;
+        this.shared = aPublic;
     }
 
     public boolean isMainCareer() {

@@ -6,7 +6,7 @@ import android.util.Log;
 
 import fr.info.pl2020.activity.CareerListActivity;
 import fr.info.pl2020.activity.CareerSummaryActivity;
-import fr.info.pl2020.activity.SemestersListActivity;
+import fr.info.pl2020.component.EditCareerPopup;
 
 public class HomeController {
 
@@ -19,7 +19,7 @@ public class HomeController {
     public void changeActivity(Context context, StartActivity activityName) {
         switch (activityName) {
             case SEMESTER_LIST:
-                context.startActivity(new Intent(context, SemestersListActivity.class));
+                new EditCareerPopup(context, null, true);
                 break;
 
             case CAREER_SUMMARY:
@@ -31,7 +31,7 @@ public class HomeController {
                 break;
 
             default:
-                Log.d("HOME", "changeActivity() - Activité non reconnu");
+                Log.e("HOME", "changeActivity() - Activité non reconnu");
         }
     }
 }

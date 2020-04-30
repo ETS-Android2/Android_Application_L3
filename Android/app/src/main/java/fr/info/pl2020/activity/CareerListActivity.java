@@ -3,13 +3,16 @@ package fr.info.pl2020.activity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 import fr.info.pl2020.R;
+import fr.info.pl2020.adapter.CareerListAdapter;
 import fr.info.pl2020.controller.CareerController;
+import fr.info.pl2020.store.CareerListStore;
 
 public class CareerListActivity extends ToolbarIntegratedActivity {
 
     private ListView careerList;
-    private boolean doubleBackToExitPressedOnce;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,11 +22,16 @@ public class CareerListActivity extends ToolbarIntegratedActivity {
 
         // Toolbar
         new ToolbarConfig().enableDrawer(findViewById(R.id.careerListLayout)).build();
+
+        new CareerController().getAllCareers(this, () -> {
+            CareerListAdapter careerAdapter = new CareerListAdapter(CareerListActivity.this, new ArrayList<>(CareerListStore.CAREERS.values()));
+            careerList.setAdapter(careerAdapter);
+        });
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        new CareerController().getAllCareers(this, this.careerList);
+    protected void onDestroy() {
+        CareerListStore.clear();
+        super.onDestroy();
     }
 }

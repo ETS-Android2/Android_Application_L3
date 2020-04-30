@@ -1,15 +1,13 @@
 package fr.info.pl2020.controller;
 
-import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -18,29 +16,102 @@ import java.util.stream.Collectors;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpStatus;
 import fr.info.pl2020.R;
-import fr.info.pl2020.adapter.CareerListAdapter;
+import fr.info.pl2020.activity.SemestersListActivity;
+import fr.info.pl2020.component.MessagePopup;
 import fr.info.pl2020.manager.AuthenticationManager;
 import fr.info.pl2020.model.Career;
-import fr.info.pl2020.model.TeachingUnitListContent;
+import fr.info.pl2020.model.TeachingUnit;
 import fr.info.pl2020.service.CareerService;
-import fr.info.pl2020.util.JsonModelConvert;
+import fr.info.pl2020.store.CareerListStore;
+import fr.info.pl2020.store.CareerStore;
+import fr.info.pl2020.store.TeachingUnitListStore;
 
-import static fr.info.pl2020.util.JsonModelConvert.jsonObjectToTeachingUnit;
+import static fr.info.pl2020.util.JsonModelConvert.jsonArrayToCareers;
+import static fr.info.pl2020.util.JsonModelConvert.jsonObjectToCareer;
 
 public class CareerController {
 
     private CareerService careerService = new CareerService();
 
-    public void getAllCareers(Context context, ListView listView) {
-        new CareerService().getAllCareer(new JsonHttpResponseHandler() {
+    /**
+     * Récupère le parcours correspondant à l'id envoyé en paramètre OU le parccours principal si id == 0
+     */
+    public void getCareer(Context context, int careerId, Runnable callback) {
+        this.careerService.getCareerById(careerId, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                CareerStore.setCurrentCareer(jsonObjectToCareer(response));
+
+                if (callback != null) {
+                    callback.run();
+                }
+            }
+
+            /*
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                            CareerListStore.clear();
+                            List<Career> careers = jsonArrayToCareers(response);
+                            for (Career career : careers) {
+                                CareerListStore.addItem(career);
+                            }
+
+                            if (callback != null) {
+                                callback.run();
+                            }
+
+                            /*
+                            Map<Integer, List<TeachingUnit>> teachingUnitBySemester = TeachingUnitListStore.getTeachingUnitBySemester();
+
+                            if (teachingUnitBySemester.size() != 0) {
+                                List<Object> listItem = new ArrayList<>();
+                                teachingUnitBySemester.forEach((semesterId, teachingUnits) -> {
+                                    listItem.add("Semestre " + semesterId);
+                                    listItem.addAll(teachingUnits);
+                                });
+                                ListView summaryCareerList = ((Activity) context).findViewById(R.id.summaryCareerList);
+                                CareerSummaryAdapter adapter = new CareerSummaryAdapter(context, listItem);
+                                summaryCareerList.setAdapter(adapter);
+                            } else {
+                                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                                View v = inflater.inflate(R.layout.empty_career_summary_list, null);
+
+                                LinearLayout linearLayout = ((Activity) context).findViewById(R.id.summaryCareer);
+                                linearLayout.addView(v);
+                            }*//*
+            }
+*/
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
+                    new AuthenticationManager().callLoginActivity(context);
+                } else {
+                    Log.e("CAREER", "Echec de la récupération du parcours de l'étudiant (Code: " + statusCode + ")", throwable);
+                    Toast.makeText(context, R.string.unexpected_http_status, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    /**
+     * Récupère l'ensemble des parcours de l'étudiant
+     */
+    public void getAllCareers(Context context, Runnable callback) {
+        new CareerService().getAllCareers(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 if (statusCode == HttpStatus.SC_OK) {
-                    List<Career> careersList = JsonModelConvert.jsonArrayToCareer(response);
-                    CareerListAdapter careerAdapter = new CareerListAdapter(context, careersList);
-                    listView.setAdapter(careerAdapter);
+                    CareerListStore.clear();
+                    List<Career> careers = jsonArrayToCareers(response);
+                    for (Career career : careers) {
+                        CareerListStore.addItem(career);
+                    }
+
+                    if (callback != null) {
+                        callback.run();
+                    }
                 } else {
-                    Log.e("CAREER_SERVICE", "Erreur lors de la récupération des informations de la liste des cariéres");
+                    Log.e("CAREER_SERVICE", "Erreur lors de la récupération des informations de la liste des parcours");
                     Toast.makeText(context, R.string.standard_exception, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -54,79 +125,33 @@ public class CareerController {
                     Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();
                 }
             }
-
         });
     }
 
-    public void getCareer(Context context, Runnable callback) {
-        getCareer(context, 0, callback);
-    }
-
-    public void getCareer(Context context, int semesterId, Runnable callback) {
-        this.careerService.getCareer(semesterId, new JsonHttpResponseHandler() {
+    public void createCareer(Context context, Career career, boolean redirectAfterEdit) {
+        this.careerService.createCareer(career, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                callback.run();
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                try {
-                    for (int i = 0; i < response.length(); i++) {
-                        JSONObject teachingUnit = response.getJSONObject(i);
-                        int id = teachingUnit.getInt("id");
-
-                        if (!TeachingUnitListContent.TEACHING_UNITS.containsKey(id)) {
-                            TeachingUnitListContent.addItem(jsonObjectToTeachingUnit(teachingUnit));
-                        }
-                        TeachingUnitListContent.TEACHING_UNITS.get(id).setSelected(true);
-                    }
-
-                    callback.run();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
-                    new AuthenticationManager().callLoginActivity(context);
-                } else {
-                    Log.e("CAREER", "Echec de la récupération du parcours de l'étudiant (Code: " + statusCode + ")", throwable);
-                    Toast.makeText(context, R.string.unexpected_http_status, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-    public void createCareer(Context context , String name , Boolean isPublic, Boolean isMain){
-        this.careerService.createCareer(name,isPublic,isMain,new JsonHttpResponseHandler(){
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
                 if (response.has("error")) {
-                    alertDialog.setTitle("Erreur");
-                    alertDialog.setMessage(response.optString("error"));
+                    new MessagePopup(context, "Erreur", response.optString("error"));
                 } else {
-                    alertDialog.setMessage("Le parcours a bien été Creé.");
+                    new MessagePopup(context, "Le parcours a bien été créé.", null, (dialog, which) -> {
+                        if (redirectAfterEdit) {
+                            CareerStore.setCurrentCareer(jsonObjectToCareer(response));
+                            Intent intent = new Intent(context, SemestersListActivity.class);
+                            intent.putExtra(SemestersListActivity.ARG_CAREER_ID, CareerStore.getCurrentCareer().getId());
+                            context.startActivity(intent);
+                        }
+                    });
                 }
-
-                alertDialog.setNeutralButton("OK", (dialog, which) -> {
-                });
-                alertDialog.show();
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
                     new AuthenticationManager().callLoginActivity(context);
                 } else if (statusCode == HttpStatus.SC_UNPROCESSABLE_ENTITY) {
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-                    alertDialog.setTitle("Erreur");
-                    alertDialog.setMessage(errorResponse.optString("error"));
-                    alertDialog.setNeutralButton("OK", (dialog, which) -> {
-                    });
-                    alertDialog.show();
+                    new MessagePopup(context, "Erreur", errorResponse.optString("error"));
                 } else {
                     Log.e("CAREER", "Echec de la creation  d'un parcours", throwable);
                     Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();
@@ -136,22 +161,16 @@ public class CareerController {
     }
 
     public void saveCareer(Context context, int semesterId) {
-        List<Integer> teachingUnitIdList = TeachingUnitListContent.TEACHING_UNITS.values().stream().filter(TeachingUnitListContent.TeachingUnit::isSelected).map(TeachingUnitListContent.TeachingUnit::getId).collect(Collectors.toList());
+        List<Integer> teachingUnitIdList = TeachingUnitListStore.TEACHING_UNITS.values().stream().filter(TeachingUnit::isSelected).map(TeachingUnit::getId).collect(Collectors.toList());
         this.careerService.saveCareer(teachingUnitIdList, semesterId, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
                 if (response.has("error")) {
-                    alertDialog.setTitle("Erreur");
-                    alertDialog.setMessage(response.optString("error"));
+                    new MessagePopup(context, "Erreur", response.optString("error"));
                 } else {
-                    alertDialog.setMessage("Le parcours a bien été enregistré.");
+                    new MessagePopup(context, "Le parcours a bien été enregistré.");
                 }
-
-                alertDialog.setNeutralButton("OK", (dialog, which) -> {
-                });
-                alertDialog.show();
             }
 
             @Override
@@ -159,12 +178,7 @@ public class CareerController {
                 if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
                     new AuthenticationManager().callLoginActivity(context);
                 } else if (statusCode == HttpStatus.SC_UNPROCESSABLE_ENTITY) {
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-                    alertDialog.setTitle("Erreur");
-                    alertDialog.setMessage(errorResponse.optString("error"));
-                    alertDialog.setNeutralButton("OK", (dialog, which) -> {
-                    });
-                    alertDialog.show();
+                    new MessagePopup(context, "Erreur", errorResponse.optString("error"));
                 } else {
                     Log.e("CAREER", "Echec de l'enregistrement d'un parcours", throwable);
                     Toast.makeText(context, R.string.server_connection_error, Toast.LENGTH_SHORT).show();
@@ -175,27 +189,5 @@ public class CareerController {
 
     public void downloadCareer(Context context, int careerId, Career.ExportFormat format) {
         this.careerService.exportCareer(context, careerId, format);
-        /*this.careerService.exportCareer(careerId, format, new FileAsyncHttpResponseHandler(context) {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, File response) {
-                Optional<Header> dispositionHeader = Arrays.stream(headers).filter(header -> header.getName().toLowerCase().equals("content-disposition")).findFirst();
-                String filename;
-                if (dispositionHeader.isPresent()) {
-                    String disposition = dispositionHeader.get().getValue();
-                    filename = disposition.replaceFirst("(?i)^.*filename=\"?([^\"]+)\"?.*$", "$1");
-                } else {
-                    filename = response.getName();
-                }
-
-                String dirName = "/Parcours Univ/Mes Parcours/";
-
-                //
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-
-            }
-        });*/
     }
 }

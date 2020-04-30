@@ -19,7 +19,7 @@ import cz.msebera.android.httpclient.HttpStatus;
 import fr.info.pl2020.R;
 import fr.info.pl2020.adapter.SearchAdapter;
 import fr.info.pl2020.manager.AuthenticationManager;
-import fr.info.pl2020.model.TeachingUnitListContent.TeachingUnit;
+import fr.info.pl2020.model.TeachingUnit;
 import fr.info.pl2020.service.TeachingUnitService;
 import fr.info.pl2020.util.JsonModelConvert;
 

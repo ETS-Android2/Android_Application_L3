@@ -11,6 +11,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+
 import fr.info.pl2020.R;
 import fr.info.pl2020.adapter.DrawerAdapter;
 import fr.info.pl2020.controller.CareerController;
@@ -108,6 +109,10 @@ public abstract class ToolbarIntegratedActivity extends AppCompatActivity {
         }
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+
             case R.id.action_export_txt:
                 new CareerController().downloadCareer(this, 1, Career.ExportFormat.TXT);
                 return true;

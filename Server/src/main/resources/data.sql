@@ -219,4 +219,4 @@ MERGE INTO Student (id, firstname, lastname, email, password) KEY(id) VALUES (1,
 MERGE INTO Prerequisite KEY(parent_id, child_id) values (6, 8), (5, 9),(15,20),(21,22),(23,30),(30,26),(22,24),(24,25),(26,27),(29,34),(28,31),(31,32),(32,33),(37,44),(37,44),(47,50),(49,52),(50,53),
 (69,71),(72,75),(74,79),(71,78),(42,106),(78,108),(73,109), (129,133);
 
-MERGE INTO Career (id, student_id, name, isPublic, mainCareer) KEY(id) VALUES (1, 1, 'Mon parcours', false, true)
+MERGE INTO Career (id, student_id, name, shared, mainCareer) KEY(id) VALUES (1, 1, 'Mon parcours', false, true)

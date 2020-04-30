@@ -20,14 +20,15 @@ import fr.info.pl2020.R;
 import fr.info.pl2020.activity.TeachingUnitDetailActivity;
 import fr.info.pl2020.activity.TeachingUnitDetailFragment;
 import fr.info.pl2020.activity.TeachingUnitListActivity;
-import fr.info.pl2020.model.TeachingUnitListContent;
+import fr.info.pl2020.model.TeachingUnit;
+import fr.info.pl2020.store.CareerStore;
 
 
 public class TeachingUnitAdapter extends BaseExpandableListAdapter {
 
     private final Context context;
     private List<String> categoryList;
-    private Map<String, List<TeachingUnitListContent.TeachingUnit>> teachingUnitMap;
+    private Map<String, List<TeachingUnit>> teachingUnitMap;
     private final boolean isTwoPane;
 
     private final View.OnClickListener defaultOnClickListener = new View.OnClickListener() {
@@ -53,7 +54,7 @@ public class TeachingUnitAdapter extends BaseExpandableListAdapter {
         }
     };
 
-    public TeachingUnitAdapter(Context context, Map<String, List<TeachingUnitListContent.TeachingUnit>> items, boolean twoPane) {
+    public TeachingUnitAdapter(Context context, Map<String, List<TeachingUnit>> items, boolean twoPane) {
         this.context = context;
         this.isTwoPane = twoPane;
         this.categoryList = new ArrayList<>(items.keySet());
@@ -135,7 +136,7 @@ public class TeachingUnitAdapter extends BaseExpandableListAdapter {
             holder = (TeachingUnitViewHolder) convertView.getTag();
         }
 
-        TeachingUnitListContent.TeachingUnit tu = (TeachingUnitListContent.TeachingUnit) getChild(groupPosition, childPosition);
+        TeachingUnit tu = (TeachingUnit) getChild(groupPosition, childPosition);
         holder.name.setText(tu.getName());
         holder.name.setTag(tu.getId());
         holder.name.setOnClickListener(defaultOnClickListener);
@@ -143,8 +144,8 @@ public class TeachingUnitAdapter extends BaseExpandableListAdapter {
         //in some cases, it will prevent unwanted situations
         holder.checkBox.setOnCheckedChangeListener(null);
 
-        holder.checkBox.setChecked(tu.isSelected());
-        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> tu.setSelected(isChecked));
+        holder.checkBox.setChecked(CareerStore.isCurrentCareerContainsTeachingUnit(tu.getId()));
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> tu.setSelected(isChecked)); //TODO !!
 
         return convertView;
     }

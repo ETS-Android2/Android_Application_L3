@@ -12,6 +12,33 @@ public class CareerResponse {
     private List<TeachingUnitResponse> teachingUnits;
     private boolean isPublic;
     private boolean isMainCareer;
+    private Owner owner;
+
+    private static class Owner {
+        private String firstname;
+        private String lastname;
+
+        public Owner(String firstname, String lastname) {
+            this.firstname = firstname;
+            this.lastname = lastname;
+        }
+
+        public String getFirstname() {
+            return this.firstname;
+        }
+
+        public void setFirstname(String firstname) {
+            this.firstname = firstname;
+        }
+
+        public String getLastname() {
+            return this.lastname;
+        }
+
+        public void setLastname(String lastname) {
+            this.lastname = lastname;
+        }
+    }
 
     public CareerResponse(Career career) {
         this.id = career.getId();
@@ -61,10 +88,26 @@ public class CareerResponse {
         this.isMainCareer = mainCareer;
     }
 
-    public static List<CareerResponse> CareerListToCareerResponseList(List<Career> careerList) {
+    public Owner getOwner() {
+        return this.owner;
+    }
+
+    public void setOwner(String firstname, String lastname) {
+        this.owner = new Owner(firstname, lastname);
+    }
+
+    public static List<CareerResponse> careerListToCareerResponseList(List<Career> careerList) {
+        return careerListToCareerResponseList(careerList, false);
+    }
+
+    public static List<CareerResponse> careerListToCareerResponseList(List<Career> careerList, boolean setOwner) {
         List<CareerResponse> careerResponseList = new ArrayList<>();
         for (Career c : careerList) {
-            careerResponseList.add(new CareerResponse(c));
+            CareerResponse cr = new CareerResponse(c);
+            if (setOwner) {
+                cr.setOwner(c.getStudent().getFirstName(), c.getStudent().getLastName());
+            }
+            careerResponseList.add(cr);
         }
         return careerResponseList;
     }

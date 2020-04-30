@@ -1,19 +1,19 @@
 package fr.info.pl2020.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import fr.info.pl2020.R;
+import fr.info.pl2020.controller.CareerController;
 import fr.info.pl2020.controller.SearchController;
 import fr.info.pl2020.controller.SemestersListController;
 
 public class SemestersListActivity extends ToolbarIntegratedActivity implements SearchView.OnQueryTextListener {
 
+    public static final String ARG_CAREER_ID = "career_id";
     private ListView semesterList;
     private SearchController searchController;
 
@@ -22,14 +22,22 @@ public class SemestersListActivity extends ToolbarIntegratedActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_semesters_list);
 
+        int careerId = 0;
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            careerId = b.getInt(ARG_CAREER_ID);
+        }
+
         // Toolbar
         new ToolbarConfig()
                 .enableSearch(this)
                 .enableDrawer(findViewById(R.id.semester_layout))
+                //.setTitle(currentCareer == null ? "" : currentCareer.getName())
                 .build();
 
         this.semesterList = findViewById(R.id.semesterListView);
         this.searchController = new SearchController();
+        new CareerController().getCareer(this, careerId, null);
     }
 
     @Override

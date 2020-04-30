@@ -14,7 +14,7 @@ import java.util.Locale;
 
 import fr.info.pl2020.R;
 import fr.info.pl2020.activity.TeachingUnitListActivity;
-import fr.info.pl2020.model.TeachingUnitListContent.TeachingUnit;
+import fr.info.pl2020.model.TeachingUnit;
 
 public class SearchAdapter extends BaseAdapter {
 

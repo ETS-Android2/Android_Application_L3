@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Parcours Univ</string>
     <string name="login">Se connecter</string>
-    <string name="validate">Enregistrer le parcours</string>
+    <string name="save_career">Enregistrer le parcours</string>
     <string name="responsible_teacher">Responsable</string>
     <string name="intervening_teacher">Intervenants</string>
     <string name="server_connection_error">Echec de la connexion avec le serveur.</string>
@@ -59,4 +59,8 @@
     <string name="home_display_main_career">Parcours principal</string>
     <string name="home_display_all_career">Mes parcours</string>
     <string name="home_display_public_career">Parcours publics</string>
+    <string name="validate">Valider</string>
+    <string name="cancel">Annuler</string>
+    <string name="default_career_name">Mon parcours</string>
+    <string name="unexpected_error">Une erreur est survenue</string>
 </resources>

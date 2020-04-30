@@ -9,17 +9,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import androidx.drawerlayout.widget.DrawerLayout;
 import fr.info.pl2020.R;
 import fr.info.pl2020.activity.CareerListActivity;
 import fr.info.pl2020.activity.CareerSummaryActivity;
 import fr.info.pl2020.activity.HomeActivity;
+import fr.info.pl2020.activity.LoginActivity;
 import fr.info.pl2020.activity.SemestersListActivity;
 import fr.info.pl2020.manager.AuthenticationManager;
+import fr.info.pl2020.store.CareerStore;
 
 public class DrawerAdapter extends BaseAdapter {
 
@@ -38,8 +41,8 @@ public class DrawerAdapter extends BaseAdapter {
         items.add("Accueil");
         eventByPositionMap.put("Accueil", v -> {
             if (!(context instanceof HomeActivity)) {
-                Intent homeActivity = new Intent(context, HomeActivity.class);
-                context.startActivity(homeActivity);
+                Intent intent = new Intent(context, HomeActivity.class);
+                context.startActivity(intent);
                 ((Activity) context).finish();
             } else {
                 drawerLayout.closeDrawers();
@@ -48,9 +51,10 @@ public class DrawerAdapter extends BaseAdapter {
         items.add("Afficher le parcours");
         eventByPositionMap.put("Afficher le parcours", v -> {
             if (!(context instanceof CareerSummaryActivity)) {
-                Intent careerSummary = new Intent(context, CareerSummaryActivity.class);
-                context.startActivity(careerSummary);
+                Intent intent = new Intent(context, CareerSummaryActivity.class);
+                intent.putExtra(CareerSummaryActivity.ARG_CAREER_ID, CareerStore.getCurrentCareer().getId());
                 ((Activity) context).finish();
+                context.startActivity(intent);
             } else {
                 drawerLayout.closeDrawers();
             }
@@ -58,8 +62,8 @@ public class DrawerAdapter extends BaseAdapter {
         items.add("Afficher mes parcours");
         eventByPositionMap.put("Afficher mes parcours", v -> {
             if (!(context instanceof CareerListActivity)) {
-                Intent careerList = new Intent(context, CareerListActivity.class);
-                context.startActivity(careerList);
+                Intent intent = new Intent(context, CareerListActivity.class);
+                context.startActivity(intent);
                 ((Activity) context).finish();
             } else {
                 drawerLayout.closeDrawers();
@@ -69,17 +73,17 @@ public class DrawerAdapter extends BaseAdapter {
         items.add("Editer le parcours");
         eventByPositionMap.put("Editer le parcours", v -> {
             if (!(context instanceof SemestersListActivity)) {
-                Intent careerSummary = new Intent(context, SemestersListActivity.class);
-                context.startActivity(careerSummary);
+                Intent intent = new Intent(context, SemestersListActivity.class);
+                intent.putExtra(SemestersListActivity.ARG_CAREER_ID, CareerStore.getCurrentCareer().getId());
                 ((Activity) context).finish();
+                context.startActivity(intent);
             } else {
                 drawerLayout.closeDrawers();
             }
         });
 
-
         items.add("Se déconnecter");
-        eventByPositionMap.put("Se déconnecter", v -> new AuthenticationManager().logout(((Activity) context), new Intent(context, SemestersListActivity.class)));
+        eventByPositionMap.put("Se déconnecter", v -> new AuthenticationManager().logout(((Activity) context), new Intent(context, LoginActivity.class)));
     }
 
     @Override
