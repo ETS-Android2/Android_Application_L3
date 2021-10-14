@@ -1,4 +1,4 @@
-# Parcours Univ
+# Création d'une application pour choisir son parcours universitaire
 <br>
 
 ## Sommaire
